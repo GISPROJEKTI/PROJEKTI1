@@ -1,0 +1,552 @@
+$base: #4B8A79;
+$header: #BB3B03;
+// $header: #3c3c3c;
+$background: #f9f9f9;
+
+$proceed: #088A29;
+// $bad: #FE2E2E;
+$bad: #FE2F34;
+
+$notice: #c73e14;
+
+$button: #D0EFA0;
+
+$darkGrey: #3c3c3c;
+
+// $link1: #1240AB;
+$link1: #327CCB;
+// $link2: #06266F;
+$link2: #FF5300;
+$link3: #85AAFF;
+$border: #c9c9c9;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+    background: $background;
+    font-size:90%;
+    margin: 0;
+}
+
+h1, h2 {
+    // color: $header;
+    font-weight: normal;
+    letter-spacing: 1px;
+    padding: 0.2em;
+    // font-size: 0.8em;
+    border-bottom: 1px solid $border;
+    margin-bottom:0.7em;
+}
+
+h3, h4, h5, h6 {
+    // text-shadow: $border 1px 1px 2px;
+    color: $header;
+    font-weight: normal;
+    // font-size:0.8em;
+    letter-spacing: 1px;
+    padding: 0.8em 0.2em 0.2em 0.2em;
+}
+
+
+ul {
+    list-style-type: none;
+    font-size: 0.9em;
+}
+
+a {
+    color: $link1;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    &:hover {
+        // color: $link2;
+        text-decoration: underline;
+    }
+}
+
+.ui-tooltip-help {
+    .ui-tooltip-content {
+        
+        font-size: 0.7em;
+    }
+}
+
+
+.cake-sql-log {
+    display: none;
+}
+
+#header{
+    padding: 10px 20px 0 20px;
+}
+#header h1 {
+    padding: 0px 30px;
+    border: 0;
+}
+#content{
+    box-shadow: 0px 0px 6px $border;
+    border: 1px solid $border;
+    border-radius: 3px;
+    background: #fff;
+    clear: both;
+    padding: 1em 2em;
+    overflow: auto;
+    max-width: 860px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#footer {
+    clear: both;
+    padding: 6px 10px;
+    text-align: right;
+}
+
+#navbar {
+    max-width: 860px;
+    margin: 0 auto;
+    ul {
+        margin: 0;
+        li {
+            display: inline-block;
+            a {
+                font-size: 1.1em;
+            }
+        }
+    }
+}
+
+div.subnav {
+    font-size:0.95em;
+    margin-bottom: 1em;
+}
+
+
+/** Notices and Errors **/
+div.message {
+    clear: both;
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: bold;
+    background: $notice;
+    padding: 0.5em;
+}
+div.error-message {
+    clear: both;
+    color: $bad;
+    font-weight: bold;
+    font-size: 0.75em;
+    padding: 0.3em;
+}
+p.error {
+    background-color: #e32;
+    color: #fff;
+    font-family: Courier, monospace;
+    font-size: 120%;
+    line-height: 140%;
+    padding: 0.8em;
+    margin: 1em 0;
+}
+p.error em {
+    color: #000;
+    font-weight: normal;
+    line-height: 140%;
+}
+.notice {
+    background: #ffcc00;
+    color: #000;
+    display: block;
+    font-family: Courier, monospace;
+    font-size: 120%;
+    line-height: 140%;
+    padding: 0.8em;
+    margin: 1em 0;
+}
+.success {
+    background: green;
+    color: #fff;
+}
+
+div.input {
+    margin-bottom: 1em;
+
+    &.checkbox, &.radio {
+        > label {
+            display: inline-block;
+        }
+    }
+
+    > label {
+        color: $header;
+        font-size: 15px;
+        display: block;
+        padding: 0 0 0.2em 0.3em;
+        letter-spacing: 1px;
+    }
+
+    div {
+        label {
+            // color: $header;
+            // display: block;
+            letter-spacing: 1px;
+        }
+        &.inline {
+            display: inline-block;
+        }
+    }
+
+    input[type="text"], input[type="password"], textarea {
+        font-family: Verdana;
+        line-height: 16px;
+        font-size: 12px;
+        border: 1px solid $border;
+        padding: 0.3em;
+        box-sizing: border-box;
+        width: 100%;
+        &.small {
+            width: 10em;
+        }
+        &.date {
+            width: 5em;
+        }
+
+        &.latlng {
+            width: 24em;
+        }
+        &.zoom {
+            width: 5em;
+        }
+    }
+
+    select {
+        line-height: 20px;
+        font-size: 12px;
+        border: 1px solid $border;
+        display: block;
+        box-sizing: border-box;
+    }
+}
+
+div.map-container {
+    div.map {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid $border;
+        height: 400px;
+        display: inline-block;
+    }
+
+    div.coords {
+        display: inline-block;
+        vertical-align: top;
+        font-size: 0.7em;
+        ul {
+            list-style-type: none;
+            > li {
+                padding: 0.3em;
+                border: 1px solid #c9c9c9;
+                border-bottom: 0;
+
+                &:last-child {
+                    border-bottom: 1px solid #c9c9c9;
+                }
+            }
+        }
+    }
+}
+
+table.details {
+    border-collapse: collapse;
+    width: 100%;
+    tr:nth-child(odd) {
+        background-color: $background;
+    }
+    th {
+        padding: 0.6em;
+        font-size: 0.8em;
+        vertical-align: top;
+        font-weight: bold;
+        color: $darkGrey;
+        text-align: right;
+        &.fixed {
+            width: 10em;
+        }
+        &.mediumfixed {
+            width: 15em;
+        }
+        &.longfixed {
+            width: 25em;
+        }
+    }
+    td {
+        padding: 0.4em;
+        font-size: 0.9em;
+        &.ul {
+            border-bottom: 1px solid $border;
+        }
+    }
+}
+
+hr {
+    color: $border;
+    border: 0;
+    border-top: 1px solid $border;
+    margin: 0.5em 0;
+}
+
+.detailed {
+    border: 1px solid $border;
+    border-bottom: 0;
+    &:last-child {
+        border-bottom: 1px solid $border;
+    }
+    > .header {
+        cursor: pointer;
+        padding: 0.5em 0.8em;
+        &:hover {
+            background-color: $link1;
+            color: #fff;
+            background-image: -webkit-linear-gradient(top, $link1, darken($link1, 10%));
+            background-image: -moz-linear-gradient(top, $link1, darken($link1, 10%));
+        }
+        > .num {
+            // color: $header;
+            padding: 0 0.5em;
+            font-weight: bold;
+        }
+    }
+}
+
+#questions {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li.question {
+        margin: 0;
+        padding: 0;
+        background-color: $background;
+        background-image: -webkit-linear-gradient(top, $background, darken($background, 5%));
+        background-image: -moz-linear-gradient(top, $background, darken($background, 5%));
+        border: 1px solid $border;
+        margin-bottom: 3px;
+
+        table.header {
+            width: 100%;
+            border-collapse: collapse;
+            td {
+                height: 24px;
+                padding: 0;
+                &.num {
+                    width: 1.5em;
+                    // font-size: 1.5em;
+                    padding-left: 0.4em;
+                    font-weight: bold;
+                }
+                &.text {
+                    min-width: 100%;
+                    height: 24px;
+                    line-height: 24px;
+                    overflow: hidden;
+                    font-size: 123px;
+                    whitespace: nowrap;
+                }
+                &.button {
+                    width: 1.4em;
+                    div {
+                        color: $link1;
+                        // color: #fff;
+                        // background-color: $link1;
+                        line-height: 24px;
+                        cursor: pointer;
+                        height: 100%;
+                        padding: 0 1em;
+                    }
+                }
+            }
+        }
+        .details {
+            font-size: 0.7em;
+            padding: 1em;
+            border-top: 1px solid $border;
+            
+            td {
+                padding: 0.3em;
+            }
+            th {
+                text-align: right;
+                padding: 0.3em;
+
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.answerMenu {
+    float: right;
+    font-size: 0.7em;
+}
+
+.answerNav {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.help {
+    margin: 1em 0;
+    padding: 16px 16px 16px 64px;
+    clear: both;
+    font-size: 12px;
+    min-height: 32px;
+    background: #FFFFA3 url(images/helpsmall.png) no-repeat 16px 16px;
+    border: 1px solid #F1D031;
+    h2 {
+        border-color: #F1D031;
+    }
+    p {
+        margin-bottom: 0.5em;
+    }
+}
+
+.answer {
+    h3 {
+        clear: both;
+    }
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+    .map {
+        clear: both;
+        border: 1px solid $border;
+        width: 100%;
+        height: 600px;
+        position: relative;
+        z-index: 0;
+    }
+    input[type="radio"], input[type="checkbox"] {
+        display: inline-block;
+        margin: 0 0.5em;
+
+    }
+}
+
+#noAnswerCont {
+    float: left;
+    padding: 1em 0;
+    font-size: 0.75em;
+    input {
+        vertical-align: bottom;
+    }
+}
+
+.publicAnswers {
+    margin-top: 2em;
+    font-size: 0.8em;
+    .publicAnswer {
+        margin-bottom: 5px;
+        padding: 0.8em 1em;
+        background-color: $background;
+    }
+}
+
+button, a.button {
+    font-size: 13px;
+    padding: 0.4em 0.7em;
+    border: 1px solid;
+    margin: 0.3em 0;
+    text-decoration: none;
+    border-radius: 1px;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    background-color: $link1;
+    border-color: darken($link1, 20%);
+
+    -webkit-transition: all 0.2s ease-in-out;
+
+    background-image: -webkit-linear-gradient(top, $link1, darken($link1, 5%));
+    background-image: -moz-linear-gradient(top, $link1, darken($link1, 5%));
+
+    &:hover {
+        background-image: -webkit-linear-gradient(top, $link1, darken($link1, 10%));
+        background-image: -moz-linear-gradient(top, $link1, darken($link1, 10%));
+    }
+
+    &.proceed {
+        background-color: $proceed;
+        border-color: darken($proceed, 10%);
+        background: -webkit-gradient(linear, left top, left bottom, from(lighten($proceed, 10%)), to($proceed));
+        background: -moz-linear-gradient(lighten($proceed, 10%), $proceed);
+
+        &:hover {
+            background: -webkit-gradient(linear, left top, left bottom, from($proceed), to(lighten($proceed, 10%)));
+            background: -moz-linear-gradient($proceed, lighten($proceed, 10%));
+        }
+    }
+
+    &.cancel {
+        background-color: $bad;
+        border-color: darken($bad, 20%);
+
+        background-image: -webkit-linear-gradient(top, $bad, darken($bad, 5%));
+        background-image: -moz-linear-gradient(top, $bad, darken($bad, 5%));
+
+
+        &:hover {
+            background-image: -webkit-linear-gradient(top, $bad, darken($bad, 10%));
+            background-image: -moz-linear-gradient(top, $bad, darken($bad, 10%));
+        }
+    }
+
+    &.small {
+        font-size: 0.7em;
+    }
+
+    &.big {
+        font-size: 1.5em;
+        padding: 0.6em;
+    }
+}
+
+table.list {
+    border-collapse: collapse;
+    width: 100%;
+    &.small {
+        font-size: 0.8em;
+    }
+    th {
+        padding: 0.3em 3em;
+        // border-bottom: 1px solid #c9c9c9;
+        color: $darkGrey;
+    }
+    tbody {
+        tr {
+            &.red {
+                background-color: lighen($bad, 40%);
+                color: $bad;
+            }
+            &.green {
+                background-color: lighen($proceed, 40%);
+                color: $proceed;
+            }
+            &:nth-child(even) {
+                background-color: #f0f0f0;
+            }
+        }
+
+        td {
+            text-align: center;
+            padding: 0.3em 0.5em;
+            margin: 0;
+            border-left: 1px solid #c9c9c9;
+
+            &:first-child {
+                border-left: 0;
+            }
+        }
+    }
+}
