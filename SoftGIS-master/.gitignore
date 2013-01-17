@@ -1,0 +1,9 @@
+/app/config/database.php
+/app/config/core.php
+/app/tmp
+/cake
+/plugins
+/vendors
+/app/webroot/overlays/*
+/.sass-cache/*
+*.DS_Store
