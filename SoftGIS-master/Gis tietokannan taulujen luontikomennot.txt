@@ -1,0 +1,118 @@
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `response_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer` text NOT NULL,
+  `lat` float DEFAULT NULL,
+  `lng` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `authors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `hashes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  `used` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `markers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `content` text,
+  `icon` varchar(50) DEFAULT NULL,
+  `lat` float NOT NULL,
+  `lng` float NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+ CREATE TABLE `overlays` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `image` varchar(50) NOT NULL,
+  `ne_lat` float NOT NULL,
+  `ne_lng` float NOT NULL,
+  `sw_lat` float NOT NULL,
+  `sw_lng` float NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `paths` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `author_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '1',
+  `content` text,
+  `stroke_color` varchar(6) DEFAULT '333333',
+  `stroke_opacity` float DEFAULT '0.8',
+  `stroke_weight` float DEFAULT '1',
+  `fill_color` varchar(6) DEFAULT '333333',
+  `fill_opacity` float DEFAULT '0.2',
+  `coordinates` text NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `polls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `public` tinyint(1) NOT NULL DEFAULT '0',
+  `launch` date DEFAULT NULL,
+  `end` date DEFAULT NULL,
+  `welcome_text` text,
+  `thanks_text` text,
+  PRIMARY KEY (`id`)
+);
+
+ CREATE TABLE `polls_markers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `marker_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `polls_overlays` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `overlay_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `polls_paths` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `path_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `num` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `low_text` varchar(255) DEFAULT NULL,
+  `high_text` varchar(255) DEFAULT NULL,
+  `lat` float DEFAULT NULL,
+  `lng` float DEFAULT NULL,
+  `zoom` int(11) DEFAULT '12',
+  `answer_location` tinyint(1) NOT NULL DEFAULT '0',
+  `answer_visible` tinyint(1) NOT NULL DEFAULT '0',
+  `comments` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `responses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `hash` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
