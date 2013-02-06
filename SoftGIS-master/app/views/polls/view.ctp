@@ -208,8 +208,8 @@ $(document).ready(function() {
 <?php endforeach; ?>
 </div>
 
-
-<? /*
+<?php
+/*  <!-- Sama asia, kuin yllä, kommentoitu pois -->
 <table class="details">
     <?php foreach ($questions as $q): ?>
         <tr>
@@ -251,4 +251,5 @@ $(document).ready(function() {
         </tr>
     <?php endforeach; ?>
 </table>
-*/?>
+*/
+?>
