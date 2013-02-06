@@ -206,6 +206,15 @@ hr {
   border-top: 1px solid #c9c9c9;
   margin: 0.5em 0; }
 
+#answerColumText{
+  width: 40%; }
+
+#answerColumRadio{
+  min-width: 27px; }
+
+#answerColumEos{
+  width 10%; }
+
 .detailed {
   border: 1px solid #c9c9c9;
   border-bottom: 0; }
