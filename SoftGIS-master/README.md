@@ -26,9 +26,9 @@
  2. Aja käsky `../cake/console/cake schema create -file app.php App`
  3. Käsky luo tietokantaan tarvittavat taulut
  4. [Ohjeita consolen käyttöön](http://book.cakephp.org/1.3/en/view/1521/Core-Console-Applications)
- 5. Jos et saa konsolia toimimaan voit luoda tietokannan käsin 'Gis tietokannan taulujen luontikomennot.txt' tiedoston avulla.
+ 5. Jos et saa konsolia toimimaan voit luoda tietokannan käsin `Gis tietokannan taulujen luontikomennot.txt` tiedoston avulla.
 7. Muut asetukset
- 1. Aseta riittävät käyttöoikeudet väliaikaiskansioihin: 'app/tmp', 'app/tmp/cache', 'app/tmp/cache/models', 'app/tmp/cache/presistent' ja 'app/tmp/cache/views'.
+ 1. Aseta riittävät käyttöoikeudet väliaikaiskansioihin: `app/tmp`, `app/tmp/cache`, `app/tmp/cache/models`, `app/tmp/cache/presistent` ja `app/tmp/cache/views`.
  2. Jos sivusto toimii, hyvä. Jos ei, niin voi olla että palvelimesi mod_rewrite (.htaccess) toiminto ei ole käytössä. [Lisätietoja.](http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Installation.html)
 
 ## CakePHP:n versio
