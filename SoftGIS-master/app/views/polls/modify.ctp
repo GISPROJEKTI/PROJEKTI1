@@ -272,6 +272,11 @@ $( document ).ready(function() {
 
         <div class="input text">
             <label>Sijainti</label>
+            <button class="pick-location" 
+                type="button"
+                data-bind="click: pickLocation">
+                Valitse sijainti kartalta
+            </button>
             <div>
                 <div class="inline">
                     <label>Koordinaatti</label>
@@ -286,11 +291,6 @@ $( document ).ready(function() {
                         data-bind="value: zoom"/>
                 </div>
             </div>
-            <button class="pick-location" 
-                type="button"
-                data-bind="click: pickLocation">
-                Valitse
-            </button>
         </div>
 
         <div class="input checkbox" data-bind="visible: latlng()">
