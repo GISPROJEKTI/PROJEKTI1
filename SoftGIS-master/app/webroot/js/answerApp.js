@@ -1,7 +1,8 @@
 var AnswerApp = Spine.Controller.create({
     events: {
         "click .submit": "answer",
-        "click .start" : "initNextQuestion" 
+        "click .start" : "initNextQuestion", 
+        "click .return": "goback" 
     },
     elements: {
         "#map":             "mapEl", 
@@ -46,60 +47,15 @@ var AnswerApp = Spine.Controller.create({
         });
         this.publicsEl.hide();
     },
+    //tätä muutettu, jos kysymys numero on nolla nii initioidaa ensimmäinen jos muu initioidaan seuraava
     initNextQuestion: function() {
-        this.questionNum++;
-        var num = this.questionNum;
-        this.activeQuestion = Question.select(function(q) {
-            if (q.num == num) {
-                return true;
-            }
-        })[0];
-
-        if (!this.activeQuestion) {
-            // No more questions
-            this.finish();
-            return;
+        if (this.questionNum === 0) {
+            this.questionNum++;
+            this.init1stQuestion();
+        }else{
+            this.questionNum++;
+            this.initQuestion();
         }
-
-        // Update map location or hide it if not needed
-        if ( this.activeQuestion.lat && this.activeQuestion.lng ) {
-            this.map.setCenter(
-                this.activeQuestion.lat, 
-                this.activeQuestion.lng,
-                this.activeQuestion.zoom);
-            if (this.activeQuestion.answer_location == "1") {
-                this.map.setSelectable(true);
-            } else {
-                this.map.setSelectable(false);
-            }
-        } else {
-            this.map.hide();
-        }
-        // Form new question
-        this.questionEl.html($.tmpl("questionTmpl", this.activeQuestion));
-
-        // Remove public answers from map and dom
-        this.map.clearPublicAnswers();
-        this.clearPublicAnswers();
-
-
-        // if (this.activeQuestion.answer_location == "1") {
-        //     // Display and reset no location checkbox
-        this.noAnswerCheckbox.removeAttr('checked');
-        this.noAnswerContEl.show();
-        // } else {
-        //     // Hide checkbox
-        //     this.noAnswerContEl.hide();
-        // }
-
-        var me = this;
-        $.getJSON(publicAnswersPath, {question: this.activeQuestion.id}, function(data) {
-            if (me.activeQuestion.answer_location == "1") {
-                me.map.createPublicAnswers(data.answers);
-            } else {
-                me.createPublicAnswers(data.answers);
-            }
-        });
     },
     clearPublicAnswers: function() {
         this.publicsEl.hide().find(".answers").html("");
@@ -175,38 +131,38 @@ var AnswerApp = Spine.Controller.create({
         } else {
             this.mapEl.qtip( "destroy" );
         }
-
+        if ( this.activeQuestion.answer_location != "1"){
         // Make sure user has answered something
-        var answerVal = this.questionEl.find( answerSelector ).val();
-        if ( !answerVal ) {
-            $( answerSelector ).focus();
-            $( ".answer-field", this.el ).qtip({
-                content: "Et ole vastannut kysymykseen",
-                position: {
-                    my: "top center",
-                    at: "bottom center",
-                    adjust: {
-                        x: -200
+            var answerVal = this.questionEl.find( answerSelector ).val();
+            if ( !answerVal ) {
+                $( answerSelector ).focus();
+                $( ".answer-field", this.el ).qtip({
+                    content: "Et ole vastannut kysymykseen",
+                    position: {
+                        my: "top center",
+                        at: "bottom center",
+                        adjust: {
+                            x: -200
+                        }
+                    },
+                    show: {
+                        ready: true,
+                        event: "focus"
+                    },
+                    hide: {
+                        event: null
+                    },
+                    style: {
+                        classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
                     }
-                },
-                show: {
-                    ready: true,
-                    event: "focus"
-                },
-                hide: {
-                    event: null
-                },
-                style: {
-                    classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
-                }
-            });
-            continueSubmit = false;
-        } else {
-            $( ".answer-field", this.el ).qtip( "destroy" );
-        }
-        
+                });
+                continueSubmit = false;
+            } else {
+                $( ".answer-field", this.el ).qtip( "destroy" );
+            }
+       }
         if (continueSubmit) {
-            this.answers.push({
+            this.answers.splice((this.questionNum - 1),1,{
                 text: answerVal,
                 loc: answerLoc
             });
@@ -214,5 +170,171 @@ var AnswerApp = Spine.Controller.create({
         }
 
         return false;
+    },//Tämä 
+    goback : function(){
+        this.questionNum -= 1;
+        this.initQuestion();
+    },
+//tämä Funktio hakee edelliset vastaukset
+    previousAnswers : function(){
+        
+       
+        if(this.answers[this.questionNum-1] === undefined  ){
+        }else{
+            var previousAnswer= this.answers[this.questionNum-1].text ;  
+            $("#texta").val(previousAnswer);
+            if (answerSelector = "input:checked"){
+                if(previousAnswer == "Kyllä" || previousAnswer == 1){
+                    $("#1").attr("checked",true);
+                }else if(previousAnswer == "Ei" || previousAnswer == 2){
+                    $("#2").attr("checked",true);
+                }else if(previousAnswer ==  3){
+                    $("#3").attr("checked",true);
+
+                }else if(previousAnswer ==  4){
+                    $("#4").attr("checked",true);
+
+                }else if(previousAnswer ==  5){
+                    $("#5").attr("checked",true);
+
+                }else if(previousAnswer ==  6){
+                    $("#6").attr("checked",true);
+
+                }else if(previousAnswer ==  7){
+                    $("#7").attr("checked",true);
+
+                }else if(previousAnswer == "En osaa sanoa"){
+                    $("#Eos").attr("checked",true);    
+                }
+             }   
+        }
+
+    }, 
+    //hakee kysymyksen
+     initQuestion: function() {
+        
+        var num = this.questionNum;
+        this.activeQuestion = Question.select(function(q) {
+            if (q.num == num) {
+                return true;
+            }
+        })[0];
+
+        if (!this.activeQuestion) {
+            // No more questions
+            this.finish();
+            return;
+        }
+
+        // Update map location or hide it if not needed
+        if ( this.activeQuestion.lat && this.activeQuestion.lng ) {
+            this.map.setCenter(
+                this.activeQuestion.lat, 
+                this.activeQuestion.lng,
+                this.activeQuestion.zoom);
+            if (this.activeQuestion.answer_location == "1") {
+                this.map.setSelectable(true);
+            } else {
+                this.map.setSelectable(false);
+            }
+        } else {
+            this.map.hide();
+        }
+        // Form new question
+        this.questionEl.html($.tmpl("questionTmpl", this.activeQuestion));
+        if (this.questionNum === 1){
+            document.getElementById('jep').style.visibility='hidden';
+        }else{
+           document.getElementById('jep').style.visibility='visible'; 
+        }
+     
+
+
+        // Remove public answers from map and dom
+        this.map.clearPublicAnswers();
+        this.clearPublicAnswers();
+        this.previousAnswers();
+
+
+        // if (this.activeQuestion.answer_location == "1") {
+        //     // Display and reset no location checkbox
+        this.noAnswerCheckbox.removeAttr('checked');
+        this.noAnswerContEl.show();
+        // } else {
+        //     // Hide checkbox
+        //     this.noAnswerContEl.hide();
+        // }
+
+        var me = this;
+        $.getJSON(publicAnswersPath, {question: this.activeQuestion.id}, function(data) {
+            if (me.activeQuestion.answer_location == "1") {
+                me.map.createPublicAnswers(data.answers);
+            } else {
+                me.createPublicAnswers(data.answers);
+            }
+        });
+    },
+
+    //hakee ensimmäisen kysymyksen
+    init1stQuestion : function(){
+        var num = this.questionNum;
+        this.activeQuestion = Question.select(function(q) {
+            if (q.num == num) {
+                return true;
+            }
+        })[0];
+
+        if (!this.activeQuestion) {
+            // No more questions
+            this.finish();
+            return;
+        }
+
+        // Update map location or hide it if not needed
+        if ( this.activeQuestion.lat && this.activeQuestion.lng ) {
+            this.map.setCenter(
+                this.activeQuestion.lat, 
+                this.activeQuestion.lng,
+                this.activeQuestion.zoom);
+            if (this.activeQuestion.answer_location == "1") {
+                this.map.setSelectable(true);
+            } else {
+                this.map.setSelectable(false);
+            }
+        } else {
+            this.map.hide();
+        }
+        // Form new question
+        this.questionEl.html($.tmpl("questionTmpl", this.activeQuestion));
+        if (this.questionNum === 1){
+            document.getElementById('jep').style.visibility='hidden';
+        }else{
+           document.getElementById('jep').style.visibility='visible'; 
+        }
+
+
+
+        // Remove public answers from map and dom
+        this.map.clearPublicAnswers();
+        this.clearPublicAnswers();
+
+
+        // if (this.activeQuestion.answer_location == "1") {
+        //     // Display and reset no location checkbox
+        this.noAnswerCheckbox.removeAttr('checked');
+        this.noAnswerContEl.show();
+        // } else {
+        //     // Hide checkbox
+        //     this.noAnswerContEl.hide();
+        // }
+
+        var me = this;
+        $.getJSON(publicAnswersPath, {question: this.activeQuestion.id}, function(data) {
+            if (me.activeQuestion.answer_location == "1") {
+                me.map.createPublicAnswers(data.answers);
+            } else {
+                me.createPublicAnswers(data.answers);
+            }
+        });
     }
 });
