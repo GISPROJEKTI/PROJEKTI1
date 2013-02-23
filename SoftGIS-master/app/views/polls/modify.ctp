@@ -215,7 +215,7 @@ $( document ).ready(function() {
         'Peruuta',
         $url,
         array(
-            'class' => 'button cancel small'
+            'class' => 'button cancel'
         )
     ); 
     ?>
