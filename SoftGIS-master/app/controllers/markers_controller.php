@@ -33,7 +33,7 @@ class MarkersController extends AppController
                 }
                 
             }else{
-                $this->Session->setFlash('Need name'); 
+                $this->Session->setFlash('Anna merkille nimi'); 
             }
         } else {
             $this->Marker->recursive = -1;
