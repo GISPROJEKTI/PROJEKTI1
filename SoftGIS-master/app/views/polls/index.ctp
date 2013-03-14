@@ -17,6 +17,9 @@ $( document ).ready(function() {
             <th>Nimi</th>
             <th>Testaa</th>
             <th>Julkinen</th>
+			<!-- Tähän on lisätty Poista kenttä-->
+            <th>Poista</th>
+			<!-- Tässä loppuu-->
             <th>Vastauksia</th>
         </tr>
     </thead>
@@ -60,6 +63,23 @@ $( document ).ready(function() {
                         ); 
                     } ?>
                 </td>
+				<!-- Tässä Poista napin toiminnallisuus-->
+				<td>
+                    <?php echo $this->Html->link(
+                        'Poista',
+                        array(
+                            'controller' => 'answers', 
+                            'action' => 'delete',
+                            $poll['Poll']['id'],
+                        ),
+                        array(
+                            'title' => 'Poista kysely'
+                        ),
+						'Oletko varma että haluat poistaa kyselyn?'
+                    ); ?>
+                </td>
+				<!--Tässä loppuu-->
+				
                 <td><?php echo count($poll['Response']); ?></td>
             </tr>
         <?php endforeach; ?>

@@ -175,4 +175,53 @@ class AnswersController extends AppController
         }
         $this->set('answers', $answers);
     }
+	
+	function delete($pollId = NULL){
+		//$this->Poll->delete($pollId);
+		
+		//poistetaan polls taulusta kysely id:n mukaan
+		$stats="DELETE FROM polls WHERE id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//haetaan ja tallennetaan responses taulusta response id
+		$stats="SELECT * FROM responses WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		while($row = mysql_fetch_array($result)) {
+			$resp = $row['id'];
+			//poistetaan answers taulusta kaikki joissa on aiemmin haettu response id
+			$stats="DELETE FROM answers WHERE response_id='$resp'";
+			$result2 = mysql_query($stats);
+		}
+		
+		
+		//poistetaan response taulusta tavara
+		$stats="DELETE FROM responses WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//poistetaan hashes taulusta tavara
+		$stats="DELETE FROM hashes WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//poistetaan polls_markers taulusta tavara
+		$stats="DELETE FROM polls_markers WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//poistetaan polls_overlays taulusta tavara
+		$stats="DELETE FROM polls_overlays WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//poistetaan polls_paths taulusta tavara
+		$stats="DELETE FROM polls_paths WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//poistetaan questions taulusta tavara
+		$stats="DELETE FROM questions WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//tulostetaan viesti ja takaisin index sivulle
+		$this->Session->setFlash('Kysely on poistettu');
+		$this->redirect(array('controller'=>'polls', 'action'=>'index'));
+	
+	}
 }
