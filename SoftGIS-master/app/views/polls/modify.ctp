@@ -1,5 +1,9 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
+<?php
+echo $this->Html->script('chosen.jquery');
+echo $this->Html->script('chosen.jquery.min');
+?>
 <script>
 
 var pathSearchUrl = "<?php echo $this->Html->url(
@@ -83,6 +87,7 @@ function Question(data, visible) {
 
 Question.prototype.toggle = function() {
     this.visible( !this.visible() );
+    
 }
 
 Question.prototype.pickLocation = function() {
@@ -104,6 +109,7 @@ $( document ).ready(function() {
     // Init lockation picker
     locationPicker = $( "#loc-picker" ).locationpicker();
 
+    var merkit = pathSearchUrl;
 
     // Path selector init
     $( "#paths" ).tokenInput(pathSearchUrl, {
@@ -137,12 +143,43 @@ $( document ).ready(function() {
         },
         onDelete: function(item) {
             viewModel.overlays.remove( item );
-        }
+        } 
     });
 
     $( "#saveButton" ).click(function() {
-        var data = ko.toJSON(viewModel);
-        $( "#data" ).val( data );
+        //Tarkistetaan että tarvittavat tiedot löytyvät lähetettävästä lomakkeesta
+        var kaikkiok = true;
+
+   /*     if(name_exists(viewModel.poll.name())=== true){
+            alert("Nimi on jo olemassa");
+            return false;
+        }*/
+
+        if(viewModel.poll.name() === null){
+            alert("Anna kyselylle nimi");
+            return false;
+
+        }
+        if(questions.length === 0){
+            alert("lisää kysymyksiä");
+            return false;
+        }
+        questions.forEach(function(i){
+            if( i.text() == null || i.text() == ""){
+                kaikkiok = false;
+            }
+        });
+
+        if(kaikkiok){
+
+            var data = ko.toJSON(viewModel);
+            $( "#data" ).val( data ); 
+
+        }else{
+            alert("Äitisi oli ryhävalas");
+            return false;
+
+        }
     });
 });
 
@@ -153,7 +190,7 @@ $( document ).ready(function() {
 <!-- Form -->
 <div class="input text">
     <label>Nimi</label>
-    <input type="text" data-bind="value: poll.name" />
+    <input type="text" data-bind="value: poll.name" placeholder="Anna nimi", required =  "true" />
 </div>
 
 <div class="input textarea">
@@ -181,6 +218,10 @@ $( document ).ready(function() {
     <input type="text" id="markers" />
 </div>
 
+
+
+
+
 <div class="input text">
     <label>Kuvat</label>
     <input type="text" id="overlays" />
@@ -202,7 +243,7 @@ $( document ).ready(function() {
 
 <form method="post">
     <input type="hidden" name="data" id="data"/>
-    <button type="submit" id="saveButton">
+    <button type="submit" id="saveButton"  onsubmit="">
         Tallenna kysely
     </button>
     <?php 
@@ -242,7 +283,7 @@ $( document ).ready(function() {
 
         <div class="input textarea">
             <label>Kysymys</label>
-            <textarea class="text" data-bind="value: text"></textarea> 
+            <textarea class="text" data-bind="value: text" required = "1"></textarea> 
         </div>
 
         <div class="input select">
@@ -272,11 +313,6 @@ $( document ).ready(function() {
 
         <div class="input text">
             <label>Sijainti</label>
-            <button class="pick-location" 
-                type="button"
-                data-bind="click: pickLocation">
-                Valitse sijainti kartalta
-            </button>
             <div>
                 <div class="inline">
                     <label>Koordinaatti</label>
@@ -291,6 +327,11 @@ $( document ).ready(function() {
                         data-bind="value: zoom"/>
                 </div>
             </div>
+            <button class="pick-location" 
+                type="button"
+                data-bind="click: pickLocation">
+                Valitse
+            </button>
         </div>
 
         <div class="input checkbox" data-bind="visible: latlng()">
@@ -313,3 +354,4 @@ $( document ).ready(function() {
     </div>
 </li>
 </script>
+
