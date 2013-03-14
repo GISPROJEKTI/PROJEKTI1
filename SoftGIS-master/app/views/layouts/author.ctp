@@ -80,8 +80,8 @@ $( document ).ready(function() {
                 array('class' => 'button')
             );?>
             <?php echo $this->Html->link(
-                'Tuo reitti',
-                array('controller' => 'paths', 'action' => 'import'),
+                'Reitit',
+                array('controller' => 'paths', 'action' => 'index'),
                 array('class' => 'button')
             );?>
             <?php echo $this->Html->link(

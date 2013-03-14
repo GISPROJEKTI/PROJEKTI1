@@ -63,6 +63,6 @@ $( document ).ready(function() {
 <?php echo $this->Html->link(
     'Peruuta',
     array('action' => 'index'),
-    array('class' => 'button cancel small')
+    array('class' => 'button cancel')
 ); ?>
 <?php echo $this->Form->end(); ?>
