@@ -17,7 +17,8 @@ $( document ).ready(function() {
             <th>Nimi</th>
             <th>Testaa</th>
             <th>Julkinen</th>
-            <th>Vastauksia</th>
+            <th>Poista</th>
+			<th>Vastauksia</th>
         </tr>
     </thead>
     <tbody>
@@ -59,6 +60,19 @@ $( document ).ready(function() {
                             array('action' => 'hashes', $poll['Poll']['id'])
                         ); 
                     } ?>
+				<td>
+                    <?php echo $this->Html->link(
+                        'Poista',
+                        array(
+                            'controller' => 'answers', 
+                            'action' => 'delete',
+                            $poll['Poll']['id'],
+                        ),
+                        array(
+                            'title' => 'Poista kysely'
+                        ),
+						'Oletko varma että haluat poistaa kyselyn?'
+                    ); ?>
                 </td>
                 <td><?php echo count($poll['Response']); ?></td>
             </tr>

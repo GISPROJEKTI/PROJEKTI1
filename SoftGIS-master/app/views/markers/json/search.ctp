@@ -3,9 +3,11 @@
 $json = array();
 foreach ($markers as $id => $name) {
     $json[] = array(
-        'id' => $id,
+	    'id' => $id,
         'name' => $name
     );
 }
 
 echo json_encode($json);
+ 
+ 

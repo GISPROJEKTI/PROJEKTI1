@@ -8,6 +8,7 @@ class PollsController extends AppController
         $this->layout = 'author';
     }
 
+
     public function index()
     {
         $authorId = $this->Auth->user('id');
@@ -222,16 +223,23 @@ class PollsController extends AppController
             // debug($this->data);
             $data = $this->_jsonToPollModel($this->data);
             // debug($data);die;
-
+			
+			//haetaan Pollin id ja sen perusteella poistetaan kaikki kysymykset questions taulusta
+			$pollId = $poll['Poll']['id'];
+			$stats="DELETE FROM questions WHERE poll_id='$pollId'";
+			$result = mysql_query($stats);
+			
             // Make sure questions have correct num
             $num = 1;
-            foreach ($data['Question'] as $i => $q) {
-                $q['num'] = $num;
-                $data['Question'][$i] = $q;
-                $num++;
-            }
-
-            if ($this->Poll->saveAll($data, array('validate'=>'first'))){
+				foreach ($data['Question'] as $i => $q) {
+					$q['num'] = $num;
+					$data['Question'][$i] = $q;
+					$num++;
+				}
+			//kysymysten tallennus tapahtuu täällä uudestaan
+			//Kutsuu Poll.php validate
+			
+            if ($this->Poll->saveAll($data, array('validate'=>'first'))){ 
                 $this->Session->setFlash('Kysely tallennettu');
                 $this->redirect(array('action' => 'view', $this->Poll->id));
             } else {

@@ -1,6 +1,8 @@
 <script>
 
-var markerIconPath = "<?php echo $this->Html->url('/markericons/'); ?>";
+var markerIconPath = "<?php 
+
+echo $this->Html->url('/markericons/'); ?>";
 
 
 $( document ).ready(function() {
@@ -22,6 +24,7 @@ $( document ).ready(function() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
+	
     var marker = new google.maps.Marker({
         map: map,
         draggable: true,
