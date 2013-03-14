@@ -8,6 +8,13 @@ class PathsController extends AppController
         $this->layout = 'author';
     }
 
+    public function index()
+    {
+        $this->Path->recursive = -1;
+        $paths = $this->Path->find('all');
+        $this->set('paths', $paths);
+    }
+
 
     public function import()
     {
@@ -26,24 +33,29 @@ class PathsController extends AppController
     }
 
     public function edit($id = null)
-    {   
-        $this->Path->id = $id;
-        if (!$this->Path->exists()) {
-            $this->redirect(array('action' => 'import'));
-        }
-
+    {
         if (!empty($this->data)) {
+            // debug($this->data);die;
+            if ($id != null) {
+                $this->Path->id = $id;
+            } else {
+                $this->Path->create();
+                $this->data['Path']['author_id'] = $this->Auth->user('id');
+                $this->data['Path']['coordinates'] = addslashes(
+                    $this->data['Path']['coordinates']
+                );
+            }
             if ($this->Path->save($this->data)) {
-                $this->data = null;
                 $this->Session->setFlash('Reitti tallennettu');
-                $this->redirect(array('action' => 'import'));
+                $this->redirect(
+                    array('controller' => 'paths', 'action' => 'index')
+                );
             }
         } else {
+            $this->Path->recursive = -1;
+            $this->Path->id = $id;
             $this->data = $this->Path->read();
-            $this->set('data', $this->data);
         }
-        // $this->set('coordinates', $path['Path']['coordinates']);
-        // $this->set('type', $path['Path']['coordinates']);
     }
 
     public function search()
