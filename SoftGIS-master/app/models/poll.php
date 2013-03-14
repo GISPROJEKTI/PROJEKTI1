@@ -29,7 +29,7 @@ class Poll extends AppModel
             'unique' => true
         )
     );
-//Tarkistaa Onko kyselyn "Nimi" tyhjä jos on post "Anna kyselylle nimi".
+
     public $validate = array(
         'name' => array(
             'rule' => 'notEmpty',

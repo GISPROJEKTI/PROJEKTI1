@@ -15,3 +15,6 @@ Poista vaan tiedostop‰‰tteet markericons kansion kuvista
 
 
 **HUOM: SQL-Queryihin oikeat tablejen nimet
+
+
+Ville 14.3

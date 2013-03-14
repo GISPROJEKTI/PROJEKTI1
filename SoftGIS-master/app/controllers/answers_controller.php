@@ -2,7 +2,7 @@
 
 class AnswersController extends AppController
 {
-    public $uses = array('Answer', 'Poll', 'Response', 'Hash', 'Question');
+    public $uses = array('Answer', 'Poll', 'Response', 'Hash');
 
     public function beforeFilter()
     {

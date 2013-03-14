@@ -27,7 +27,7 @@ class MarkersController extends AppController
             if ($this->Marker->save($this->data)) {
                 $this->Session->setFlash('Karttamerkki tallennettu');
                 $this->redirect(
-                    array('controller' => 'polls', 'action' => 'index')
+                    array('controller' => 'markers', 'action' => 'index')
                 );
             }
         } else {

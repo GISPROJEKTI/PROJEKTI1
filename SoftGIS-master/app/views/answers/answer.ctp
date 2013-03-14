@@ -80,25 +80,29 @@ $( document ).ready(function() {
                 <input type="radio" name="text" value="Ei"/>Ei
                 <input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa
             {{else type == 3}}
-                ${low_text}
-                <input type="radio" name="text" value="1"/>
-                <input type="radio" name="text" value="2"/>
-                <input type="radio" name="text" value="3"/>
-                <input type="radio" name="text" value="4"/>
-                <input type="radio" name="text" value="5"/>
-                ${high_text}
-                <input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa
+                <table class="answer"><tr>
+                <td id="answerColumText">${low_text}</td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="1"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="2"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="3"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="4"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="5"/></td>
+                <td id="answerColumText">${high_text}</td>
+                <td id="answerColumEos"><input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa</td>
+                </tr></table>
             {{else type == 4}}
-                ${low_text}
-                <input type="radio" name="text" value="1"/>
-                <input type="radio" name="text" value="2"/>
-                <input type="radio" name="text" value="3"/>
-                <input type="radio" name="text" value="4"/>
-                <input type="radio" name="text" value="5"/>
-                <input type="radio" name="text" value="6"/>
-                <input type="radio" name="text" value="7"/>
-                ${high_text}
-                <input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa
+                <table class="answer"><tr>
+                <td id="answerColumText">${low_text}</td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="1"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="2"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="3"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="4"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="5"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="6"/></td>
+                <td id="answerColumRadio"><input type="radio" name="text" value="7"/></td>
+                <td id="answerColumText">${high_text}</td>
+                <td id="answerColumEos"><input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa</td>
+                </tr></table>
             {{/if}}
         </div>
     </div>

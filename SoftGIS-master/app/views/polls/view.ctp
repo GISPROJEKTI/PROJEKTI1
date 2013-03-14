@@ -127,6 +127,28 @@ $(document).ready(function() {
         <th>Kiitosteksti</th>
         <td><?php echo $poll['thanks_text']; ?></td>
     </tr>
+    <tr>
+        <th>Vastausosoite</th>
+        <td>
+            <?php if ($poll['public'] == 0) {
+                echo $this->Html->link(
+                    'Katso varmenteet',
+                    array(
+                        'action' => 'hashes',
+                        $poll['id']
+                    )
+                );
+            }else{
+                echo FULL_BASE_URL . $this->Html->url(
+                    array(
+                        'controller' => 'answers',
+                        'action' => 'index',
+                        $poll['id']
+                    )
+                );
+            }; ?>
+        </td>
+    </tr>
 </table>
 
 <h3>Reitit ja alueet</h3>
@@ -208,8 +230,8 @@ $(document).ready(function() {
 <?php endforeach; ?>
 </div>
 
-
-<? /*
+<?php
+/*  <!-- Sama asia, kuin yllä, kommentoitu pois -->
 <table class="details">
     <?php foreach ($questions as $q): ?>
         <tr>
@@ -251,4 +273,5 @@ $(document).ready(function() {
         </tr>
     <?php endforeach; ?>
 </table>
-*/?>
+*/
+?>

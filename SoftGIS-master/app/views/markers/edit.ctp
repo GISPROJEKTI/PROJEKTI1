@@ -1,8 +1,6 @@
 <script>
 
-var markerIconPath = "<?php 
-
-echo $this->Html->url('/markericons/'); ?>";
+var markerIconPath = "<?php echo $this->Html->url('/markericons/'); ?>";
 
 
 $( document ).ready(function() {
@@ -24,7 +22,6 @@ $( document ).ready(function() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
-	
     var marker = new google.maps.Marker({
         map: map,
         draggable: true,
@@ -66,6 +63,6 @@ $( document ).ready(function() {
 <?php echo $this->Html->link(
     'Peruuta',
     array('action' => 'index'),
-    array('class' => 'button cancel small')
+    array('class' => 'button cancel')
 ); ?>
 <?php echo $this->Form->end(); ?>
