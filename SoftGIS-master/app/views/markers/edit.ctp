@@ -50,7 +50,7 @@ $( document ).ready(function() {
 <h2>Karttamerkki</h2>
 
 <?php echo $this->Form->create('Marker'); ?>
-<?php echo $this->Form->input('name', array('label' => 'Nimi')); ?>
+<?php echo $this->Form->input('name', array('label' => 'Nimi','placeholder'=>'Anna nimi','required'=> true)); ?>
 <?php echo $this->Form->input('content', array('label' => 'Sisältö')); ?>
 <?php echo $this->Form->input('icon', array('label' => 'Kuvake')); ?>
 <?php echo $this->Form->input('latlng', array('type' => 'hidden')); ?>
