@@ -1,0 +1,20 @@
+KYSELYN POISTAMINEN:
+
+answers_controller (delete funktio kyselyn poistamiselle)
+views/polls/index (kyselyn poisto nappi ja varmistus)
+
+KYSYMYKSEN POISTAMINEN:
+
+polls_controller (kysymykset poistetaan pollin id:n perusteella)
+views/polls/modify (Nappi & tekstikenttä kysymyksen poistamiselle, 
+		   deleteQuestion funktio, setNum, getNum, getText, Merkit->Karttamerkit)
+
+MERKIT SELKOKIELELLÄ:
+
+Poista vaan tiedostopäätteet markericons kansion kuvista
+
+
+**HUOM: SQL-Queryihin oikeat tablejen nimet
+
+
+Ville 14.3

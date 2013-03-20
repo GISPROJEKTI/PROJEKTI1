@@ -49,6 +49,33 @@ var viewModel = {
         });
         question.toggle();
         this.questions.push(question);
+    },
+	//kysymysten poisto -funktio
+    deleteQuestion: function() {
+
+		//haetaan arvo jonka käyttäjä on syöttänyt Poistettavan kysymyksen numero tekstikenttään
+		var arvo = document.getElementById("arvo").value;
+		arvo =  parseInt(arvo);
+		
+		//varmistetaan haluaako käyttäjä poistaa kysymyksen
+		
+		var ok = confirm("Haluatko varmasti poistaa kysymyksen " + arvo + ": " + this.questions()[(arvo-1)].getText())
+		
+		if(ok==true){
+			//loopataan kaikki kysymykset läpi ja katsotaan missä käyttäjän syöttämä arvo ja kysymyksen num mätsää
+			//ja poistetaan se mikä mätsää
+			for(i=0; i < this.questions().length; i++){
+				if(this.questions()[i].getNum() == arvo){
+					this.questions.splice(i,1);
+				}
+			}
+			// tässä järjestetään uudestaan kysymysten numerot
+			for(i=0; i < this.questions().length; i++){
+				var uusiArvo = i+1;
+				this.questions()[i].setNum(uusiArvo);
+			}
+		
+		}
     }
 }
 
@@ -88,6 +115,18 @@ function Question(data, visible) {
 Question.prototype.toggle = function() {
     this.visible( !this.visible() );
     
+}
+
+Question.prototype.getNum = function() {
+	return(this.num());
+}
+
+Question.prototype.getText = function() {
+	return(this.text());
+}
+
+Question.prototype.setNum = function(arvo) {
+	this.num(arvo);
 }
 
 Question.prototype.pickLocation = function() {
@@ -214,7 +253,7 @@ $( document ).ready(function() {
 </div>
 
 <div class="input text">
-    <label>Merkit</label>
+    <label>Karttamerkit</label>
     <input type="text" id="markers" />
 </div>
 
@@ -239,6 +278,16 @@ $( document ).ready(function() {
     <button type="button" id="create-question" data-bind="click: newQuestion">
         Luo uusi kysymys
     </button>
+	
+	<!-- Tässä kysymykseen poistoa varten tekstikenttä ja nappi, nappi kutsuu klikatessa poisto-funktiota-->
+	<hr/>
+	<label>Poistettavan kysymyksen numero</label>
+	<input type="text" class="small" name="arvo" id="arvo" value="" maxlength="3"/> <br/>     
+	<button type="button" id="delete-question" data-bind="click: deleteQuestion">
+		Poista kysymys
+	</button>
+	<hr/>
+	<!-- Tässä loppuu-->
 </div>
 
 <form method="post">
@@ -256,7 +305,7 @@ $( document ).ready(function() {
         'Peruuta',
         $url,
         array(
-            'class' => 'button cancel small'
+            'class' => 'button cancel'
         )
     ); 
     ?>
@@ -313,6 +362,11 @@ $( document ).ready(function() {
 
         <div class="input text">
             <label>Sijainti</label>
+            <button class="pick-location" 
+                type="button"
+                data-bind="click: pickLocation">
+                Valitse sijainti kartalta
+            </button>
             <div>
                 <div class="inline">
                     <label>Koordinaatti</label>
@@ -327,11 +381,6 @@ $( document ).ready(function() {
                         data-bind="value: zoom"/>
                 </div>
             </div>
-            <button class="pick-location" 
-                type="button"
-                data-bind="click: pickLocation">
-                Valitse
-            </button>
         </div>
 
         <div class="input checkbox" data-bind="visible: latlng()">
