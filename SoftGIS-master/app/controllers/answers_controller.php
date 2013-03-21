@@ -2,7 +2,7 @@
 
 class AnswersController extends AppController
 {
-    public $uses = array('Answer', 'Poll', 'Response', 'Hash');
+    public $uses = array('Answer', 'Poll', 'Response', 'Hash', 'Question');
 
     public function beforeFilter()
     {
@@ -179,6 +179,8 @@ class AnswersController extends AppController
 	function delete($pollId = NULL){
 		//$this->Poll->delete($pollId);
 		
+		//tämä funktio on tietyn kyselyn ja kaikki siihen liittyvien tietojen poisto tietokannasta
+		
 		//poistetaan polls taulusta kysely id:n mukaan
 		$stats="DELETE FROM polls WHERE id='$pollId'";
 		$result = mysql_query($stats);
@@ -221,6 +223,115 @@ class AnswersController extends AppController
 		
 		//tulostetaan viesti ja takaisin index sivulle
 		$this->Session->setFlash('Kysely on poistettu');
+		$this->redirect(array('controller'=>'polls', 'action'=>'index'));
+	
+	}
+	
+	function duplicate($pollId = NULL){
+		
+		//tämä funktio on kyselyn ja kaikkien siihen liittyvien tietojen kopiointi uudeksi kyselyksi uudella id:llä
+		
+		//valitaan kaikki tiedot pollin id:n perusteella
+		$stats="SELECT * FROM polls WHERE id='$pollId'";
+		$result = mysql_query($stats);
+		
+		//if($result == FALSE){
+		//	die(mysql_error());
+		//}
+		
+		//haetaan tarvittavien fieldien arvot eri muuttujiin
+		$row = mysql_fetch_array($result);
+		$pollName = $row['name'] . "_copy";
+		$pollAuthor = $row['author_id'];
+		$pollWelcome = $row['welcome_text'];
+		$pollThanks = $row['thanks_text'];
+		
+		//echo $pollName;
+		//die();
+		
+		//insertataan tiedot uudestaan polls tauluun, jolloin se saa uuden id:n
+		$stats="INSERT INTO polls (name, author_id, public, welcome_text, thanks_text) VALUES ('$pollName', '$pollAuthor', 1, '$pollWelcome', '$pollThanks')";
+		$result = mysql_query($stats);
+		
+		//haetaan kyseisen authorin suurin id polls taulusta joka on juuri insertatun id-fieldin arvo
+		$stats="SELECT MAX(id) AS SuurinID FROM polls WHERE author_id='$pollAuthor'";
+		$result = mysql_query($stats);
+		$row2 = mysql_fetch_array($result);
+		$pollId2 = $row2['SuurinID'];
+		//echo $pollId2;
+		//die(mysql_error());
+		
+		//haetaan alkuperäisen kyselyn kysymysten tiedot ja insertataan ne questions tauluun uuden kyselyn id:llä 
+		
+		$stats="SELECT * FROM questions WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		while($row3 = mysql_fetch_array($result)) {
+		
+			$queNum= $row3['num'];
+			$queType = $row3['type'];
+			$queLowText = $row3['low_text'];
+			$queText = $row3['text'];
+			$queHighText = $row3['high_text'];
+			$queLat = $row3['lat'];
+			$queLng = $row3['lng'];
+			$queZoom = $row3['zoom'];
+			$queAnswerLocation = $row3['answer_location'];
+			$queAnswerVisible = $row3['answer_visible'];
+			$queComments = $row3['comments'];
+			
+			$stats="INSERT INTO questions (poll_id, num, type, low_text, text, high_text, lat, lng, zoom, answer_location, answer_visible, comments)
+			VALUES ('$pollId2', '$queNum', '$queType', '$queLowText', '$queText', '$queHighText', '$queLat', '$queLng', '$queZoom', '$queAnswerLocation', 
+			'$queAnswerVisible', '$queComments')";
+			$result2 = mysql_query($stats);
+		
+		}
+		//haetaan alkuperäisen kyselyn polls_markers tiedot ja insertataan ne polls_markers tauluun uuden kyselyn id:llä 
+		
+		$stats="SELECT * FROM polls_markers WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		while($row4 = mysql_fetch_array($result)) {
+		
+			$markerId= $row4['marker_id'];
+			
+			$stats="INSERT INTO polls_markers (poll_id, marker_id) VALUES ('$pollId2', '$markerId')";
+			$result2 = mysql_query($stats);
+		
+		}
+		
+		//haetaan alkuperäisen kyselyn polls_paths tiedot ja insertataan ne polls_paths tauluun uuden kyselyn id:llä 
+		
+		$stats="SELECT * FROM polls_paths WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		while($row5 = mysql_fetch_array($result)) {
+		
+			$pathId= $row5['path_id'];
+			
+			$stats="INSERT INTO polls_paths (poll_id, path_id) VALUES ('$pollId2', '$pathId')";
+			$result2 = mysql_query($stats);
+		
+		}
+		
+		//haetaan alkuperäisen kyselyn polls_overlays tiedot ja insertataan ne polls_overlays tauluun uuden kyselyn id:llä
+		
+		$stats="SELECT * FROM polls_overlays WHERE poll_id='$pollId'";
+		$result = mysql_query($stats);
+		
+		while($row6 = mysql_fetch_array($result)) {
+		
+			$overlayId= $row6['overlay_id'];
+			
+			$stats="INSERT INTO polls_overlays (poll_id, path_id) VALUES ('$pollId2', '$overlayId')";
+			$result2 = mysql_query($stats);
+		
+		}
+		
+		//nyt kaikki kyselyyn liittyvät tiedot on kopioitu tietokantaan ja liitetty uuteen kyselyyn pl. hashit, responset ja answerit
+		
+		//tulostetaan viesti ja takaisin index sivulle
+		$this->Session->setFlash("Kysely on kopioitu");
 		$this->redirect(array('controller'=>'polls', 'action'=>'index'));
 	
 	}

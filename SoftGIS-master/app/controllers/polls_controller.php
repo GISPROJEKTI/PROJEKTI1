@@ -8,6 +8,7 @@ class PollsController extends AppController
         $this->layout = 'author';
     }
 
+
     public function index()
     {
         $authorId = $this->Auth->user('id');
@@ -224,32 +225,71 @@ class PollsController extends AppController
             // debug($data);die;
 			
 			//haetaan Pollin id ja sen perusteella poistetaan kaikki kysymykset questions taulusta
+			//myöhemmin kysymykset tallennetaan uudestaan eli kysymyksen poistaminen muokkausvaiheessa tekee myös tietokantaan muutoksen
+			
 			$pollId = $poll['Poll']['id'];
 			$stats="DELETE FROM questions WHERE poll_id='$pollId'";
 			$result = mysql_query($stats);
 			
-            // Make sure questions have correct num
-            $num = 1;
-            foreach ($data['Question'] as $i => $q) {
-                $q['num'] = $num;
-                $data['Question'][$i] = $q;
-                $num++;
-            }
+			//Samannimisen kyselyn tallentaminen, jos löytyy jo niin lisätään suluissa numero perään
+			
+			$pollName = $data['Poll']['name'];
+			$pollName2 = $pollName . "(";
+			$authorId = $data['Poll']['author_id'];
+			
+			//tarkastetaan tässä löytyykö pollin id:llä tallennettuja kysymyksiä Questions-taulusta
+			
+			
+			$stats2="SELECT * FROM polls WHERE name='$pollName' AND author_id='$authorId'";
+			$result2 = mysql_query($stats2);
+			$row = mysql_fetch_array($result2);
+			$resp = $row['id'];
+			$stats3="SELECT * FROM questions WHERE poll_id='$resp'";
+			$result3 = mysql_query($stats3);
+			$num_rows = mysql_num_rows($result3);
+			
+			
+			//Jos tallennettuja kysymyksiä löytyy tietokannasta niin ei tehdä nimenvaihdosta: tällöin kyseessä on kyselyn muokkaus
+			//Jos ei löydy niin kyseessä on uuden kyselyn tallentaminen ja voidaan mennä alempaan if-haaraan
+			//Jossa tarkastetaan löytyykö samannimisiä kyselyitä ja suoritetaan sulkujen lisääminen perään jos löytyy
+			
+			//eikö tämän pitäisi olla toisinpäin että tämä toimisi, jostain syystä toimii näin mutta ei toisinpäin
+			//en ymmärrä
+			
+			if($num_rows > 0){
+				
+				$stats="SELECT * FROM polls WHERE name='$pollName' AND author_id='$authorId' OR name LIKE '$pollName2%' AND author_id='$authorId'";
+				$result = mysql_query($stats);
+				$num_rows2 = mysql_num_rows($result);
+			
+				if($num_rows2 > 0) {
+					$data['Poll']['name'] = $pollName . "(" . $num_rows2 . ")";
+				}
+			}
+			
+			// Make sure questions have correct num
+			$num = 1;
+				foreach ($data['Question'] as $i => $q) {
+					$q['num'] = $num;
+					$data['Question'][$i] = $q;
+					$num++;
+				}
 			//kysymysten tallennus tapahtuu täällä uudestaan
 			//Kutsuu Poll.php validate
-
-            if ($this->Poll->saveAll($data, array('validate'=>'first'))){
-                $this->Session->setFlash('Kysely tallennettu');
-                $this->redirect(array('action' => 'view', $this->Poll->id));
-            } else {
-                $this->Session->setFlash('Tallentaminen epäonnistui');
-                $poll = $data;
-                $errors = $this->Poll->validationErrors;
-                foreach ($errors as $err) {
-                    $this->Session->setFlash($err);
-                }
-                // debug($errors);die;
-            }
+			
+			if ($this->Poll->saveAll($data, array('validate'=>'first'))){ 
+				$this->Session->setFlash('Kysely tallennettu');
+				$this->redirect(array('action' => 'view', $this->Poll->id));
+			} else {
+				$this->Session->setFlash('Tallentaminen epäonnistui');
+				$poll = $data;
+				$errors = $this->Poll->validationErrors;
+				foreach ($errors as $err) {
+					$this->Session->setFlash($err);
+				}
+				// debug($errors);die;
+			}
+			
         }
 
 

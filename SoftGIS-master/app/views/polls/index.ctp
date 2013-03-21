@@ -20,7 +20,10 @@ $( document ).ready(function() {
 			<!-- Tähän on lisätty Poista kenttä-->
             <th>Poista</th>
 			<!-- Tässä loppuu-->
-            <th>Vastauksia</th>
+			<!-- Tähän on lisätty kopioi uudeksi kenttä-->
+            <th>Kopioi</th>
+			<!-- Tässä loppuu-->
+			<th>Vastauksia</th>
         </tr>
     </thead>
     <tbody>
@@ -62,7 +65,7 @@ $( document ).ready(function() {
                             array('action' => 'hashes', $poll['Poll']['id'])
                         ); 
                     } ?>
-                </td>
+				</td>
 				<!-- Tässä Poista napin toiminnallisuus-->
 				<td>
                     <?php echo $this->Html->link(
@@ -76,6 +79,22 @@ $( document ).ready(function() {
                             'title' => 'Poista kysely'
                         ),
 						'Oletko varma että haluat poistaa kyselyn?'
+                    ); ?>
+                </td>
+				<!--Tässä loppuu-->
+				<!-- Tässä Kopioi uudeksi napin toiminnallisuus-->
+				<td>
+                    <?php echo $this->Html->link(
+                        'Kopioi uudeksi',
+                        array(
+                            'controller' => 'answers', 
+                            'action' => 'duplicate',
+                            $poll['Poll']['id'],
+                        ),
+                        array(
+                            'title' => 'Kopioi kysely'
+                        ),
+						'Oletko varma että haluat kopioida kyselyn uudeksi?'
                     ); ?>
                 </td>
 				<!--Tässä loppuu-->
