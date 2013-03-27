@@ -179,6 +179,8 @@ $(document).ready(function() {
     <?php endif; ?>
 </table>
 
+<!-- Karttakuvat -->
+
 <h3>Kysymykset</h3>
 
 <div>
@@ -218,12 +220,13 @@ $(document).ready(function() {
                         <?php echo $q['answer_visible'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
                 </tr>
+                <!-- Ominaisuutta ei ole toteutettu
                 <tr>
                     <th>Vastausten kommentointi</th>
                     <td colspan="3"> 
                         <?php echo $q['comments'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
-                </tr>
+                </tr>-->
             </table>
         </div>
     </div>

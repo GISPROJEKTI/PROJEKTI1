@@ -132,6 +132,11 @@ class AppSchema extends CakeSchema
             'null' => false,
             'default' => 0
         ),
+        'map_type' => array(
+            'type' => 'integer',
+            'null' => true,
+            'default' => 0
+        ),
     );
 
     var $responses = array(
@@ -180,6 +185,11 @@ class AppSchema extends CakeSchema
         ),
         'lng' => array(
             'type' => 'float',
+            'null' => true,
+            'default' => null
+        ),
+        'map' => array(
+            'type' => 'text',
             'null' => true,
             'default' => null
         ),

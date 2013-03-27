@@ -48,11 +48,12 @@ $( document ).ready(function() {
 
 <div class="help">
     <h2>Vastausohjeet</h2>
-    <p>Kyselyyn vastataan joko tekstikenttään tai monivalintaan.</p>
-    <p>Lisäksi kysymykseen voi liittyä paikanmääritys. Paikka määritetään kartan kohtaa klikkaamalla. Tällöin kartalle ilmestyy punainen karttamerkki merkitsemään valittua sijaintia. Jos valittua sijaintia haluaa muuttaa, voi karttamerkkiä raahata hiirellä.</p>
-    <h2>Kartta</h2>
-    <p>Joidenkin kysymysten yhteydessä voi näkyä kartta kysymykseen liittyvältä alueelta. Karttaa voi liikuttaa ja zoomata, mutta oletusarvoisesti se on kyselyn laatijan määräämässä sijannissa.</p>
-    <p>Kartalla voi näkyä kyselyyn liittyviä karttamerkkejä, kuvia sekä reittejä.</p>
+    <p>Kyselyyn vastataan joko tekstikenttään tai monivalintaan, sekä mahdolliseen karttavastaukseen.</p>
+    <p>Monivalinnassa valitse vaihtehdoista mielestäsi asiaa parhaiten kuvaava vaihtoehto.</p>
+    <p>Joidenkin kysymysten yhteydessä kartalla voi näkyä kysymykseen liittyvältä karttamerkkejä, reittejä, alueita sekä kuvia.</p>
+    <h2>Karttaan vastaaminen</h2>
+    <p> Karttaa voi liikuttaa hiirellä vetämällä ja zoomata hiiren rullalla, mutta oletusarvoisesti se on kyselyn laatijan määräämässä sijannissa.</p>
+    <p>Kysymyksestä riippuen, karttaan joko ei voi vastata, siihen voi laittaa merkin, useita merkkejä, polun tai alueen. Nämät kaikki asetetaan klikkaamalla karttaan hiiren ensimmäisellä painikkeella. Kartalla olevaa pistettä voi vetää hiirellä paikasta toiseen ja toisella hiiren painikkeella poistaa. Poluissa ja alueissa kulmapisteiden välissä olevista pallukoista vetämällä voi luoda uuden kulmapisteen.</p>
 </div>
 
 <script id="welcomeTmpl" type="text/x-jquery-tmpl">
@@ -70,6 +71,13 @@ $( document ).ready(function() {
 </script>
 
 <script id="questionTmpl" type="text/x-jquery-tmpl">
+    <div class="answerNav">
+        <table class="answer"><tr>
+            <td><button type="button" class="prevQues" id = "prev">Edellinen kysymys</button></td>
+            <td><div class="info" id="info">Kysymys numero #</div></td>
+            <td><button type="button" class="nextQues">Seuraava kysymys</button></td>
+        </tr></table>
+    </div>
     <h3>${text}</h3>
     <div class="answer-field">
         <div class="input">
@@ -106,9 +114,6 @@ $( document ).ready(function() {
             {{/if}}
         </div>
     </div>
-    <div class="answerNav">
-        <button type="button" class="submit">Seuraava kysymys</button>
-    </div>
 </script>
 
 <script id="publicAnswerTmpl" type="text/x-jquery-tmpl">
@@ -123,7 +128,7 @@ $( document ).ready(function() {
         <input type="checkbox" id="noAnswer" />
         <label>En halua vastata kysymykseen</label>
     </div>
-    <div id="map" class="map">
+        <div id="map" class="map">
     </div>
 </div>
 <form method="POST" 

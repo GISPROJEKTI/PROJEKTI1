@@ -39,6 +39,15 @@ var viewModel = {
         { id: 3, label: "1-5, En osaa sanoa" },
         { id: 4, label: "1-7, En osaa sanoa" }
     ],
+    // List of map types on question
+    mapTypes: [
+        { id: 0, label: "Ei karttaa" },
+        { id: 1, label: "Kartta, ei vastausta" },
+        { id: 2, label: "Kartta, 1 markkeri" },
+        { id: 3, label: "Kartta, monta markkeria" },
+        { id: 4, label: "Kartta, polku" },
+        { id: 5, label: "Kartta, alue" }
+    ],
     newQuestion: function() {
         var question = new Question({
             num: this.questions().length + 1
@@ -66,6 +75,7 @@ function Question(data, visible) {
     this.high_text = ko.observable( data.high_text ? data.high_text : null );
     this.latlng = ko.observable( data.latlng ? data.latlng : null );
     this.zoom = ko.observable( data.zoom ? data.zoom : null );
+    this.map_type = ko.observable( data.map_type ? data.map_type : null );
 
     // Pfft, Cake thinks 0 is false
     this.answer_location = ko.observable( 
@@ -270,7 +280,13 @@ $( document ).ready(function() {
             </div>
         </div>
 
-        <div class="input text">
+        <div class="input select">
+            <label>Kartan tyyppi</label>
+            <select data-bind="options: viewModel.mapTypes,
+                optionsText: 'label', optionsValue: 'id',
+                value: map_type" />
+        </div>
+        <div class="input text" data-bind="visible: map_type() > 0">
             <label>Sijainti</label>
             <button class="pick-location" 
                 type="button"
@@ -293,23 +309,27 @@ $( document ).ready(function() {
             </div>
         </div>
 
+        <div class="input checkbox">
+            <input type="checkbox"
+                data-bind="checked: answer_visible" />
+            <label>Vastaukset näkyvissä muille vastaajille</label>
+        </div>
+    </div>
+</li>
+</script>
+
+<!-- Nämä palikat otettu pois ylläolevasta templatesta, koska en osaa kommentoida niitä piiloon:
+
         <div class="input checkbox" data-bind="visible: latlng()">
             <input type="checkbox"
                 data-bind="checked: answer_location" />
             <label>Kohteen merkitseminen kartalle</label>
         </div>
 
-        <div class="input checkbox">
-            <input type="checkbox"
-                data-bind="checked: answer_visible" />
-            <label>Vastaukset näkyvissä muille vastaajille</label>
-        </div>
-
-        <div class="input checkbox">
+        <div class="input checkbox data-bind="visible: answer_visible()">
             <input type="checkbox"
                 data-bind="checked: comments" />
             <label>Vastausten kommentointi</label>
         </div>
-    </div>
-</li>
-</script>
+
+-->
