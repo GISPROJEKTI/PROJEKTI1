@@ -48,7 +48,7 @@ class PollsController extends AppController
             4 => '1 - 7, en osaa sanoa'
         );
         $this->set('answers', $answers);
-        // debug($poll);die;
+        //debug($poll);
     }
 
     public function launch($id = null)
@@ -188,7 +188,7 @@ class PollsController extends AppController
                 $this->cakeError('pollNotFound');
             }
 
-            // Polls that have reseponses shouldn't be edited anymore
+            // Polls that have responses shouldn't be edited anymore
             $responseCount = $this->Poll->Response->find(
                 'count', 
                 array(
@@ -314,22 +314,28 @@ class PollsController extends AppController
         $lines = array();
         foreach($responses as $response) {
             $line = array();
-            $line[] = $response['Response']['created'];
             foreach ($response['Answer'] as $answer) {
                 $text = str_replace(
                     array("\r\n", "\r", "\n", "\t"),
                     " ",
                     $answer['answer']
                 );
-                $text = addslashes($text);
-                $line[] = '"' . $text . '"';
-                $line[] = $answer['lat'];
-                $line[] = $answer['lng'];
+
+                $line[] = array(
+                    "text" => $text,
+                    "map" => $answer['map']
+                    );
             }
-            $lines[] = implode(',', $line);
+            $lines[] = array(
+                "date" => $response['Response']['created'],
+                "answer" => $line
+                );
         }
         $this->set('pollId', $pollId);
         $this->set('answers', $lines);
+        //debug($lines);
+        $poll = $this->Poll->read();
+        $this->set('pollNam', $poll['Poll']['name']);
     }
 
 
@@ -360,12 +366,19 @@ class PollsController extends AppController
                 continue;
             }
 
-            if (empty($q['latlng'])) {
-                // Answer cant have location if quest dont have
-                $q['answer_location'] = 0;
-            } else {
-                $q['answer_location'] = empty($q['answer_location']) ? 0 : 1;
-            }
+            #This is the old system and not in use anymore
+            #Actually the 'answer_location' is only in use at the view page, not in the question anymore
+            #if (empty($q['latlng'])) {
+            #    // Answer cant have location if quest dont have
+            #    $q['answer_location'] = 0;
+            #} else {
+                //$q['answer_location'] = empty($q['answer_location']) ? 0 : 1;
+                if ($q['map_type'] > 1) { // If map type can have location, we set it so
+                    $q['answer_location'] = 1;
+                } else {
+                    $q['answer_location'] = 0;
+                }
+            #}
             $q['answer_visible'] = empty($q['answer_visible']) ? 0 : 1;
             $q['comments'] = empty($q['comments']) ? 0 : 1;
             unset($q['visible']);

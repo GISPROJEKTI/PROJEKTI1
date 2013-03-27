@@ -12,6 +12,7 @@ var Question = Spine.Model.setup(
         "zoom",
         "answer_location",
         "answer_visible",
-        "comments"
+        "comments",
+        "map_type"
     ]
 );

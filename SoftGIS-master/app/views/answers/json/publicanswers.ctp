@@ -6,7 +6,8 @@ foreach ($answers as $a) {
 	$data = array(
 		'answer' => $a['Answer']['answer'],
 		'lat'	 => $a['Answer']['lat'],
-		'lng'	 => $a['Answer']['lng']
+		'lng'	 => $a['Answer']['lng'],
+		'map'	 => $a['Answer']['map']
 	);
 	$json['answers'][] = $data;
 }

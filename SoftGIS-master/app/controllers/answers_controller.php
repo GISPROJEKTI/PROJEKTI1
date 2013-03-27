@@ -8,7 +8,8 @@ class AnswersController extends AppController
     {
         parent::beforeFilter();
         // error_reporting(E_ALL);
-        $this->Auth->allow('index', 'poll', 'welcome', 'answer', 'finish');
+        $this->Auth->allow('index', 'poll', 'welcome', 'answer', 'finish', 'publicanswers');
+        //debug($this->Auth->allowedActions); die;
     }
 
     public function index($pollId = null, $hash = null)
@@ -125,6 +126,7 @@ class AnswersController extends AppController
                 }
                 $question = $poll['Question'][$i];
 
+                /*
                 if ($question['answer_location'] == 1) {
                     $latLng = explode(',', $a->loc);
                     $lat = !empty($latLng[0]) ? (float)$latLng[0] : "";
@@ -133,14 +135,14 @@ class AnswersController extends AppController
                     $lat = '';
                     $lng = '';
                 }
+                */
 
                 $this->Answer->create(
                     array(
                         'response_id' => $responseId,
                         'question_id' => $question['id'],
                         'answer' => strip_tags(trim($a->text)),
-                        'lat' => $lat,
-                        'lng' => $lng
+                        'map' => strip_tags(trim($a->loc))
                     )
                 );
                 $this->Answer->save();
