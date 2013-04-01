@@ -267,17 +267,19 @@ class PollsController extends AppController
 				}
 			}
 			
-			// Make sure questions have correct num
-			$num = 1;
-				foreach ($data['Question'] as $i => $q) {
-					$q['num'] = $num;
-					$data['Question'][$i] = $q;
-					$num++;
-				}
+            // Make sure questions have correct num
+            if (!empty($data['Question'])){
+                $num = 1;
+                foreach ($data['Question'] as $i => $q) {
+                    $q['num'] = $num;
+                    $data['Question'][$i] = $q;
+                    $num++;
+                }
+            }
 			//kysymysten tallennus tapahtuu täällä uudestaan
 			//Kutsuu Poll.php validate
 			
-			if ($this->Poll->saveAll($data, array('validate'=>'first'))){ 
+			if (!empty($data['Question']) && $this->Poll->saveAll($data, array('validate'=>'first'))){ 
 				$this->Session->setFlash('Kysely tallennettu');
 				$this->redirect(array('action' => 'view', $this->Poll->id));
 			} else {
@@ -296,6 +298,68 @@ class PollsController extends AppController
 
         $this->set('poll', $poll);
     }
+
+    public function copy($id = null)
+    {
+        //Haetaan tiedot kopioitavasta kyselystä
+        if (!empty($id)) {
+            $poll = $this->Poll->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Poll.id' => $id
+                    ),
+                    'contain' => array(
+                        'Question',
+                        'Path' => array(
+                            'id',
+                            'name'
+                        ),
+                        'Marker' => array(
+                            'id',
+                            'name'
+                        ),
+                        'Overlay' => array(
+                            'id',
+                            'name'
+                        )
+                    )
+                )
+            );
+
+            //muutetaan kopioitavan kyselyn yksilöivät tiedot, että tämä voidaan tallentaa uutena
+            $poll['Poll']['id'] = null;
+            $poll['Poll']['name'] = $poll['Poll']['name'] . '_copy';
+            $poll['Poll']['author_id'] = $this->Auth->user('id');
+            $poll['Poll']['launch'] = null;
+            $poll['Poll']['end'] = null;
+            if (!empty($poll['Question'])){
+                foreach ($poll['Question'] as $i => $q) {
+                    $poll['Question'][$i]['id'] = null;
+                    $poll['Question'][$i]['poll_id'] = null;
+                }
+            }
+
+            //tallennetaan kysely
+            if ($this->Poll->saveAll($poll, array('validate'=>'first'))){
+                $this->Session->setFlash('Kysely tallennettu');
+                $this->redirect(array('action' => 'modify', $this->Poll->id));
+            } else {
+                $this->Session->setFlash('Tallentaminen epäonnistui');
+                $errors = $this->Poll->validationErrors;
+                foreach ($errors as $err) {
+                    $this->Session->setFlash($err);
+                }
+                //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
+                $this->redirect(array('action' => 'index'));
+            }
+        } else {
+            // jos kyselyä ei löytynyt
+            $this->cakeError('pollNotFound');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+
 
 
     public function answers($pollId = null)
@@ -384,29 +448,29 @@ class PollsController extends AppController
             unset($q['visible']);
             $data['Question'][] = $q;
         }
-        if (empty($data['Question'])) {
-            unset($data['Question']);
-        }
+        //if (empty($data['Question'])) {
+        //    unset($data['Question']);
+        //}
 
         foreach ($json['paths'] as $p) {
             $data['Path'][] = $p['id'];
         }
         if (empty($data['Path'])) {
-            $data['Path'][] = null;
+            $data['Path'] = array();
         }
 
         foreach ($json['markers'] as $m) {
             $data['Marker'][] = $m['id'];
         }
         if (empty($data['Marker'])) {
-            $data['Marker'][] = null;
+            $data['Marker'] = array();
         }
 
         foreach ($json['overlays'] as $m) {
             $data['Overlay'][] = $m['id'];
         }
         if (empty($data['Overlay'])) {
-            $data['Overlay'][] = null;
+            $data['Overlay'] = array();
         }
         return $data;
     }

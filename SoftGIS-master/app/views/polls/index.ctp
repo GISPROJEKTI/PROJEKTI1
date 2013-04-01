@@ -87,12 +87,12 @@ $( document ).ready(function() {
                     <?php echo $this->Html->link(
                         'Kopioi uudeksi',
                         array(
-                            'controller' => 'answers', 
-                            'action' => 'duplicate',
+                            'controller' => 'polls', 
+                            'action' => 'copy',
                             $poll['Poll']['id'],
                         ),
                         array(
-                            'title' => 'Kopioi kysely'
+                            'title' => 'Kopioi uudeksi kyselyksi'
                         ),
 						'Oletko varma että haluat kopioida kyselyn uudeksi?'
                     ); ?>
