@@ -1,3 +1,19 @@
+<?php
+if(isset($_POST['submit'])) {
+	if($poll['public'] == 1) {
+		$id = $poll['id'];
+		$query = "UPDATE `polls` SET `public` = 0 WHERE `id` = $id";
+		mysql_query($query);
+		header('Location: ' . $_SERVER['REQUEST_URI']);
+	} else if ($poll['public'] == 0) {
+		$id = $poll['id'];
+		$query = "UPDATE `polls` SET `public` = 1 WHERE `id` = $id";
+		mysql_query($query);
+		header('Location: ' . $_SERVER['REQUEST_URI']);
+	}
+}
+?>
+
 <script>
 
 $(document).ready(function() {
@@ -23,7 +39,6 @@ $(document).ready(function() {
 
 
 </script>
-
 
 <h2><?php echo $poll['name']; ?></h2>
 
@@ -117,7 +132,7 @@ $(document).ready(function() {
     </tr>
     <tr>
         <th>Kaikille avoin</th>
-        <td><?php echo $poll['public'] ? 'Kyllä' : 'Ei'; ?></td>
+        <td><?php echo $poll['public'] == 1 ? 'Kyllä' : 'Ei'; ?>: <form action="", method="post"><input type="submit" name="submit" onclick="window.location.reload()" value="muuta"></form></td>
     </tr>
     <tr>
         <th>Kuvaus</th>
@@ -126,28 +141,6 @@ $(document).ready(function() {
     <tr>
         <th>Kiitosteksti</th>
         <td><?php echo $poll['thanks_text']; ?></td>
-    </tr>
-    <tr>
-        <th>Vastausosoite</th>
-        <td>
-            <?php if ($poll['public'] == 0) {
-                echo $this->Html->link(
-                    'Katso varmenteet',
-                    array(
-                        'action' => 'hashes',
-                        $poll['id']
-                    )
-                );
-            }else{
-                echo FULL_BASE_URL . $this->Html->url(
-                    array(
-                        'controller' => 'answers',
-                        'action' => 'index',
-                        $poll['id']
-                    )
-                );
-            }; ?>
-        </td>
     </tr>
 </table>
 
@@ -178,8 +171,6 @@ $(document).ready(function() {
         <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttamerkkejä</td></tr>
     <?php endif; ?>
 </table>
-
-<!-- Karttakuvat -->
 
 <h3>Kysymykset</h3>
 
@@ -220,13 +211,12 @@ $(document).ready(function() {
                         <?php echo $q['answer_visible'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
                 </tr>
-                <!-- Ominaisuutta ei ole toteutettu
                 <tr>
                     <th>Vastausten kommentointi</th>
                     <td colspan="3"> 
                         <?php echo $q['comments'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
-                </tr>-->
+                </tr>
             </table>
         </div>
     </div>
