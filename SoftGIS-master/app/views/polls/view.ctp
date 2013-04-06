@@ -132,7 +132,18 @@ $(document).ready(function() {
     </tr>
     <tr>
         <th>Kaikille avoin</th>
-        <td><?php echo $poll['public'] == 1 ? 'Kyllä' : 'Ei'; ?>: <form action="", method="post"><input type="submit" name="submit" onclick="window.location.reload()" value="muuta"></form></td>
+        <td><?php echo $poll['public'] ? 'Kyllä' : 'Ei'; ?>
+ 
+             <?php if ($poll['public'] == 1) {
+                echo $this->Html->link('Muuta suljetuksi',
+                    array('action' => 'openClosed',$poll['id']),
+                    array('class' => 'button','title' => 'Muuta kysely suljetuksi'));
+            } else {
+                echo $this->Html->link('Muuta avoimeksi',
+                    array('action' => 'openClosed',$poll['id']),
+                    array('class' => 'button','title' => 'Muuta kysely avoimeksi'));
+            } ?>
+        </td>
     </tr>
     <tr>
         <th>Kuvaus</th>
@@ -142,6 +153,20 @@ $(document).ready(function() {
         <th>Kiitosteksti</th>
         <td><?php echo $poll['thanks_text']; ?></td>
     </tr>
+</table>
+
+<h3>Karttamerkit</h3>
+<table class="details">
+    <?php if (!empty($markers)): ?>
+        <?php foreach ($markers as $marker): ?>
+            <tr>
+                <th class="mediumfixed"><?php echo $marker['name']; ?></th>
+                <td><?php echo $marker['content']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttamerkkejä</td></tr>
+    <?php endif; ?>
 </table>
 
 <h3>Reitit ja alueet</h3>
@@ -158,17 +183,17 @@ $(document).ready(function() {
     <?php endif; ?>
 </table>
 
-<h3>Karttamerkit</h3>
+<h3>Karttakuvat</h3>
 <table class="details">
-    <?php if (!empty($markers)): ?>
-        <?php foreach ($markers as $marker): ?>
+    <?php if (!empty($overlays)): ?>
+        <?php foreach ($overlays as $overlay): ?>
             <tr>
-                <th class="mediumfixed"><?php echo $marker['name']; ?></th>
-                <td><?php echo $marker['content']; ?></td>
+                <th class="mediumfixed"><?php echo $overlay['name']; ?></th>
+                <td> </td>
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
-        <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttamerkkejä</td></tr>
+        <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttakuvia</td></tr>
     <?php endif; ?>
 </table>
 

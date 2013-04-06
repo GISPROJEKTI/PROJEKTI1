@@ -100,13 +100,13 @@ var Map = Spine.Controller.create({
                 overlayBounds = new google.maps.LatLngBounds(swLatLng, neLatLng);
                 overlay = new google.maps.GroundOverlay(
                     overlayPath + data.image,
-                    overlayBounds,
+                    overlayBounds, 
                     {
                         map: this.map,
                         clickable: false
                     }
                 );
-            });
+            }, this);
         }
     },
     setMap: function(mode, lat, lng, zoom) {
@@ -296,7 +296,7 @@ var Map = Spine.Controller.create({
         //  or:
         //  send the answers one by one to addAnswer
     },
-    hide: function() {// There should not be need for use this function.
+    hide: function() {// There should not be need to call this function from outside.
         /*
         Hides the map element from the web page
         */

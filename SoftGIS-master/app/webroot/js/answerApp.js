@@ -47,13 +47,12 @@ var AnswerApp = Spine.Controller.create({
 
         // Confirms leaving the page
         this.promptBeforeUnload = true;
-/* Poistettu käytöstä testauksen ajaksi-------------------------------
+
         $(window).bind("beforeunload", function() {
             if (me.promptBeforeUnload) {
                 return "Vastauksiasi ei tallenneta, kun poistut sivulta. Haluatko varmasti poistua sivulta?";
             }
         });
-------------------------------------------------*/
     },
     initQuestion: function() {
         /*
@@ -118,6 +117,13 @@ var AnswerApp = Spine.Controller.create({
             this.questionEl.find('.prevQues').show();
         }
 
+        //Hide 'no map answer' when not needed
+        if (this.activeQuestion.map_type < 2){
+            this.noAnswerContEl.hide();
+        }else{
+            this.noAnswerContEl.show();
+        }
+
         //Update the question info text
         this.questionEl.find(".info").html("Kysymys numero " + this.questionNum + "/" + this.answers.length + " ");
 
@@ -129,10 +135,13 @@ var AnswerApp = Spine.Controller.create({
             If user has answered allready this question, set old answers in place
         */
         //console.log(this.answers[this.questionNum-1]);
-        //Text answer
+
         if (this.answers[this.questionNum-1].no_asw === 1) { // jos on valittuna 'en halua vastata' -valinta
             this.noAnswerCheckbox.attr('checked','checked');
-        } else if (this.answers[this.questionNum-1].text != "") { // jos kysymykseen on jo vastattu
+        }
+
+        //Text answer
+        if (this.answers[this.questionNum-1].text != "") { // jos kysymykseen on jo vastattu
             if ( this.activeQuestion.type == 1 ) {
                 this.questionEl.find("textarea").val(this.answers[this.questionNum-1].text);
             } else {
@@ -146,6 +155,7 @@ var AnswerApp = Spine.Controller.create({
                 };
             }
         }
+
         //Map answer
         if (this.answers[this.questionNum-1].loc != "") {
             this.map.setMapAnswer(this.answers[this.questionNum-1].loc);
@@ -173,13 +183,10 @@ var AnswerApp = Spine.Controller.create({
         /*
             Check that user has answered all the fields needed at this question
         */
-        // User dosen't want to answer
-        if (this.noAnswerCheckbox.is(':checked')) {
-            //jos käyttäjä ei halua vastata, siirrytään eteenpäin
-            this.removeNotes();
-        } else {
-            var continueSubmit = true;
+        var continueSubmit = true;
 
+        // User dosen't want to answer to map
+        if (!this.noAnswerCheckbox.is(':checked')) {
             //Map answer
             var answerLoc = this.map.getMapAnswer();
             if ( this.activeQuestion.map_type > 1 && answerLoc == "" ) {
@@ -208,46 +215,48 @@ var AnswerApp = Spine.Controller.create({
             } else {
                 this.mapEl.qtip( "destroy" );
             }
+        }
 
-            //Text answer
-            var answerSelector;
-            if ( this.activeQuestion.type == 1 ) {
-                answerSelector = "textarea";
-            } else {
-                answerSelector = "input:checked";
-            }
-            // Make sure user has answered something
-            var answerVal = this.questionEl.find( answerSelector ).val();
-            if ( !answerVal ) {
-                $( answerSelector ).focus();
-                $( ".answer-field", this.el ).qtip({
-                    content: "Et ole vastannut kysymykseen",
-                    position: {
-                        my: "top center",
-                        at: "bottom center",
-                        adjust: {
-                            x: -200
-                        }
-                    },
-                    show: {
-                        ready: true,
-                        event: "focus"
-                    },
-                    hide: {
-                        event: null
-                    },
-                    style: {
-                        classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
+
+        //Text answer
+        var answerSelector;
+        if ( this.activeQuestion.type == 1 ) {
+            answerSelector = "textarea";
+        } else {
+            answerSelector = "input:checked";
+        }
+        // Make sure user has answered something
+        var answerVal = this.questionEl.find( answerSelector ).val();
+        if ( !answerVal ) {
+            $( answerSelector ).focus();
+            $( ".answer-field", this.el ).qtip({
+                content: "Et ole vastannut kysymykseen",
+                position: {
+                    my: "top center",
+                    at: "bottom center",
+                    adjust: {
+                        x: -200
                     }
-                });
-                continueSubmit = false;
-            } else {
-                $( ".answer-field", this.el ).qtip( "destroy" );
-            }
-            //If all answers are ok, then continue
-            if (continueSubmit) {
-                this.removeNotes();
-            }
+                },
+                show: {
+                    ready: true,
+                    event: "focus"
+                },
+                hide: {
+                    event: null
+                },
+                style: {
+                    classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
+                }
+            });
+            continueSubmit = false;
+        } else {
+            $( ".answer-field", this.el ).qtip( "destroy" );
+        }
+        
+        //If all answers are ok, then continue
+        if (continueSubmit) {
+            this.removeNotes();
         }
     },
     removeNotes: function() {
@@ -268,20 +277,22 @@ var AnswerApp = Spine.Controller.create({
         var answerLoc = "";
         var noAnsw = 0;
 
+        //en halua vastata kartalle
         if (this.noAnswerCheckbox.is(':checked')) {
             noAnsw = 1;
-        } else {
-            //jos 'en halua vastata' ei ole valittuna hae vastaukset
-            answerLoc = this.map.getMapAnswer();
-
-            var answerSelector;
-            if ( this.activeQuestion.type == 1 ) {
-                answerSelector = "textarea";
-            } else {
-                answerSelector = "input:checked";
-            }
-            var answerVal = this.questionEl.find( answerSelector ).val();
         }
+        //Kartta
+        answerLoc = this.map.getMapAnswer();
+
+        //Teksti
+        var answerSelector;
+        if ( this.activeQuestion.type == 1 ) {
+            answerSelector = "textarea";
+        } else {
+            answerSelector = "input:checked";
+        }
+        var answerVal = this.questionEl.find( answerSelector ).val();
+        
 
         //tallenna vastaukset
         this.answers.splice((this.questionNum - 1),1,{

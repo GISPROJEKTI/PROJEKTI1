@@ -8,17 +8,63 @@ class OverlaysController extends AppController
         $this->layout = 'author';
     }
 
+    public function index()
+    {
+        $this->Overlay->recursive = -1;
+        $overlay = $this->Overlay->find('all');
+        $this->set('overlay', $overlay);
+    }
+
 
     public function view($id = null)
     {
         $this->Overlay->id = $id;
-        $overlay = $this->Overlay->read();
+        if (empty($this->data)) {
+            if (!empty($id)){
+                $this->data = $this->Overlay->read();
+            } else {
+                $this->Session->setFlash('Karttakuvaa ei löytynyt');
+                $this->redirect(array('action' => 'index'));
+            }
+        } else {
+            //debug($this->data);//die;
+            if ($this->Overlay->save($this->data)) {
+                $this->Session->setFlash('Karttakuva tallennettu.');
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash('Tallentaminen epäonnistui');
+                $errors = $this->Overlay->validationErrors;
+                foreach ($errors as $err) {
+                    $this->Session->setFlash($err);
+                }
+            }
+        }
+    }
 
-        $overlay['Overlay']['image_url'] = Router::url(
-            '/overlays/' . $overlay['Overlay']['image']
-        );
+    public function upload()
+    {
+        //TODO: virheilmoitus, jos tiedostoon ei ole käyttöoikeuksia!!!!!!!
+        if (!empty($this->data)) {
+            //debug($this->data);die;
+            $file = $this->data['Overlay']['file'];
+            //debug($file);
 
-        $this->set('overlay', $overlay);
+            $overlay['name'] = $file['name'];
+            $overlay['image'] = String::uuid().str_replace("image/", ".", $file['type']);
+            //debug($overlay);die;
+
+            if ($this->Overlay->save($overlay) && move_uploaded_file($file['tmp_name'],  APP.'webroot'.DS.'img'.DS.'overlays'.DS. $overlay['image'])) {
+                $this->Session->setFlash('Karttakuva tallennettu.');
+                $this->redirect(array('action' => 'view', $this->Overlay->id));
+            } else {
+                $this->Session->setFlash('Tallentaminen epäonnistui');
+                $errors = $this->Overlay->validationErrors;
+                foreach ($errors as $err) {
+                    $this->Session->setFlash($err);
+                }
+            }
+            //debug($this->data);
+        }
     }
 
     public function search()
@@ -69,4 +115,31 @@ class OverlaysController extends AppController
         );
         $this->redirect(array('action' => 'view', $this->Overlay->id));
     }
+
+    public function madekoski_png()
+    {
+        $this->Overlay->save(
+            array(
+                'name' => 'madekoski_png',
+                'image' => 'esimerkki1png.png',
+                'ne_lat' => 64.96810673,
+                'ne_lng' => 25.69183056,
+                'sw_lat' => 64.95191426,
+                'sw_lng' => 25.63935328
+            )
+        );
+        $this->redirect(array('action' => 'view', $this->Overlay->id));
+    }
+
+    public function madekoski_jpg()
+    {
+        $this->Overlay->save(
+            array(
+                'name' => 'madekoski_jpg2',
+                'image' => 'esimerkki1jpg.jpg',
+            )
+        );
+        $this->redirect(array('action' => 'view', $this->Overlay->id));
+    }
+
 }

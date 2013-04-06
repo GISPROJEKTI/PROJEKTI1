@@ -25,12 +25,13 @@ class PollsController extends AppController
             || $this->Poll->field('author_id') != $authorId) {
             $this->cakeError('pollNotFound');
         }
-        $this->Poll->contain('Question', 'Marker', 'Path');
+        $this->Poll->contain('Question', 'Marker', 'Path', 'Overlay');
         $poll = $this->Poll->read();
         $this->set('poll', $poll['Poll']);
         $this->set('questions', $poll['Question']);
         $this->set('markers', $poll['Marker']);
         $this->set('paths', $poll['Path']);
+        $this->set('overlays', $poll['Overlay']);
 
         // Set response count
         $responseCount = $this->Poll->Response->find(
@@ -217,11 +218,13 @@ class PollsController extends AppController
                 'Overlay' => array()
             );
         }
+        //debug($poll);
 
         // Save
         if (!empty($this->data)) {
-            // debug($this->data);
+            //debug($this->data);
             $data = $this->_jsonToPollModel($this->data);
+
             // debug($data);die;
 			
 			//haetaan Pollin id ja sen perusteella poistetaan kaikki kysymykset questions taulusta
@@ -341,7 +344,7 @@ class PollsController extends AppController
             }
 
             //tallennetaan kysely
-            if ($this->Poll->saveAll($poll, array('validate'=>'first'))){
+            if (!empty($data['Question']) && $this->Poll->saveAll($data, array('validate'=>'first'))){
                 $this->Session->setFlash('Kysely tallennettu');
                 $this->redirect(array('action' => 'modify', $this->Poll->id));
             } else {
@@ -360,6 +363,67 @@ class PollsController extends AppController
         }
     }
 
+    public function copy($id = null)
+    {
+    //Kopioidaan parametrinä oleva kysely uudeksi kyselyksi kirjautuneelle käyttäjälle
+        //Haetaan tiedot kopioitavasta kyselystä
+        if (!empty($id)) {
+            $poll = $this->Poll->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Poll.id' => $id
+                    ),
+                    'contain' => array(
+                        'Question',
+                        'Path' => array(
+                            'id',
+                            'name'
+                        ),
+                        'Marker' => array(
+                            'id',
+                            'name'
+                        ),
+                        'Overlay' => array(
+                            'id',
+                            'name'
+                        )
+                    )
+                )
+            );
+
+            //muutetaan kopioitavan kyselyn yksilöivät tiedot, että tämä voidaan tallentaa uutena
+            $poll['Poll']['id'] = null;
+            $poll['Poll']['name'] = $poll['Poll']['name'] . '_copy';
+            $poll['Poll']['author_id'] = $this->Auth->user('id');
+            $poll['Poll']['launch'] = null;
+            $poll['Poll']['end'] = null;
+            if (!empty($poll['Question'])){
+                foreach ($poll['Question'] as $i => $q) {
+                    $poll['Question'][$i]['id'] = null;
+                    $poll['Question'][$i]['poll_id'] = null;
+                }
+            }
+
+            //tallennetaan kysely
+            if ($this->Poll->saveAll($poll, array('validate'=>'first'))){
+                $this->Session->setFlash('Kysely tallennettu');
+                $this->redirect(array('action' => 'modify', $this->Poll->id));
+            } else {
+                $this->Session->setFlash('Tallentaminen epäonnistui');
+                $errors = $this->Poll->validationErrors;
+                foreach ($errors as $err) {
+                    $this->Session->setFlash($err);
+                }
+                //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
+                $this->redirect(array('action' => 'index'));
+            }
+        } else {
+            // jos kyselyä ei löytynyt
+            $this->cakeError('pollNotFound');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
 
 
     public function answers($pollId = null)
@@ -539,6 +603,38 @@ class PollsController extends AppController
 
         $this->redirect(array('action' => 'hashes', $pollId));
     }
+
+    public function openClosed($id = null) {
+        if (!empty($id)) {
+            $authorId = $this->Auth->user('id');
+            $this->Poll->id = $id;
+            if (!$this->Poll->exists() || $this->Poll->field('author_id') != $authorId) {
+                $this->cakeError('pollNotFound');
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $poll = $this->Poll->read();
+                //debug($poll);
+                $edit['id'] = $id;
+                if ($poll['Poll']['public']) {
+                    $edit['public'] = 0;
+                } else {
+                    $edit['public'] = 1;
+                }
+                //debug($edit); die;
+                if ($this->Poll->save($edit)) {
+                    $this->Session->setFlash('Muutokset tallennettu');
+                    $this->redirect(array('action' => 'view', $id));
+                } else {
+                    $this->Session->setFlash('Tallennus epäonnistui');
+                }
+            }
+        } else {
+            // jos kyselyä ei löytynyt
+            $this->cakeError('pollNotFound');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+
 
 }
 

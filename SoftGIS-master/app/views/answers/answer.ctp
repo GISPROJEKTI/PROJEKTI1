@@ -7,7 +7,7 @@
 
 <script>
 var markerIconPath = "<?php echo $this->Html->url('/markericons/'); ?>";
-var overlayPath = "<?php echo $this->Html->url('/overlays/'); ?>";
+var overlayPath = "<?php echo $this->Html->url('/img/overlays/'); ?>";
 var publicAnswersPath = "<?php echo $this->Html->url('/answers/publicanswers.json'); ?>";
 var publicAnswerIcon = "<?php echo $this->Html->url('/img/public_answer.png'); ?>";
 var answerIcon = "<?php echo $this->Html->url('/img/answer.png'); ?>";
@@ -23,7 +23,7 @@ $( document ).ready(function() {
 
     answerApp = AnswerApp.init({
         el: $("body"),
-        data: data
+        data: data,
     });  
 
     // Help toggle
@@ -122,7 +122,7 @@ $( document ).ready(function() {
 <div class="answer">
     <div id="noAnswerCont">
         <input type="checkbox" id="noAnswer" />
-        <label>En halua vastata kysymykseen</label>
+        <label>En halua vastata kartlle</label>
     </div>
         <div id="map" class="map">
     </div>

@@ -85,6 +85,11 @@ $( document ).ready(function() {
                 array('class' => 'button')
             );?>
             <?php echo $this->Html->link(
+                'Karttakuvat',
+                array('controller' => 'overlays', 'action' => 'index'),
+                array('class' => 'button')
+            );?>
+            <?php echo $this->Html->link(
                 'Kirjaudu ulos',
                 array('controller' => 'authors', 'action' => 'logout'),
                 array('class' => 'button')

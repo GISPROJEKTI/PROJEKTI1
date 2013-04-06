@@ -17,13 +17,13 @@ $( document ).ready(function() {
             <th>Nimi</th>
             <th>Testaa</th>
             <th>Julkinen</th>
+
 			<!-- Tähän on lisätty Poista kenttä-->
             <th>Poista</th>
 			<!-- Tässä loppuu-->
-			<!-- Tähän on lisätty kopioi uudeksi kenttä-->
+
             <th>Kopioi</th>
-			<!-- Tässä loppuu-->
-			<th>Vastauksia</th>
+            <th>Vastauksia</th>
         </tr>
     </thead>
     <tbody>
@@ -82,23 +82,19 @@ $( document ).ready(function() {
                     ); ?>
                 </td>
 				<!--Tässä loppuu-->
-				<!-- Tässä Kopioi uudeksi napin toiminnallisuus-->
-				<td>
+                <td>
                     <?php echo $this->Html->link(
-                        'Kopioi uudeksi',
+                        'Kopioi',
                         array(
                             'controller' => 'polls', 
                             'action' => 'copy',
-                            $poll['Poll']['id'],
+                            $poll['Poll']['id']
                         ),
                         array(
                             'title' => 'Kopioi uudeksi kyselyksi'
-                        ),
-						'Oletko varma että haluat kopioida kyselyn uudeksi?'
+                        )
                     ); ?>
                 </td>
-				<!--Tässä loppuu-->
-				
                 <td><?php echo count($poll['Response']); ?></td>
             </tr>
         <?php endforeach; ?>
