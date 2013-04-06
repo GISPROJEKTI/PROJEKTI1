@@ -17,6 +17,7 @@ $( document ).ready(function() {
             <th>Nimi</th>
             <th>Testaa</th>
             <th>Julkinen</th>
+            <th>Kopioi</th>
             <th>Vastauksia</th>
         </tr>
     </thead>
@@ -59,6 +60,19 @@ $( document ).ready(function() {
                             array('action' => 'hashes', $poll['Poll']['id'])
                         ); 
                     } ?>
+                </td>
+                <td>
+                    <?php echo $this->Html->link(
+                        'Kopioi',
+                        array(
+                            'controller' => 'polls', 
+                            'action' => 'copy',
+                            $poll['Poll']['id']
+                        ),
+                        array(
+                            'title' => 'Kopioi uudeksi kyselyksi'
+                        )
+                    ); ?>
                 </td>
                 <td><?php echo count($poll['Response']); ?></td>
             </tr>
