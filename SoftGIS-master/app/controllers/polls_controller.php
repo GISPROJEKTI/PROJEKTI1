@@ -304,67 +304,6 @@ class PollsController extends AppController
 
     public function copy($id = null)
     {
-        //Haetaan tiedot kopioitavasta kyselystä
-        if (!empty($id)) {
-            $poll = $this->Poll->find(
-                'first',
-                array(
-                    'conditions' => array(
-                        'Poll.id' => $id
-                    ),
-                    'contain' => array(
-                        'Question',
-                        'Path' => array(
-                            'id',
-                            'name'
-                        ),
-                        'Marker' => array(
-                            'id',
-                            'name'
-                        ),
-                        'Overlay' => array(
-                            'id',
-                            'name'
-                        )
-                    )
-                )
-            );
-
-            //muutetaan kopioitavan kyselyn yksilöivät tiedot, että tämä voidaan tallentaa uutena
-            $poll['Poll']['id'] = null;
-            $poll['Poll']['name'] = $poll['Poll']['name'] . '_copy';
-            $poll['Poll']['author_id'] = $this->Auth->user('id');
-            $poll['Poll']['launch'] = null;
-            $poll['Poll']['end'] = null;
-            if (!empty($poll['Question'])){
-                foreach ($poll['Question'] as $i => $q) {
-                    $poll['Question'][$i]['id'] = null;
-                    $poll['Question'][$i]['poll_id'] = null;
-                }
-            }
-
-            //tallennetaan kysely
-            if (!empty($data['Question']) && $this->Poll->saveAll($data, array('validate'=>'first'))){
-                $this->Session->setFlash('Kysely tallennettu');
-                $this->redirect(array('action' => 'modify', $this->Poll->id));
-            } else {
-                $this->Session->setFlash('Tallentaminen epäonnistui');
-                $errors = $this->Poll->validationErrors;
-                foreach ($errors as $err) {
-                    $this->Session->setFlash($err);
-                }
-                //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
-                $this->redirect(array('action' => 'index'));
-            }
-        } else {
-            // jos kyselyä ei löytynyt
-            $this->cakeError('pollNotFound');
-            $this->redirect(array('action' => 'index'));
-        }
-    }
-
-    public function copy($id = null)
-    {
     //Kopioidaan parametrinä oleva kysely uudeksi kyselyksi kirjautuneelle käyttäjälle
         //Haetaan tiedot kopioitavasta kyselystä
         if (!empty($id)) {
