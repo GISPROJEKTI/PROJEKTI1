@@ -1,22 +1,41 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
 <?php
-echo $this->Html->script('chosen.jquery');
-echo $this->Html->script('chosen.jquery.min');
+
+
+    $query = mysql_query("SELECT id,name FROM `markers`");
+        $merkkiarray = array();
+        while ($row = mysql_fetch_assoc($query)){
+            $merkkiarray[]= $row; 
+        } 
+        
+    $query = mysql_query("SELECT * FROM `paths`");
+        $reittiarray = array();
+        while ($row = mysql_fetch_assoc($query)){
+            $reittiarray[]= $row; 
+        } 
+
+    $query = mysql_query("SELECT * FROM `overlays`");
+        $overlayarray = array();
+        while ($row = mysql_fetch_assoc($query)){
+            $overlayarray[]= $row; 
+        } 
 ?>
+
+<link rel="stylesheet" href="/uusi/css/select2.css" type="text/css">
+
+     
 <script>
 
-var pathSearchUrl = "<?php echo $this->Html->url(
-        array('controller' => 'paths', 'action' => 'search.json')
-    ); ?>";
 
-var markerSearchUrl = "<?php echo $this->Html->url(
-        array('controller' => 'markers', 'action' => 'search.json')
+var nameSearchUrl = "<?php echo $this->Html->url(
+        array('controller' => 'polls', 'action' => 'search.json')
     ); ?>";
-
-var overlaySearchUrl = "<?php echo $this->Html->url(
-        array('controller' => 'overlays', 'action' => 'search.json')
-    ); ?>";
+var pathSearchUrl = <?php echo json_encode($reittiarray); ?>;
+ 
+var markerSearchUrl = <?php echo json_encode($merkkiarray); ?>;
+ 
+var overlaySearchUrl = <?php echo json_encode($overlayarray); ?>;
 
 var locationPicker;
 
@@ -148,12 +167,14 @@ $( document ).ready(function() {
     // Init lockation picker
     locationPicker = $( "#loc-picker" ).locationpicker();
 
-    var merkit = pathSearchUrl;
+    
 
-    // Path selector init
+     // Path selector init
     $( "#paths" ).tokenInput(pathSearchUrl, {
         prePopulate: viewModel.paths(),
+        noResultsText : 'Reittiä ei löytynyt, Lisää reitti  "Luo reitti" välilehden kautta',
         preventDuplicates: true,
+        minChars: 0,
         onAdd: function(item) {
             viewModel.paths.push( item );
         },
@@ -161,24 +182,30 @@ $( document ).ready(function() {
             viewModel.paths.remove( item );
         }
     });
-
+ 
     // Marker selector init
     $( "#markers" ).tokenInput(markerSearchUrl, {
         prePopulate: viewModel.markers(),
+        noResultsText : 'Merkkiä ei löytynyt, Lisää merkki  "Karttamerkit" välilehden kautta',
+        minChars: 0,
         preventDuplicates: true,
         onAdd: function(item) {
             viewModel.markers.push( item );
+           
         },
         onDelete: function(item) {
             viewModel.markers.remove( item );
         }
     });
-
+ 
     $( "#overlays" ).tokenInput(overlaySearchUrl, {
         prePopulate: viewModel.overlays(),
         preventDuplicates: true,
+        minChars: 0,
+        noResultsText : 'Kuvaa ei löytynyt, Lisää kuva  "Tuo kuva" välilehden kautta',
         onAdd: function(item) {
             viewModel.overlays.push( item );
+ 
         },
         onDelete: function(item) {
             viewModel.overlays.remove( item );
