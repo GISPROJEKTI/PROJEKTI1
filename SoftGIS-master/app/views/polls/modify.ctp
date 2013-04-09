@@ -1,9 +1,7 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
 <?php
-    debug($vittusaatana);
-    die;
-
+   
     $query = mysql_query("SELECT id,name FROM `markers`");
         $merkkiarray = array();
         while ($row = mysql_fetch_assoc($query)){
@@ -136,7 +134,7 @@ Question.prototype.toggle = function() {
     this.visible( !this.visible() );
     
 }
-Question.prototype.poista = function(){
+Question.prototype.delete = function(){
     kohta = this.num();
     var ok = confirm("Haluatko varmasti poistaa kysymyksen "+ kohta + questions.length);
         
@@ -216,7 +214,7 @@ $( document ).ready(function() {
             viewModel.markers.remove( item );
         }
     });
- 
+        
     $( "#overlays" ).tokenInput(overlaySearchUrl, {
         prePopulate: viewModel.overlays(),
         preventDuplicates: true,
@@ -372,7 +370,7 @@ $( document ).ready(function() {
             <td class="button" data-bind="click: toggle">
                 <div class="expand">Näytä</div>
             </td>
-            <td class="button" data-bind="click: poista">
+            <td class="button" data-bind="click: delete">
                 <div class="expand">Poista</div>
             </td>
 
