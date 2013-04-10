@@ -1,7 +1,12 @@
 <?php echo $this->Html->script('locationpicker'); ?>
+<?php echo $this->Html->script('knockout-sortable'); ?>
+
+<?php echo $this->Html->script('knockout-sortable.min'); ?>
+
 
 <?php
-   
+    
+
     $query = mysql_query("SELECT id,name FROM `markers`");
         $merkkiarray = array();
         while ($row = mysql_fetch_assoc($query)){
@@ -21,7 +26,6 @@
         } 
 ?>
 
-<link rel="stylesheet" href="/uusi/css/select2.css" type="text/css">
 
      
 <script>
@@ -43,6 +47,25 @@ var questions = [];
 _.each(questionDatas, function(data) {
     questions.push(new Question(data));
 });
+//connect items with observableArrays
+  ko.bindingHandlers.sortableList = {
+      init: function(element, valueAccessor) {
+          var list = valueAccessor();
+          $(element).sortable({
+              update: function(event, ui) {
+                  //retrieve our actual data item
+                  var item = ui.item.tmplItem().data;
+                  //figure out its new position
+                  var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
+                  //remove the item and add it back in the right spot
+                  if (position >= 0) {
+                      list.remove(item);
+                      list.splice(position, 0, item);
+                  }
+              }
+          });
+      }
+  };
 
 var viewModel = {
 
@@ -134,7 +157,7 @@ Question.prototype.toggle = function() {
     this.visible( !this.visible() );
     
 }
-Question.prototype.delete = function(){
+Question.prototype.poista = function(){
     kohta = this.num();
     var ok = confirm("Haluatko varmasti poistaa kysymyksen "+ kohta + questions.length);
         
@@ -179,12 +202,19 @@ Question.prototype.pickLocation = function() {
 }
 
 $( document ).ready(function() {
+    $('h1').dblclick(function(){
+         $('h1').effect('bounce', {times:3},500);
+
+    });
+
+    
     ko.applyBindings( viewModel );
+
+
 
     // Init lockation picker
     locationPicker = $( "#loc-picker" ).locationpicker();
 
-    
 
      // Path selector init
     $( "#paths" ).tokenInput(pathSearchUrl, {
@@ -214,7 +244,7 @@ $( document ).ready(function() {
             viewModel.markers.remove( item );
         }
     });
-        
+ 
     $( "#overlays" ).tokenInput(overlaySearchUrl, {
         prePopulate: viewModel.overlays(),
         preventDuplicates: true,
@@ -233,10 +263,7 @@ $( document ).ready(function() {
         //Tarkistetaan että tarvittavat tiedot löytyvät lähetettävästä lomakkeesta
         var kaikkiok = true;
 
-   /*     if(name_exists(viewModel.poll.name())=== true){
-            alert("Nimi on jo olemassa");
-            return false;
-        }*/
+
 
         if(viewModel.poll.name() === null){
             alert("Anna kyselylle nimi");
@@ -259,7 +286,7 @@ $( document ).ready(function() {
             $( "#data" ).val( data ); 
 
         }else{
-            alert("Äitisi oli ryhävalas");
+            alert("Anna kysymyksille nimet ");
             return false;
 
         }
@@ -311,19 +338,19 @@ $( document ).ready(function() {
 </div>
 
 
-<div class="input">
+<div class="input" id="jepajee">
     <label>Kysymykset</label>
     <ul id="questions" 
-        data-bind="template: {
+        data-bind=" template: {
             name: 'questionTmpl',
             foreach: questions
-        }">
+        },sortableList: questions">
     </ul>
     <button type="button" id="create-question" data-bind="click: newQuestion">
         Luo uusi kysymys
     </button>
-    
-    <!-- Tässä kysymykseen poistoa varten tekstikenttä ja nappi, nappi kutsuu klikatessa poisto-funktiota-->
+   
+     <!-- Tässä kysymykseen poistoa varten tekstikenttä ja nappi, nappi kutsuu klikatessa poisto-funktiota-->
     <hr/>
     <label>Poistettavan kysymyksen numero</label>
     <input type="text" class="small" name="arvo" id="arvo" value="" maxlength="3"/> <br/>     
@@ -370,7 +397,7 @@ $( document ).ready(function() {
             <td class="button" data-bind="click: toggle">
                 <div class="expand">Näytä</div>
             </td>
-            <td class="button" data-bind="click: delete">
+            <td class="button" data-bind="click: poista">
                 <div class="expand">Poista</div>
             </td>
 

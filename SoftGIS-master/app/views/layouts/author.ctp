@@ -26,7 +26,7 @@
         echo $this->Html->script('ui.spinner.min');
         echo $this->Html->script('jquery.qtip.min');
         echo $this->Html->script('jquery.tmpl.min');
-        echo $this->Html->script('knockout-1.2.1.debug');
+        echo $this->Html->script('knockout-2.2.1');
         // echo $this->Html->script('knockout-1.2.1');
         echo $this->Html->script('knockout.mapping');
         // echo $this->Html->script('jquery.meow');
