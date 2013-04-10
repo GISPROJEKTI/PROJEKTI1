@@ -1,33 +1,10 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
-<?php
-    debug($vittusaatana);
-    die;
-
-    $query = mysql_query("SELECT id,name FROM `markers`");
-        $merkkiarray = array();
-        while ($row = mysql_fetch_assoc($query)){
-            $merkkiarray[]= $row; 
-        } 
-        
-    $query = mysql_query("SELECT * FROM `paths`");
-        $reittiarray = array();
-        while ($row = mysql_fetch_assoc($query)){
-            $reittiarray[]= $row; 
-        } 
-
-    $query = mysql_query("SELECT * FROM `overlays`");
-        $overlayarray = array();
-        while ($row = mysql_fetch_assoc($query)){
-            $overlayarray[]= $row; 
-        } 
-?>
 
 <link rel="stylesheet" href="/uusi/css/select2.css" type="text/css">
 
      
 <script>
-
 
 var nameSearchUrl = "<?php echo $this->Html->url(
         array('controller' => 'polls', 'action' => 'search.json')

@@ -2,6 +2,10 @@
 
 class PollsController extends AppController
 {
+    //Asetetaan muita tauluja controllerin käyttöön.
+    //Netissä sanottiin, että tällainen on 'huonoa ohjelmointitapaa', mutta se toimii.
+    var $uses = array('Poll', 'Marker', 'Path', 'Overlay');
+
     public function beforeFilter()
     {
         parent::beforeFilter();
@@ -216,6 +220,35 @@ class PollsController extends AppController
                 'Overlay' => array()
             );
         }
+
+        //Haetaan kaikki allamainitut elementit valintalsitojen käyttöön
+        //Netissä sanottiin, että tällainen on 'huonoa ohjelmointitapaa', mutta se toimii.
+
+        //Haetaan merkit
+        $markers = $this->Marker->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $merkkiarray = array();
+        foreach ($markers as $marker) {
+            array_push($merkkiarray, $marker['Marker']);
+        }
+        $this->set('merkkiarray',$merkkiarray);
+
+        //Haetaan polut
+        $paths = $this->Path->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $reittiarray = array();
+        foreach ($paths as $path) {
+            array_push($reittiarray, $path['Path']);
+        }
+        $this->set('reittiarray',$reittiarray);
+
+        //Haetaan overlayt
+        $overlays = $this->Overlay->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $overlayarray = array();
+        foreach ($overlays as $overlay) {
+            array_push($overlayarray, $overlay['Overlay']);
+        }
+        $this->set('overlayarray',$overlayarray);
+
+
 
         // Save
         if (!empty($this->data)) {

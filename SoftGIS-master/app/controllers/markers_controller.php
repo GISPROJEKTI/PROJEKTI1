@@ -24,7 +24,6 @@ class MarkersController extends AppController
             } else {
                 $this->Marker->create();
             }
-<<<<<<< HEAD
             if(!empty($this->data['Marker']['name'])){
                 if ($this->Marker->save($this->data)) {
                     $this->Session->setFlash('Karttamerkki tallennettu');
@@ -35,13 +34,6 @@ class MarkersController extends AppController
                 
             }else{
                 $this->Session->setFlash('Anna merkille nimi'); 
-=======
-            if ($this->Marker->save($this->data)) {
-                $this->Session->setFlash('Karttamerkki tallennettu');
-                $this->redirect(
-                    array('controller' => 'markers', 'action' => 'index')
-                );
->>>>>>> origin/Ville-haara
             }
         } else {
             $this->Marker->recursive = -1;
