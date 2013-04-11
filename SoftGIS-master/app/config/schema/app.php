@@ -117,6 +117,51 @@ class AppSchema extends CakeSchema
             'null' => true,
             'default' => 12
         ),
+		'choice1' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice2' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice3' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice4' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice5' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice6' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice7' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'choice8' => array(
+            'type' => 'string',
+            'null' => true,
+            'default' => null
+        ),
+		'otherchoice' => array(
+            'type' => 'boolean',
+            'null' => false,
+            'default' => 0
+        ),
         'answer_location' => array(
             'type' => 'boolean',
             'null' => false,
@@ -130,6 +175,11 @@ class AppSchema extends CakeSchema
         'comments' => array(
             'type' => 'boolean',
             'null' => false,
+            'default' => 0
+        ),
+        'map_type' => array(
+            'type' => 'integer',
+            'null' => true,
             'default' => 0
         ),
     );
@@ -180,6 +230,11 @@ class AppSchema extends CakeSchema
         ),
         'lng' => array(
             'type' => 'float',
+            'null' => true,
+            'default' => null
+        ),
+        'map' => array(
+            'type' => 'text',
             'null' => true,
             'default' => null
         ),

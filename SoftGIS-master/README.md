@@ -29,8 +29,15 @@
  5. Jos et saa konsolia toimimaan voit luoda tietokannan käsin `Gis tietokannan taulujen luontikomennot.txt` tiedoston avulla.
 7. Muut asetukset
  1. Aseta riittävät käyttöoikeudet väliaikaiskansioihin: `app/tmp`, `app/tmp/cache`, `app/tmp/cache/models`, `app/tmp/cache/presistent` ja `app/tmp/cache/views`.
- 2. Jos sivusto toimii, hyvä. Jos ei, niin voi olla että palvelimesi mod_rewrite (.htaccess) toiminto ei ole käytössä. [Lisätietoja.](http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Installation.html)
+ 2. Karttakuvien vientiin tarvitaan oikeudet myös `\app\webroot\img\overlays` -kansioon
+ 3. Jos sivusto toimii, hyvä. Jos ei, niin voi olla että palvelimesi mod_rewrite (.htaccess) toiminto ei ole käytössä. [Lisätietoja.](http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Installation.html)
+ 8. Voit luoda käyttäjän järjestelmään menemällä osoitteeseen [palvelimesi gis ohjelman asennuspolku]/authors/register joka ohjaa sisäänkirjautumissivulle
 
 ## CakePHP:n versio
 
 CakePHP versio 1.3.10
+
+
+## Tietoturva
+- SQL injektioiden esto:
+ - CakePHP:n vakoturva: http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Data-Sanitization.html#data-sanitization

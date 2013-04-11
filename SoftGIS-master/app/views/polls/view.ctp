@@ -1,3 +1,19 @@
+<?php
+if(isset($_POST['submit'])) {
+	if($poll['public'] == 1) {
+		$id = $poll['id'];
+		$query = "UPDATE `polls` SET `public` = 0 WHERE `id` = $id";
+		mysql_query($query);
+		header('Location: ' . $_SERVER['REQUEST_URI']);
+	} else if ($poll['public'] == 0) {
+		$id = $poll['id'];
+		$query = "UPDATE `polls` SET `public` = 1 WHERE `id` = $id";
+		mysql_query($query);
+		header('Location: ' . $_SERVER['REQUEST_URI']);
+	}
+}
+?>
+
 <script>
 
 $(document).ready(function() {
@@ -23,7 +39,6 @@ $(document).ready(function() {
 
 
 </script>
-
 
 <h2><?php echo $poll['name']; ?></h2>
 
@@ -117,7 +132,18 @@ $(document).ready(function() {
     </tr>
     <tr>
         <th>Kaikille avoin</th>
-        <td><?php echo $poll['public'] ? 'Kyllä' : 'Ei'; ?></td>
+        <td><?php echo $poll['public'] ? 'Kyllä' : 'Ei'; ?>
+ 
+             <?php if ($poll['public'] == 1) {
+                echo $this->Html->link('Muuta suljetuksi',
+                    array('action' => 'openClosed',$poll['id']),
+                    array('class' => 'button','title' => 'Muuta kysely suljetuksi'));
+            } else {
+                echo $this->Html->link('Muuta avoimeksi',
+                    array('action' => 'openClosed',$poll['id']),
+                    array('class' => 'button','title' => 'Muuta kysely avoimeksi'));
+            } ?>
+        </td>
     </tr>
     <tr>
         <th>Kuvaus</th>
@@ -127,28 +153,20 @@ $(document).ready(function() {
         <th>Kiitosteksti</th>
         <td><?php echo $poll['thanks_text']; ?></td>
     </tr>
-    <tr>
-        <th>Vastausosoite</th>
-        <td>
-            <?php if ($poll['public'] == 0) {
-                echo $this->Html->link(
-                    'Katso varmenteet',
-                    array(
-                        'action' => 'hashes',
-                        $poll['id']
-                    )
-                );
-            }else{
-                echo FULL_BASE_URL . $this->Html->url(
-                    array(
-                        'controller' => 'answers',
-                        'action' => 'index',
-                        $poll['id']
-                    )
-                );
-            }; ?>
-        </td>
-    </tr>
+</table>
+
+<h3>Karttamerkit</h3>
+<table class="details">
+    <?php if (!empty($markers)): ?>
+        <?php foreach ($markers as $marker): ?>
+            <tr>
+                <th class="mediumfixed"><?php echo $marker['name']; ?></th>
+                <td><?php echo $marker['content']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttamerkkejä</td></tr>
+    <?php endif; ?>
 </table>
 
 <h3>Reitit ja alueet</h3>
@@ -165,17 +183,17 @@ $(document).ready(function() {
     <?php endif; ?>
 </table>
 
-<h3>Karttamerkit</h3>
+<h3>Karttakuvat</h3>
 <table class="details">
-    <?php if (!empty($markers)): ?>
-        <?php foreach ($markers as $marker): ?>
+    <?php if (!empty($overlays)): ?>
+        <?php foreach ($overlays as $overlay): ?>
             <tr>
-                <th class="mediumfixed"><?php echo $marker['name']; ?></th>
-                <td><?php echo $marker['content']; ?></td>
+                <th class="mediumfixed"><?php echo $overlay['name']; ?></th>
+                <td> </td>
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
-        <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttamerkkejä</td></tr>
+        <tr><td>Kyselyn yhteydessä ei ole näytettäviä karttakuvia</td></tr>
     <?php endif; ?>
 </table>
 

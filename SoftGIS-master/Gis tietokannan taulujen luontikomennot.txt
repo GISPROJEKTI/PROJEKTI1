@@ -5,6 +5,7 @@ CREATE TABLE `answers` (
   `answer` text NOT NULL,
   `lat` float DEFAULT NULL,
   `lng` float DEFAULT NULL,
+  `map` text,
   PRIMARY KEY (`id`)
 );
 
@@ -103,9 +104,19 @@ CREATE TABLE `questions` (
   `lat` float DEFAULT NULL,
   `lng` float DEFAULT NULL,
   `zoom` int(11) DEFAULT '12',
+  `choice1` varchar(255) DEFAULT NULL,
+  `choice2` varchar(255) DEFAULT NULL,
+  `choice3` varchar(255) DEFAULT NULL,
+  `choice4` varchar(255) DEFAULT NULL,
+  `choice5` varchar(255) DEFAULT NULL,
+  `choice6` varchar(255) DEFAULT NULL,
+  `choice7` varchar(255) DEFAULT NULL,
+  `choice8` varchar(255) DEFAULT NULL,
+  `otherchoice` tinyint(1) NOT NULL DEFAULT '0',
   `answer_location` tinyint(1) NOT NULL DEFAULT '0',
   `answer_visible` tinyint(1) NOT NULL DEFAULT '0',
   `comments` tinyint(1) NOT NULL DEFAULT '0',
+  `map_type` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 

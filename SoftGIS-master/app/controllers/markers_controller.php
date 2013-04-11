@@ -18,17 +18,24 @@ class MarkersController extends AppController
     public function edit($id = null)
     {
         if (!empty($this->data)) {
-            // debug($this->data);die;
+             //debug($this->data);die;
             if ($id != null) {
                 $this->Marker->id = $id;
             } else {
                 $this->Marker->create();
             }
-            if ($this->Marker->save($this->data)) {
-                $this->Session->setFlash('Karttamerkki tallennettu');
-                $this->redirect(
-                    array('controller' => 'markers', 'action' => 'index')
-                );
+
+            if(!empty($this->data['Marker']['name'])){
+                if ($this->Marker->save($this->data)) {
+                    $this->Session->setFlash('Karttamerkki tallennettu');
+                    $this->redirect(
+                        array('controller' => 'polls', 'action' => 'index')
+                    );
+                }
+                
+            }else{
+                $this->Session->setFlash('Anna merkille nimi'); 
+
             }
         } else {
             $this->Marker->recursive = -1;

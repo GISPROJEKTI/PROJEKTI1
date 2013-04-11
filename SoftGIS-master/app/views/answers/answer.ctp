@@ -7,7 +7,7 @@
 
 <script>
 var markerIconPath = "<?php echo $this->Html->url('/markericons/'); ?>";
-var overlayPath = "<?php echo $this->Html->url('/overlays/'); ?>";
+var overlayPath = "<?php echo $this->Html->url('/img/overlays/'); ?>";
 var publicAnswersPath = "<?php echo $this->Html->url('/answers/publicanswers.json'); ?>";
 var publicAnswerIcon = "<?php echo $this->Html->url('/img/public_answer.png'); ?>";
 var answerIcon = "<?php echo $this->Html->url('/img/answer.png'); ?>";
@@ -23,7 +23,7 @@ $( document ).ready(function() {
 
     answerApp = AnswerApp.init({
         el: $("body"),
-        data: data
+        data: data,
     });  
 
     // Help toggle
@@ -48,11 +48,12 @@ $( document ).ready(function() {
 
 <div class="help">
     <h2>Vastausohjeet</h2>
-    <p>Kyselyyn vastataan joko tekstikenttään tai monivalintaan.</p>
-    <p>Lisäksi kysymykseen voi liittyä paikanmääritys. Paikka määritetään kartan kohtaa klikkaamalla. Tällöin kartalle ilmestyy punainen karttamerkki merkitsemään valittua sijaintia. Jos valittua sijaintia haluaa muuttaa, voi karttamerkkiä raahata hiirellä.</p>
-    <h2>Kartta</h2>
-    <p>Joidenkin kysymysten yhteydessä voi näkyä kartta kysymykseen liittyvältä alueelta. Karttaa voi liikuttaa ja zoomata, mutta oletusarvoisesti se on kyselyn laatijan määräämässä sijannissa.</p>
-    <p>Kartalla voi näkyä kyselyyn liittyviä karttamerkkejä, kuvia sekä reittejä.</p>
+    <p>Kyselyyn vastataan joko tekstikenttään tai monivalintaan, sekä mahdolliseen karttavastaukseen.</p>
+    <p>Monivalinnassa valitse vaihtehdoista mielestäsi asiaa parhaiten kuvaava vaihtoehto.</p>
+    <p>Joidenkin kysymysten yhteydessä kartalla voi näkyä kysymykseen liittyvältä karttamerkkejä, reittejä, alueita sekä kuvia.</p>
+    <h2>Karttaan vastaaminen</h2>
+    <p> Karttaa voi liikuttaa hiirellä vetämällä ja zoomata hiiren rullalla, mutta oletusarvoisesti se on kyselyn laatijan määräämässä sijannissa.</p>
+    <p>Kysymyksestä riippuen, karttaan joko ei voi vastata, siihen voi laittaa merkin, useita merkkejä, polun tai alueen. Nämät kaikki asetetaan klikkaamalla karttaan hiiren ensimmäisellä painikkeella. Kartalla olevaa pistettä voi vetää hiirellä paikasta toiseen ja toisella hiiren painikkeella poistaa. Poluissa ja alueissa kulmapisteiden välissä olevista pallukoista vetämällä voi luoda uuden kulmapisteen.</p>
 </div>
 
 <script id="welcomeTmpl" type="text/x-jquery-tmpl">
@@ -70,44 +71,83 @@ $( document ).ready(function() {
 </script>
 
 <script id="questionTmpl" type="text/x-jquery-tmpl">
+    <div class="answerNav">
+        <table class="answer"><tr>
+            <td><button type="button" class="prevQues" id = "prev">Edellinen kysymys</button></td>
+            <td><div class="info" id="info">Kysymys numero #</div></td>
+            <td><button type="button" class="nextQues">Seuraava kysymys</button></td>
+        </tr></table>
+    </div>
     <h3>${text}</h3>
     <div class="answer-field">
         <div class="input">
             {{if type == 1}}
-                <textarea name="text"></textarea>
+                <textarea name="text" id="texta"></textarea>
             {{else type == 2}}
-                <input type="radio" name="text" value="Kyllä"/>Kyllä
-                <input type="radio" name="text" value="Ei"/>Ei
-                <input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa
+                <input type="radio" name="texts" class="joo"  id="1" value="Kyllä"/>Kyllä
+                <input type="radio" name="text" id="2" value="Ei"/>Ei
+                <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoaa
             {{else type == 3}}
-                <table class="answer"><tr>
-                <td id="answerColumText">${low_text}</td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="1"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="2"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="3"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="4"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="5"/></td>
-                <td id="answerColumText">${high_text}</td>
-                <td id="answerColumEos"><input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa</td>
-                </tr></table>
+                ${low_text}
+                <input type="radio" name="text" class="1" id="1" value="1"/>
+                <input type="radio" name="text" id="2" value="2"/>
+                <input type="radio" name="text" id="3" value="3"/>
+                <input type="radio" name="text" id="4" value="4"/>
+                <input type="radio" name="text" id="5" value="5"/>
+                ${high_text}
+                <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoa
             {{else type == 4}}
-                <table class="answer"><tr>
-                <td id="answerColumText">${low_text}</td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="1"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="2"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="3"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="4"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="5"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="6"/></td>
-                <td id="answerColumRadio"><input type="radio" name="text" value="7"/></td>
-                <td id="answerColumText">${high_text}</td>
-                <td id="answerColumEos"><input type="radio" name="text" value="En osaa sanoa"/>En osaa sanoa</td>
-                </tr></table>
+                ${low_text}
+                <input type="radio" name="text" class="1"  id="1" value="1"/>
+                <input type="radio" name="text" id="2" value="2"/>
+                <input type="radio" name="text" id="3" value="3"/>
+                <input type="radio" name="text" id="4" value="4"/>
+                <input type="radio" name="text" id="5" value="5"/>
+                <input type="radio" name="text" id="6" value="6"/>
+                <input type="radio" name="text" id="7" value="7"/>
+                ${high_text}
+                <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoa
+				<!-- Tämä valitaan jos kysely on monivalinta-->
+			{{else type == 5}}
+				{{if choice1 != null}}
+					${choice1}
+					<input type="checkbox" name="text" value="${choice1}"/>
+				{{/if}}
+				{{if choice2 != null}}
+					${choice2}
+					<input type="checkbox" name="text" value="${choice2}"/>
+				{{/if}}
+				{{if choice3 != null}}
+					${choice3}
+					<input type="checkbox" name="text" value="${choice3}"/>
+				{{/if}}
+				{{if choice4 != null}}
+					${choice4}
+					<input type="checkbox" name="text" value="${choice4}"/>
+				{{/if}}
+				{{if choice5 != null}}
+					${choice5}
+					<input type="checkbox" name="text" value="${choice5}"/>
+				{{/if}}
+				{{if choice6 != null}}
+					${choice6}
+					<input type="checkbox" name="text" value="${choice6}"/>
+				{{/if}}
+				{{if choice7 != null}}
+					${choice7}
+					<input type="checkbox" name="text" value="${choice7}"/>
+				{{/if}}
+				{{if choice8 != null}}
+					${choice8}
+					<input type="checkbox" name="text" value="${choice8}"/>
+				{{/if}}
+				{{if otherchoice != 0}}
+					Joku muu, mikä?
+					<input type="text" class="small" name="other" value=""/>
+				{{/if}}
+			<!-- Loppuu tähän-->
             {{/if}}
         </div>
-    </div>
-    <div class="answerNav">
-        <button type="button" class="submit">Seuraava kysymys</button>
     </div>
 </script>
 
@@ -121,9 +161,9 @@ $( document ).ready(function() {
 <div class="answer">
     <div id="noAnswerCont">
         <input type="checkbox" id="noAnswer" />
-        <label>En halua vastata kysymykseen</label>
+        <label>En halua vastata kartlle</label>
     </div>
-    <div id="map" class="map">
+        <div id="map" class="map">
     </div>
 </div>
 <form method="POST" 

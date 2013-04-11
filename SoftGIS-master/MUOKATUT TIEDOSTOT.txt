@@ -1,18 +1,49 @@
-KYSELYN POISTAMINEN:
-
-answers_controller (delete funktio kyselyn poistamiselle, duplicate funktio kyselyn kopioinnille)
-
-views/polls/index (kyselyn poisto nappi ja varmistus, kyselyn kopiointi nappi ja varmistus)
+KYSELYN POISTAMINEN,KYSYMYKSEN POISTAMINEN, KYSELYN KOPIOINTI, SAMANNIMINEN KYSELY, MONIVALINTA, MERKIT SELKOKIELELLƒ
 
 
-KYSYMYKSEN POISTAMINEN:
+answers_controller:
+-delete funktio kyselyn poistamiselle 
+-duplicate funktio kyselyn kopioinnille
 
-polls_controller (kysymykset poistetaan pollin id:n perusteella, samannimisen kyselyn tallentaminen=sulut ja numero per‰‰n)
+views/polls/index: 
+-kyselyn poisto nappi ja varmistus 
+-kyselyn kopiointi nappi ja varmistus
 
-views/polls/modify (Nappi & tekstikentt‰ kysymyksen poistamiselle, deleteQuestion funktio, setNum, getNum, getText, Merkit->Karttamerkit)
 
 
-MERKIT SELKOKIELELLƒ:
+
+polls_controller:
+-kysymykset poistetaan pollin id:n perusteella 
+-samannimisen kyselyn tallentaminen=sulut ja numero per‰‰n
+-$answers arrayhin monivalinta kohta
+-jsonToPollModel funktioon otherchoicelle vastaava kentt‰ kuin answer_visible
+
+views/polls/modify:
+-Nappi & tekstikentt‰ kysymyksen poistamiselle
+-deleteQuestion funktio, setNum, getNum, getText 
+-Merkit->Karttamerkit 
+-Monivalinta-jutut (Questioniin valinnoille omat muuttujat, viewmodeliin uus vaihtoehto,
+tekstikenttien ja joku muu mik‰ n‰kyminen kun "Monivalinta" valitaan listasta, huom otherchoicelle eri databind ja question muuttujan parametrit)
+
+app/config/schema/app.php
+-Lis‰t‰‰n fieldit choice1-choice9 listaan
+
+app/webroot/js/models/question.js
+-Lis‰t‰‰n fieldit choice1-choice9 listaan
+
+views/answers/answer.ctp
+-Lis‰t‰‰n viides vaihtoehto monivalintaa varten
+
+answerApp.js
+-Jos kysely on monivalinta loopataan kaikki valitut answerVal valueen putkeen pilkulla erotettuna
+-Tallennetaan joku muu mik‰ vain jos siin‰ on teksti‰
+-SetNotesiin omat iffit monivalinnalle ett‰ osaa p‰‰st‰‰ kysymyksess‰ eteenp‰in oikein
+
+Tietokanta:
+-Uudet fieldit kaikille vaihtoehdoille "Monivalinta" vaatimukseen
+
+Muuta:
+-
 
 Poista vaan tiedostop‰‰tteet markericons kansion kuvista
 
@@ -25,4 +56,4 @@ Poista vaan tiedostop‰‰tteet markericons kansion kuvista
 
 
 
-Ville 21.3
+Ville 3.4

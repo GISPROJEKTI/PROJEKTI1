@@ -1,5 +1,9 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
+<?php
+echo $this->Html->script('chosen.jquery');
+echo $this->Html->script('chosen.jquery.min');
+?>
 <script>
 
 var pathSearchUrl = "<?php echo $this->Html->url(
@@ -37,7 +41,26 @@ var viewModel = {
         { id: 1, label: "Teksti" },
         { id: 2, label: "Kyllä, Ei, En osaa sanoa" },
         { id: 3, label: "1-5, En osaa sanoa" },
-        { id: 4, label: "1-7, En osaa sanoa" }
+        { id: 4, label: "1-7, En osaa sanoa" },
+		{ id: 5, label: "Monivalinta (max 9)" }
+    ],
+    // List of map types on question
+    mapTypes: [
+        { id: 0, label: "Ei karttaa" },
+        { id: 1, label: "Kartta, ei vastausta" },
+        { id: 2, label: "Kartta, 1 markkeri" },
+        { id: 3, label: "Kartta, monta markkeria" },
+        { id: 4, label: "Kartta, polku" },
+        { id: 5, label: "Kartta, alue" }
+    ],
+    // List of map types on question
+    mapTypes: [
+        { id: 0, label: "Ei karttaa" },
+        { id: 1, label: "Kartta, ei vastausta" },
+        { id: 2, label: "Kartta, 1 markkeri" },
+        { id: 3, label: "Kartta, monta markkeria" },
+        { id: 4, label: "Kartta, polku" },
+        { id: 5, label: "Kartta, alue" }
     ],
     newQuestion: function() {
         var question = new Question({
@@ -93,6 +116,22 @@ function Question(data, visible) {
     this.high_text = ko.observable( data.high_text ? data.high_text : null );
     this.latlng = ko.observable( data.latlng ? data.latlng : null );
     this.zoom = ko.observable( data.zoom ? data.zoom : null );
+<<<<<<< HEAD
+=======
+	
+	this.choice1 = ko.observable( data.choice1 ? data.choice1 : null );
+	this.choice2 = ko.observable( data.choice2 ? data.choice2 : null );
+	this.choice3 = ko.observable( data.choice3 ? data.choice3 : null );
+	this.choice4 = ko.observable( data.choice4 ? data.choice4 : null );
+	this.choice5 = ko.observable( data.choice5 ? data.choice5 : null );
+	this.choice6 = ko.observable( data.choice6 ? data.choice6 : null );
+	this.choice7 = ko.observable( data.choice7 ? data.choice7 : null );
+	this.choice8 = ko.observable( data.choice8 ? data.choice8 : null );
+	
+	this.otherchoice = ko.observable( data.otherchoice && data.otherchoice != "0" ? true : null );
+	
+>>>>>>> Monivalinta lisätty
+    this.map_type = ko.observable( data.map_type ? data.map_type : null );
 
     // Pfft, Cake thinks 0 is false
     this.answer_location = ko.observable( 
@@ -110,6 +149,7 @@ function Question(data, visible) {
 
 Question.prototype.toggle = function() {
     this.visible( !this.visible() );
+    
 }
 
 Question.prototype.getNum = function() {
@@ -143,6 +183,7 @@ $( document ).ready(function() {
     // Init lockation picker
     locationPicker = $( "#loc-picker" ).locationpicker();
 
+    var merkit = pathSearchUrl;
 
     // Path selector init
     $( "#paths" ).tokenInput(pathSearchUrl, {
@@ -176,12 +217,43 @@ $( document ).ready(function() {
         },
         onDelete: function(item) {
             viewModel.overlays.remove( item );
-        }
+        } 
     });
 
     $( "#saveButton" ).click(function() {
-        var data = ko.toJSON(viewModel);
-        $( "#data" ).val( data );
+        //Tarkistetaan että tarvittavat tiedot löytyvät lähetettävästä lomakkeesta
+        var kaikkiok = true;
+
+   /*     if(name_exists(viewModel.poll.name())=== true){
+            alert("Nimi on jo olemassa");
+            return false;
+        }*/
+
+        if(viewModel.poll.name() === null){
+            alert("Anna kyselylle nimi");
+            return false;
+
+        }
+        if(questions.length === 0){
+            alert("lisää kysymyksiä");
+            return false;
+        }
+        questions.forEach(function(i){
+            if( i.text() == null || i.text() == ""){
+                kaikkiok = false;
+            }
+        });
+
+        if(kaikkiok){
+
+            var data = ko.toJSON(viewModel);
+            $( "#data" ).val( data ); 
+
+        }else{
+            alert("Äitisi oli ryhävalas");
+            return false;
+
+        }
     });
 });
 
@@ -192,7 +264,7 @@ $( document ).ready(function() {
 <!-- Form -->
 <div class="input text">
     <label>Nimi</label>
-    <input type="text" data-bind="value: poll.name" />
+    <input type="text" data-bind="value: poll.name" placeholder="Anna nimi", required =  "true" />
 </div>
 
 <div class="input textarea">
@@ -219,6 +291,10 @@ $( document ).ready(function() {
     <label>Karttamerkit</label>
     <input type="text" id="markers" />
 </div>
+
+
+
+
 
 <div class="input text">
     <label>Kuvat</label>
@@ -251,7 +327,7 @@ $( document ).ready(function() {
 
 <form method="post">
     <input type="hidden" name="data" id="data"/>
-    <button type="submit" id="saveButton">
+    <button type="submit" id="saveButton"  onsubmit="">
         Tallenna kysely
     </button>
     <?php 
@@ -291,7 +367,7 @@ $( document ).ready(function() {
 
         <div class="input textarea">
             <label>Kysymys</label>
-            <textarea class="text" data-bind="value: text"></textarea> 
+            <textarea class="text" data-bind="value: text" required = "1"></textarea> 
         </div>
 
         <div class="input select">
@@ -301,7 +377,7 @@ $( document ).ready(function() {
                 value: type" />
         </div>
 
-        <div class="input text" data-bind="visible: type() > 2">
+        <div class="input text" data-bind="visible: type() == 3 || type() == 4">
             <label>Ääripäiden tekstit</label>
             <div>
                 <div class="inline">
@@ -318,8 +394,83 @@ $( document ).ready(function() {
                 </div>
             </div>
         </div>
+		
+		<!-- Tässä mitä näytetään jos valitaan "Monivalinta" vastauslistasta-->
+		
+		<div class="input text" data-bind="visible: type() == 5">
+            <label>Vastauksen vaihtoehdot</label>
+			HUOM: Täytä niin monta kenttää kuin haluat vaihtoehtoja <br/>
+			<br/>
+			Jos valitset Joku muu mikä? -vaihtoehdon niin muiden vaihtoehtojen lisäksi vastaajalle näytetään tekstikenttä, johon hän voi kirjoittaa oman vaihtoehtonsa. <br/>
+			<br/>
+			<br/>
+            <div>
+                <div class="inline">
+                    <label>1. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice1"/>
+                </div>
+                <div class="inline">
+                    <label>2. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice2" />
+                </div>
+				<div class="inline">
+                    <label>3. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice3" />
+                </div>
+				<div class="inline">
+                    <label>4. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice4" />
+                </div>
+				<div class="inline">
+                    <label>5. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice5" />
+                </div>
+				<div class="inline">
+                    <label>6. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice6" />
+                </div>
+				<div class="inline">
+                    <label>7. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice7" />
+                </div>
+				<div class="inline">
+                    <label>8. vaihtoehto</label>
+                    <input type="text" 
+                        class="small" 
+                        data-bind="value: choice8" />
+                </div>
+				<div class="inline">
+                    <label>Joku muu, mikä?</label>
+                    <input type="checkbox" 
+                        class="small" 
+                        data-bind="checked: otherchoice" />
+                </div>
+            </div>
+        </div>
+		
+		<!-- Tässä loppuu-->
 
-        <div class="input text">
+        <div class="input select">
+            <label>Kartan tyyppi</label>
+            <select data-bind="options: viewModel.mapTypes,
+                optionsText: 'label', optionsValue: 'id',
+                value: map_type" />
+        </div>
+        <div class="input text" data-bind="visible: map_type() > 0">
             <label>Sijainti</label>
             <button class="pick-location" 
                 type="button"
@@ -342,23 +493,27 @@ $( document ).ready(function() {
             </div>
         </div>
 
+        <div class="input checkbox">
+            <input type="checkbox"
+                data-bind="checked: answer_visible" />
+            <label>Vastaukset näkyvissä muille vastaajille</label>
+        </div>
+    </div>
+</li>
+</script>
+
+<!-- Nämä palikat otettu pois ylläolevasta templatesta, koska en osaa kommentoida niitä piiloon:
+
         <div class="input checkbox" data-bind="visible: latlng()">
             <input type="checkbox"
                 data-bind="checked: answer_location" />
             <label>Kohteen merkitseminen kartalle</label>
         </div>
 
-        <div class="input checkbox">
-            <input type="checkbox"
-                data-bind="checked: answer_visible" />
-            <label>Vastaukset näkyvissä muille vastaajille</label>
-        </div>
-
-        <div class="input checkbox">
+        <div class="input checkbox data-bind="visible: answer_visible()">
             <input type="checkbox"
                 data-bind="checked: comments" />
             <label>Vastausten kommentointi</label>
         </div>
-    </div>
-</li>
-</script>
+-->
+
