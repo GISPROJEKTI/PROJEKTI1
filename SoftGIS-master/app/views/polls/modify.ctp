@@ -1,9 +1,5 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
-<?php
-echo $this->Html->script('chosen.jquery');
-echo $this->Html->script('chosen.jquery.min');
-?>
 <script>
 
 var pathSearchUrl = "<?php echo $this->Html->url(
@@ -42,16 +38,7 @@ var viewModel = {
         { id: 2, label: "Kyllä, Ei, En osaa sanoa" },
         { id: 3, label: "1-5, En osaa sanoa" },
         { id: 4, label: "1-7, En osaa sanoa" },
-		{ id: 5, label: "Monivalinta (max 9)" }
-    ],
-    // List of map types on question
-    mapTypes: [
-        { id: 0, label: "Ei karttaa" },
-        { id: 1, label: "Kartta, ei vastausta" },
-        { id: 2, label: "Kartta, 1 markkeri" },
-        { id: 3, label: "Kartta, monta markkeria" },
-        { id: 4, label: "Kartta, polku" },
-        { id: 5, label: "Kartta, alue" }
+	{ id: 5, label: "Monivalinta (max 9)" }
     ],
     // List of map types on question
     mapTypes: [
@@ -116,8 +103,6 @@ function Question(data, visible) {
     this.high_text = ko.observable( data.high_text ? data.high_text : null );
     this.latlng = ko.observable( data.latlng ? data.latlng : null );
     this.zoom = ko.observable( data.zoom ? data.zoom : null );
-<<<<<<< HEAD
-=======
 	
 	this.choice1 = ko.observable( data.choice1 ? data.choice1 : null );
 	this.choice2 = ko.observable( data.choice2 ? data.choice2 : null );
@@ -130,7 +115,6 @@ function Question(data, visible) {
 	
 	this.otherchoice = ko.observable( data.otherchoice && data.otherchoice != "0" ? true : null );
 	
->>>>>>> Monivalinta lisätty
     this.map_type = ko.observable( data.map_type ? data.map_type : null );
 
     // Pfft, Cake thinks 0 is false
@@ -250,7 +234,7 @@ $( document ).ready(function() {
             $( "#data" ).val( data ); 
 
         }else{
-            alert("Äitisi oli ryhävalas");
+            alert("Nimeä kaikki kysymykset");
             return false;
 
         }
