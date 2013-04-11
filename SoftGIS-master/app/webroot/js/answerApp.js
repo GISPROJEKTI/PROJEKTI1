@@ -155,7 +155,6 @@ var AnswerApp = Spine.Controller.create({
                 };
             }
         }
-<<<<<<< HEAD
 
         //Map answer
         if (this.answers[this.questionNum-1].loc != "") {
@@ -186,38 +185,6 @@ var AnswerApp = Spine.Controller.create({
         */
         var continueSubmit = true;
 
-=======
-
-        //Map answer
-        if (this.answers[this.questionNum-1].loc != "") {
-            this.map.setMapAnswer(this.answers[this.questionNum-1].loc);
-        }
-    },
-    nextQuestion: function() {
-        /*
-            When user has pressed the next question button
-        */
-        this.nextQuestionNum = this.questionNum +1;
-        this.setNotes();
-    },
-    prevQuestion: function() {
-        /*
-            When user has pressed the previous question button
-        */
-        if (this.questionNum > 1) {
-            //ollaan ensimmäisessä kysymyksessa
-            this.nextQuestionNum = this.questionNum -1;
-            //tähän joku huomaustus??
-        }
-        this.removeNotes();
-    },
-    setNotes: function() {
-        /*
-            Check that user has answered all the fields needed at this question
-        */
-        var continueSubmit = true;
-
->>>>>>> Monivalinta lisätty
         // User dosen't want to answer to map
         if (!this.noAnswerCheckbox.is(':checked')) {
             //Map answer
@@ -248,50 +215,12 @@ var AnswerApp = Spine.Controller.create({
             } else {
                 this.mapEl.qtip( "destroy" );
             }
+        } else {
+            this.mapEl.qtip( "destroy" );
         }
 
 
         //Text answer
-<<<<<<< HEAD
-        var answerSelector;
-        if ( this.activeQuestion.type == 1 ) {
-            answerSelector = "textarea";
-        } else {
-            answerSelector = "input:checked";
-        }
-        // Make sure user has answered something
-        var answerVal = this.questionEl.find( answerSelector ).val();
-        if ( !answerVal ) {
-            $( answerSelector ).focus();
-            $( ".answer-field", this.el ).qtip({
-                content: "Et ole vastannut kysymykseen",
-                position: {
-                    my: "top center",
-                    at: "bottom center",
-                    adjust: {
-                        x: -200
-                    }
-                },
-                show: {
-                    ready: true,
-                    event: "focus"
-                },
-                hide: {
-                    event: null
-                },
-                style: {
-                    classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
-                }
-            });
-            continueSubmit = false;
-        } else {
-            $( ".answer-field", this.el ).qtip( "destroy" );
-        }
-        
-        //If all answers are ok, then continue
-        if (continueSubmit) {
-            this.removeNotes();
-=======
             var answerSelector;
 			//uusi muuttuja monivalinnalle
 			var answerSelector2 = "";
@@ -379,7 +308,6 @@ var AnswerApp = Spine.Controller.create({
 				}
 
 			}
->>>>>>> Monivalinta lisätty
         }
     },
     removeNotes: function() {
@@ -403,20 +331,6 @@ var AnswerApp = Spine.Controller.create({
         //en halua vastata kartalle
         if (this.noAnswerCheckbox.is(':checked')) {
             noAnsw = 1;
-<<<<<<< HEAD
-        }
-        //Kartta
-        answerLoc = this.map.getMapAnswer();
-
-        //Teksti
-        var answerSelector;
-        if ( this.activeQuestion.type == 1 ) {
-            answerSelector = "textarea";
-        } else {
-            answerSelector = "input:checked";
-        }
-        var answerVal = this.questionEl.find( answerSelector ).val();
-=======
         }
         //Kartta
         answerLoc = this.map.getMapAnswer();
@@ -444,8 +358,7 @@ var AnswerApp = Spine.Controller.create({
 					answerSelector = "input:checked";
 				}
 				var answerVal = this.questionEl.find( answerSelector ).val();
-			}	
->>>>>>> Monivalinta lisätty
+			}
         
 
         //tallenna vastaukset
