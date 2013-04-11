@@ -1,19 +1,9 @@
 <?php echo $this->Html->script('locationpicker'); ?>
 
 <script>
-
-var pathSearchUrl = "<?php echo $this->Html->url(
-        array('controller' => 'paths', 'action' => 'search.json')
-    ); ?>";
-
-var markerSearchUrl = "<?php echo $this->Html->url(
-        array('controller' => 'markers', 'action' => 'search.json')
-    ); ?>";
-
-var overlaySearchUrl = "<?php echo $this->Html->url(
-        array('controller' => 'overlays', 'action' => 'search.json')
-    ); ?>";
-
+var pathSearchUrl = <?php echo json_encode($reittiarray); ?>;
+var markerSearchUrl = <?php echo json_encode($merkkiarray); ?>;
+var overlaySearchUrl = <?php echo json_encode($overlayarray); ?>;
 var locationPicker;
 
 var questionDatas = <?php echo json_encode($poll['Question']); ?>;
@@ -21,6 +11,26 @@ var questions = [];
 _.each(questionDatas, function(data) {
     questions.push(new Question(data));
 });
+
+//connect items with observableArrays
+  ko.bindingHandlers.sortableList = {
+      init: function(element, valueAccessor) {
+          var list = valueAccessor();
+          $(element).sortable({
+              update: function(event, ui) {
+                  //retrieve our actual data item
+                  var item = ui.item.tmplItem().data;
+                  //figure out its new position
+                  var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
+                  //remove the item and add it back in the right spot
+                  if (position >= 0) {
+                      list.remove(item);
+                      list.splice(position, 0, item);
+                  }
+              }
+          });
+      }
+  };
 
 var viewModel = {
 
@@ -38,7 +48,7 @@ var viewModel = {
         { id: 2, label: "Kyllä, Ei, En osaa sanoa" },
         { id: 3, label: "1-5, En osaa sanoa" },
         { id: 4, label: "1-7, En osaa sanoa" },
-	{ id: 5, label: "Monivalinta (max 9)" }
+		{ id: 5, label: "Monivalinta (max 9)" }
     ],
     // List of map types on question
     mapTypes: [
@@ -148,6 +158,23 @@ Question.prototype.setNum = function(arvo) {
 	this.num(arvo);
 }
 
+Question.prototype.poista = function(){
+	kohta = this.num();
+	var ok = confirm("Haluatko varmasti poistaa kysymyksen "+ kohta + questions.length);
+	if(ok==true){
+	//loopataan kaikki kysymykset läpi ja katsotaan missä käyttäjän syöttämä arvo ja kysymyksen num mätsää
+	//ja poistetaan se mikä mätsää
+		viewModel.questions.splice(kohta -1,1);
+		// tässä järjestetään uudestaan kysymysten numerot
+		for(i=0; i < questions.length; i++){
+		var uusiArvo = i+1;
+		questions[i].setNum(uusiArvo);
+		}
+	}
+}
+
+
+
 Question.prototype.pickLocation = function() {
     var me = this;
     locationPicker.locationpicker(
@@ -167,12 +194,13 @@ $( document ).ready(function() {
     // Init lockation picker
     locationPicker = $( "#loc-picker" ).locationpicker();
 
-    var merkit = pathSearchUrl;
 
-    // Path selector init
+         // Path selector init
     $( "#paths" ).tokenInput(pathSearchUrl, {
         prePopulate: viewModel.paths(),
+        noResultsText : 'Reittiä ei löytynyt, Lisää reitti  "Luo reitti" välilehden kautta',
         preventDuplicates: true,
+        minChars: 0,
         onAdd: function(item) {
             viewModel.paths.push( item );
         },
@@ -180,24 +208,30 @@ $( document ).ready(function() {
             viewModel.paths.remove( item );
         }
     });
-
+ 
     // Marker selector init
     $( "#markers" ).tokenInput(markerSearchUrl, {
         prePopulate: viewModel.markers(),
+        noResultsText : 'Merkkiä ei löytynyt, Lisää merkki  "Karttamerkit" välilehden kautta',
+        minChars: 0,
         preventDuplicates: true,
         onAdd: function(item) {
             viewModel.markers.push( item );
+           
         },
         onDelete: function(item) {
             viewModel.markers.remove( item );
         }
     });
-
+ 
     $( "#overlays" ).tokenInput(overlaySearchUrl, {
         prePopulate: viewModel.overlays(),
         preventDuplicates: true,
+        minChars: 0,
+        noResultsText : 'Kuvaa ei löytynyt, Lisää kuva  "Tuo kuva" välilehden kautta',
         onAdd: function(item) {
             viewModel.overlays.push( item );
+ 
         },
         onDelete: function(item) {
             viewModel.overlays.remove( item );
@@ -276,10 +310,6 @@ $( document ).ready(function() {
     <input type="text" id="markers" />
 </div>
 
-
-
-
-
 <div class="input text">
     <label>Kuvat</label>
     <input type="text" id="overlays" />
@@ -289,24 +319,14 @@ $( document ).ready(function() {
 <div class="input">
     <label>Kysymykset</label>
     <ul id="questions" 
-        data-bind="template: {
+        data-bind=" template: {
             name: 'questionTmpl',
             foreach: questions
-        }">
+        },sortableList: questions">
     </ul>
     <button type="button" id="create-question" data-bind="click: newQuestion">
         Luo uusi kysymys
     </button>
-	
-	<!-- Tässä kysymykseen poistoa varten tekstikenttä ja nappi, nappi kutsuu klikatessa poisto-funktiota-->
-	<hr/>
-	<label>Poistettavan kysymyksen numero</label>
-	<input type="text" class="small" name="arvo" id="arvo" value="" maxlength="3"/> <br/>     
-	<button type="button" id="delete-question" data-bind="click: deleteQuestion">
-		Poista kysymys
-	</button>
-	<hr/>
-	<!-- Tässä loppuu-->
 </div>
 
 <form method="post">
@@ -345,6 +365,9 @@ $( document ).ready(function() {
             <td class="button" data-bind="click: toggle">
                 <div class="expand">Näytä</div>
             </td>
+			 <td class="button" data-bind="click: poista">
+			<div class="expand">Poista</div>
+			</td>
         </tr>
     </table>
     <div class="details" data-bind="visible: visible">

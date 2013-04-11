@@ -214,13 +214,11 @@ var AnswerApp = Spine.Controller.create({
                 continueSubmit = false;
             } else {
                 this.mapEl.qtip( "destroy" );
-            }
-        } else {
+            } 
+        }else {
             this.mapEl.qtip( "destroy" );
-        }
-
-
-        //Text answer
+		}
+			//Text answer
             var answerSelector;
 			//uusi muuttuja monivalinnalle
 			var answerSelector2 = "";
@@ -273,7 +271,7 @@ var AnswerApp = Spine.Controller.create({
 				if (continueSubmit) {
 					this.removeNotes();
 				}
-			//jos kysymyksessä on muu kuin monivalinta mennään tähän	
+				//jos kysymyksessä on muu kuin monivalinta mennään tähän	
 			}else{
 				if ( !answerVal ) {
 					$( answerSelector ).focus();
@@ -308,8 +306,7 @@ var AnswerApp = Spine.Controller.create({
 				}
 
 			}
-        }
-    },
+        },
     removeNotes: function() {
         /*
             clear 'answer needed' (set by setNotes) notifications from the page.

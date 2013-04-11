@@ -160,6 +160,33 @@ class PollsController extends AppController
     public function modify($id = null)
     {
         $authorId = $this->Auth->user('id');
+		
+		//Haetaan kaikki allamainitut elementit valintalsitojen käyttöön
+        //Netissä sanottiin, että tällainen on 'huonoa ohjelmointitapaa', mutta se toimii.
+
+        //Haetaan merkit
+        $markers = $this->Poll->Marker->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $merkkiarray = array();
+        foreach ($markers as $marker) {
+            array_push($merkkiarray, $marker['Marker']);
+        }
+        $this->set('merkkiarray',$merkkiarray);
+
+        //Haetaan polut
+        $paths = $this->Poll->Path->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $reittiarray = array();
+        foreach ($paths as $path) {
+            array_push($reittiarray, $path['Path']);
+        }
+        $this->set('reittiarray',$reittiarray);
+
+        //Haetaan overlayt
+        $overlays = $this->Poll->Overlay->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $overlayarray = array();
+        foreach ($overlays as $overlay) {
+            array_push($overlayarray, $overlay['Overlay']);
+        }
+        $this->set('overlayarray',$overlayarray);
 
         if (!empty($id)) {
             $poll = $this->Poll->find(
