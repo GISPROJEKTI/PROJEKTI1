@@ -15,7 +15,6 @@ _.each(questionDatas, function(data) {
 //connect items with observableArrays
   ko.bindingHandlers.sortableList = {
       init: function(element, valueAccessor) {
-          var list = valueAccessor();
           $(element).sortable({
               update: function(event, ui) {
                   //retrieve our actual data item
@@ -24,13 +23,20 @@ _.each(questionDatas, function(data) {
                   var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
                   //remove the item and add it back in the right spot
                   if (position >= 0) {
-                      list.remove(item);
-                      list.splice(position, 0, item);
+                      questions.splice(item.num()-1,1);
+                      questions.splice(position, 0, item);
                   }
+                  arrnageQuestion();
               }
           });
       }
   };
+
+function arrnageQuestion() {
+    for(i=0; i < questions.length; i++){
+        questions[i].num(i+1);
+    }
+}
 
 var viewModel = {
 
@@ -65,33 +71,6 @@ var viewModel = {
         });
         question.toggle();
         this.questions.push(question);
-    },
-	//kysymysten poisto -funktio
-    deleteQuestion: function() {
-
-		//haetaan arvo jonka käyttäjä on syöttänyt Poistettavan kysymyksen numero tekstikenttään
-		var arvo = document.getElementById("arvo").value;
-		arvo =  parseInt(arvo);
-		
-		//varmistetaan haluaako käyttäjä poistaa kysymyksen
-		
-		var ok = confirm("Haluatko varmasti poistaa kysymyksen " + arvo + ": " + this.questions()[(arvo-1)].getText())
-		
-		if(ok==true){
-			//loopataan kaikki kysymykset läpi ja katsotaan missä käyttäjän syöttämä arvo ja kysymyksen num mätsää
-			//ja poistetaan se mikä mätsää
-			for(i=0; i < this.questions().length; i++){
-				if(this.questions()[i].getNum() == arvo){
-					this.questions.splice(i,1);
-				}
-			}
-			// tässä järjestetään uudestaan kysymysten numerot
-			for(i=0; i < this.questions().length; i++){
-				var uusiArvo = i+1;
-				this.questions()[i].setNum(uusiArvo);
-			}
-		
-		}
     }
 }
 
@@ -146,30 +125,12 @@ Question.prototype.toggle = function() {
     
 }
 
-Question.prototype.getNum = function() {
-	return(this.num());
-}
-
-Question.prototype.getText = function() {
-	return(this.text());
-}
-
-Question.prototype.setNum = function(arvo) {
-	this.num(arvo);
-}
-
 Question.prototype.poista = function(){
-	kohta = this.num();
-	var ok = confirm("Haluatko varmasti poistaa kysymyksen "+ kohta + questions.length);
-	if(ok==true){
-	//loopataan kaikki kysymykset läpi ja katsotaan missä käyttäjän syöttämä arvo ja kysymyksen num mätsää
-	//ja poistetaan se mikä mätsää
-		viewModel.questions.splice(kohta -1,1);
-		// tässä järjestetään uudestaan kysymysten numerot
-		for(i=0; i < questions.length; i++){
-		var uusiArvo = i+1;
-		questions[i].setNum(uusiArvo);
-		}
+	if(confirm("Haluatko varmasti poistaa kysymyksen numero "+ this.num() + ', ' + this.text())) {
+		//poista
+        viewModel.questions.splice(this.num() -1,1);
+        //aseta uudet numerot
+        arrnageQuestion();
 	}
 }
 

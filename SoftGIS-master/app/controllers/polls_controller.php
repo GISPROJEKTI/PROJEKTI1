@@ -105,9 +105,6 @@ class PollsController extends AppController
     public function modify($id = null)
     {
         $authorId = $this->Auth->user('id');
-		
-		//Haetaan kaikki allamainitut elementit valintalsitojen käyttöön
-        //Netissä sanottiin, että tällainen on 'huonoa ohjelmointitapaa', mutta se toimii.
 
         //Haetaan merkit
         $markers = $this->Poll->Marker->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
@@ -195,79 +192,50 @@ class PollsController extends AppController
 
         // Save
         if (!empty($this->data)) {
-            //debug($this->data);
+            //debug($this->data);//die;
             $data = $this->_jsonToPollModel($this->data);
+            //debug($data); debug($poll); die;
 
-            // debug($data);die;
-			
-			//haetaan Pollin id ja sen perusteella poistetaan kaikki kysymykset questions taulusta
-			//myöhemmin kysymykset tallennetaan uudestaan eli kysymyksen poistaminen muokkausvaiheessa tekee myös tietokantaan muutoksen
-			
-			$pollId = $poll['Poll']['id'];
-			$stats="DELETE FROM questions WHERE poll_id='$pollId'";
-			$result = mysql_query($stats);
-			
-			//Samannimisen kyselyn tallentaminen, jos löytyy jo niin lisätään suluissa numero perään
-			
-			$pollName = $data['Poll']['name'];
-			$pollName2 = $pollName . "(";
-			$authorId = $data['Poll']['author_id'];
-			
-			//tarkastetaan tässä löytyykö pollin id:llä tallennettuja kysymyksiä Questions-taulusta
-			
-			
-			$stats2="SELECT * FROM polls WHERE name='$pollName' AND author_id='$authorId'";
-			$result2 = mysql_query($stats2);
-			$row = mysql_fetch_array($result2);
-			$resp = $row['id'];
-			$stats3="SELECT * FROM questions WHERE poll_id='$resp'";
-			$result3 = mysql_query($stats3);
-			$num_rows = mysql_num_rows($result3);
-			
-			
-			//Jos tallennettuja kysymyksiä löytyy tietokannasta niin ei tehdä nimenvaihdosta: tällöin kyseessä on kyselyn muokkaus
-			//Jos ei löydy niin kyseessä on uuden kyselyn tallentaminen ja voidaan mennä alempaan if-haaraan
-			//Jossa tarkastetaan löytyykö samannimisiä kyselyitä ja suoritetaan sulkujen lisääminen perään jos löytyy
-			
-			//eikö tämän pitäisi olla toisinpäin että tämä toimisi, jostain syystä toimii näin mutta ei toisinpäin
-			//en ymmärrä
-			
-			if($num_rows > 0){
-				
-				$stats="SELECT * FROM polls WHERE name='$pollName' AND author_id='$authorId' OR name LIKE '$pollName2%' AND author_id='$authorId'";
-				$result = mysql_query($stats);
-				$num_rows2 = mysql_num_rows($result);
-			
-				if($num_rows2 > 0) {
-					$data['Poll']['name'] = $pollName . "(" . $num_rows2 . ")";
-				}
-			}
-			
+
+            //kysymysten poisto osa1: merkataan kaikki kysymykset poistettaviksi
+            foreach ($poll['Question'] as $i => $q) {
+                $poll['Question'][$i]['exists'] = false;
+            }
+
             // Make sure questions have correct num
             if (!empty($data['Question'])){
-                $num = 1;
                 foreach ($data['Question'] as $i => $q) {
-                    $q['num'] = $num;
+                    $q['num'] = $i+1;
                     $data['Question'][$i] = $q;
-                    $num++;
+
+                    //kysymysten poisto osa2: Merkataan ne kysymykset olemassaolevaksi, jotka ovat
+                    foreach ($poll['Question'] as $pi => $pq) {
+                        if ($pq['id'] == $q['id']){
+                            $poll['Question'][$pi]['exists'] = true;
+                            break;
+                        }
+                    }
+                }
+            } //debug($poll);
+
+            if (!empty($data['Question']) && $this->Poll->saveAll($data, array('validate'=>'first'))){
+                //kysymysten poisto osa3: Jos kysely tallennettiin, poista ne kysymykset, joita ei ole merkattu olemassaoleviksi.
+                foreach ($poll['Question'] as $i => $q) {
+                    if(!$q['exists']){
+                        $this->Poll->Question->delete($q['id'], false);
+                    }
+                }
+                $this->Session->setFlash('Kysely tallennettu');
+                $this->redirect(array('action' => 'view', $this->Poll->id));
+            } else {
+                $this->Session->setFlash('Tallentaminen epäonnistui');
+                $poll = $data;
+                $errors = $this->Poll->validationErrors;
+                foreach ($errors as $err) {
+                    $this->Session->setFlash($err);
                 }
             }
-			//kysymysten tallennus tapahtuu täällä uudestaan
-			//Kutsuu Poll.php validate
-			
-			if (!empty($data['Question']) && $this->Poll->saveAll($data, array('validate'=>'first'))){ 
-				$this->Session->setFlash('Kysely tallennettu');
-				$this->redirect(array('action' => 'view', $this->Poll->id));
-			} else {
-				$this->Session->setFlash('Tallentaminen epäonnistui');
-				$poll = $data;
-				$errors = $this->Poll->validationErrors;
-				foreach ($errors as $err) {
-					$this->Session->setFlash($err);
-				}
-				// debug($errors);die;
-			}
-			
+            //debug($errors);//die;
         }
 
 
