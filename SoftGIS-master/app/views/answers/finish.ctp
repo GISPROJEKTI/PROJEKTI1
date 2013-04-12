@@ -3,6 +3,7 @@
 </h3>
 <div class="thanksText">
     <?php echo $poll['Poll']['thanks_text']; ?>
+    <p>Voit sulkea selainikkunan</p>
 </div>
 
 <?php if ($test): ?>

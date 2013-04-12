@@ -126,12 +126,12 @@ Question.prototype.toggle = function() {
 }
 
 Question.prototype.poista = function(){
-	if(confirm("Haluatko varmasti poistaa kysymyksen numero "+ this.num() + ', ' + this.text())) {
-		//poista
+    if(confirm("Haluatko varmasti poistaa kysymyksen numero "+ this.num() + ', ' + this.text())) {
+        //poista
         viewModel.questions.splice(this.num() -1,1);
         //aseta uudet numerot
         arrnageQuestion();
-	}
+    }
 }
 
 
