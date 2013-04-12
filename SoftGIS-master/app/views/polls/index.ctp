@@ -92,7 +92,8 @@ $( document ).ready(function() {
                         ),
                         array(
                             'title' => 'Kopioi uudeksi kyselyksi'
-                        )
+                        ),
+                        'Oletko varma että haluat kopioida kyselyn?'
                     ); ?>
                 </td>
                 <td><?php echo count($poll['Response']); ?></td>

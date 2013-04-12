@@ -101,61 +101,6 @@ class PollsController extends AppController
         $this->set('times', $times);
     }
 
-    public function edit($id = null)
-    {
-        $authorId = $this->Auth->user('id');
-
-        if (!empty($id)) {
-            $poll = $this->Poll->find(
-                'first',
-                array(
-                    'conditions' => array(
-                        'Poll.id' => $id
-                    ),
-                    'contain' => array(
-                        'Question',
-                        'Path' => array(
-                            'id',
-                            'name'
-                        ),
-                        'Marker' => array(
-                            'id',
-                            'name'
-                        )
-                    )
-                )
-            );
-            // Poll not found or someone elses
-            if (empty($poll) || $poll['Poll']['author_id'] != $authorId) {
-                $this->cakeError('pollNotFound');
-            }
-
-            // Published poll shouldn't be edited anymore
-            if (!empty($poll['Poll']['published'])) {
-                $this->Session->setFlash('Julkaistua kyselyä ei voida enää muokata');
-                $this->redirect(array('action' => 'view', $id));
-            }
-
-        } else {
-            // Empty poll
-            $poll = array(
-                'Poll' => array(
-                    'name' => null,
-                    'public' => null,
-                    'published' => null,
-                    'welcome_text' => null,
-                    'thanks_text' => null
-                ),
-                'Question' => array(),
-                'Path' => array(),
-                'Marker' => array()
-            );
-        }
-
-        // debug($poll);die;
-        $this->set('poll', $poll);
-    }
-
     public function modify($id = null)
     {
         $authorId = $this->Auth->user('id');
@@ -343,6 +288,24 @@ class PollsController extends AppController
                     $poll['Question'][$i]['poll_id'] = null;
                 }
             }
+
+            $path = array();
+            foreach ($poll['Path'] as $i => $v) {
+                $path[$i] = $v['id'];
+            }
+            $poll['Path'] = $path;
+
+            $marker = array();
+            foreach ($poll['Marker'] as $i => $v) {
+                $marker[$i] = $v['id'];
+            }
+            $poll['Marker'] = $marker;
+
+            $overlay = array();
+            foreach ($poll['Overlay'] as $i => $v) {
+                $overlay[$i] = $v['id'];
+            }
+            $poll['Overlay'] = $overlay;
 
             //tallennetaan kysely
             if ($this->Poll->saveAll($poll, array('validate'=>'first'))){
