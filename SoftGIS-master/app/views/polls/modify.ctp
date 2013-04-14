@@ -202,38 +202,41 @@ $( document ).ready(function() {
     $( "#saveButton" ).click(function() {
         //Tarkistetaan että tarvittavat tiedot löytyvät lähetettävästä lomakkeesta
         var kaikkiok = true;
-
-   /*     if(name_exists(viewModel.poll.name())=== true){
-            alert("Nimi on jo olemassa");
-            return false;
-        }*/
-
-        if(viewModel.poll.name() === null){
-            alert("Anna kyselylle nimi");
-            return false;
-
-        }
+        var errors=[];
+       
         if(questions.length === 0){
-            alert("lisää kysymyksiä");
-            return false;
+            errors.push("Lisää kysymyksiä");
+            kaikkiok = false;
         }
         questions.forEach(function(i){
             if( i.text() == null || i.text() == ""){
+                errors.push("Nimeä kaikki kysymykset");
                 kaikkiok = false;
+            }
+            if(i.choice1() == null || i.choice1() == ""){
+                errors.push("Anna ainakin yksi monivalinnan vaihtoehto kysymykselle " + i.num());
+                kaikkiok = false;
+
             }
         });
 
+         if(viewModel.poll.name() === null){
+            errors.push("Anna kyselylle nimi");
+            kaikkiok =  false;
+
+        }
         if(kaikkiok){
 
             var data = ko.toJSON(viewModel);
             $( "#data" ).val( data ); 
 
         }else{
-            alert("Nimeä kaikki kysymykset");
+            alert(errors);
             return false;
 
         }
     });
+
 });
 
 </script>
