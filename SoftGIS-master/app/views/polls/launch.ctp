@@ -54,7 +54,7 @@ $(document).ready(function() {
         $poll['Poll']['id']
     ),
     array(
-        'class' => 'button cancel small'
+        'class' => 'button cancel'
     )
 ); ?>
 <?php echo $this->Form->end(); ?>

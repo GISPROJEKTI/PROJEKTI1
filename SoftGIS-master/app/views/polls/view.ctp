@@ -1,19 +1,3 @@
-<?php
-if(isset($_POST['submit'])) {
-	if($poll['public'] == 1) {
-		$id = $poll['id'];
-		$query = "UPDATE `polls` SET `public` = 0 WHERE `id` = $id";
-		mysql_query($query);
-		header('Location: ' . $_SERVER['REQUEST_URI']);
-	} else if ($poll['public'] == 0) {
-		$id = $poll['id'];
-		$query = "UPDATE `polls` SET `public` = 1 WHERE `id` = $id";
-		mysql_query($query);
-		header('Location: ' . $_SERVER['REQUEST_URI']);
-	}
-}
-?>
-
 <script>
 
 $(document).ready(function() {
