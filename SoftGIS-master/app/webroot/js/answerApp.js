@@ -267,7 +267,7 @@ var AnswerApp = Spine.Controller.create({
         //console.log(answerVal, answerVal2);
 		
 		
-		if ( !answerVal && !answerVal2 ) {
+		if ( this.activeQuestion.type > 0 && !answerVal && !answerVal2 ) {
 			$( answerSelector ).focus();
 			$( ".answer-field", this.el ).qtip({
 				content: "Et ole vastannut kysymykseen",

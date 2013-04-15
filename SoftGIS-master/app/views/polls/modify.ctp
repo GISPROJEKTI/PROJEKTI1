@@ -50,6 +50,7 @@ var viewModel = {
 
     // List of question types
     types: [
+        { id: 0, label: "Ei tekstivastausta"},
         { id: 1, label: "Teksti" },
         { id: 2, label: "Kyllä, Ei, En osaa sanoa" },
         { id: 3, label: "1-5, En osaa sanoa" },
@@ -213,7 +214,7 @@ $( document ).ready(function() {
                 errors.push("Nimeä kaikki kysymykset");
                 kaikkiok = false;
             }
-            if(i.choice1() == null || i.choice1() == ""){
+            if(i.type() == 5 && i.choice1() == null || i.choice1() == ""){
                 errors.push("Anna ainakin yksi monivalinnan vaihtoehto kysymykselle " + i.num());
                 kaikkiok = false;
 
