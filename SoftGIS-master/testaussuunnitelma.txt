@@ -1,0 +1,56 @@
+Kyselyn tallennus,
+	Virheilmoitukset:
+		Ei nimeä
+		Kysymysten virheilmoitukset
+			Kysymyksiä löytyy
+			Kyselyt on nimetty
+			Ainakin yksi monivalinta on laitettu
+	Kysymysten siirtäminen
+	Merkit/reitit/kuvat lisääminen toimii
+	Kysymykset:
+		Eri yhistelmät pitää käydä läpi
+			Kysymystyypit:
+				-teksti
+				-ei tekstiä
+				-monivalinta
+				-1-5/eos
+				-1-7/eos
+			Karttatyypit:
+				-Ei karttaa
+				-Ei vastausta
+				-1 markkeri
+				-monta markkeria
+				-polku
+				-alue
+		Vastausten näkyminen muille
+	Tekstit näkyvät kunnolla
+	toimivuus
+
+Karttamerkien/reittien lisääminen
+	-Nimen tarkistus
+
+Omat kyselyt:
+	Kopiointi
+		Varmistus
+		Toimivuus
+	Poistaminen
+		varmistus
+		toimivuus
+
+Vastaaminen
+	Aputekstit!
+		Karttojen vieressä teksti joka kertaa mitä siihen halutaan
+	Virheilmoitukset jos vastaukset puuttuvat
+		-Teksti, Valinta, Kartta
+	Aiemmat vastaukset
+		näkyy jos niin halutaan
+	Tallennuksen tarkistaminen
+	Kyselyissä siirtyminen
+		-eteen/taaksepäin
+			-omat vastaukset näkyvät
+			
+
+
+	
+	
+
