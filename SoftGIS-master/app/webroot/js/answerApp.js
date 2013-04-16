@@ -253,53 +253,54 @@ var AnswerApp = Spine.Controller.create({
             this.mapEl.qtip( "destroy" );
         } 
 
-		//Text answer
+        //Text answer
         var answerSelector;
-		
-        if ( this.activeQuestion.type == 1 ) {
-            answerSelector = "textarea";
-        } else {
-            answerSelector = "input:checked";
+        if(this.activeQuestion.type !== 0)
+            if ( this.activeQuestion.type == 1 ) {
+                answerSelector = "textarea";
+            } else {
+                answerSelector = "input:checked";
+            }
+            // Make sure user has answered something
+            var answerVal = this.questionEl.find( answerSelector ).val();
+            var answerVal2 = this.questionEl.find( "input:text" ).val();
+            //console.log(answerVal, answerVal2);
+            
+            
+            if ( this.activeQuestion.type > 0 && !answerVal && !answerVal2 ) {
+                $( answerSelector ).focus();
+                $( ".answer-field", this.el ).qtip({
+                    content: "Et ole vastannut kysymykseen",
+                    position: {
+                        my: "top center",
+                        at: "bottom center",
+                        adjust: {
+                            x: -200
+                        }
+                    },
+                    show: {
+                        ready: true,
+                        event: "focus"
+                    },
+                    hide: {
+                        event: null
+                    },
+                    style: {
+                        classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
+                    }
+                });
+                continueSubmit = false;
+        
+            } else {
+                $( ".answer-field", this.el ).qtip( "destroy" );
+            }
+
+
+
+        //If all answers are ok, then continue
+        if (continueSubmit) {
+            this.removeNotes();
         }
-        // Make sure user has answered something
-        var answerVal = this.questionEl.find( answerSelector ).val();
-		var answerVal2 = this.questionEl.find( "input:text" ).val();
-        //console.log(answerVal, answerVal2);
-		
-		
-		if ( this.activeQuestion.type > 0 && !answerVal && !answerVal2 ) {
-			$( answerSelector ).focus();
-			$( ".answer-field", this.el ).qtip({
-				content: "Et ole vastannut kysymykseen",
-				position: {
-					my: "top center",
-					at: "bottom center",
-					adjust: {
-						x: -200
-					}
-				},
-				show: {
-					ready: true,
-					event: "focus"
-				},
-				hide: {
-					event: null
-				},
-				style: {
-					classes: "ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-red"
-				}
-			});
-			continueSubmit = false;
-    
-		} else {
-			$( ".answer-field", this.el ).qtip( "destroy" );
-		}
-
-
-		//If all answers are ok, then continue
-		if (continueSubmit) {
-			this.removeNotes();
-		}
     },
     removeNotes: function() {
         /*
@@ -329,27 +330,31 @@ var AnswerApp = Spine.Controller.create({
 
         //Teksti
         //tässä katsotaan onko kysely monivalinta jos on niin answerval-muuttujaan lisätään kaikki vastaukset putkeen
-			if ( this.activeQuestion.type == 5) {
+
+            if ( this.activeQuestion.type == 5) {
                 answerVal = [];
-				var elements = this.questionEl.find("input");
-					for (var i = 0; i < elements.length; i++) {
-						//console.log(elements[i].value);
-						if (elements[i].name == "text"){
-							answerVal.push({chek: elements[i].checked, val: elements[i].value});
-						}
-						//joku muu mikä boksin sisältö, lisätään vain jos kentässä on tekstiä
-						if (elements[i].name == "other"){
-							answerVal.push({chek: 'text', val: elements[i].value});
-						}
-					};
-				
-			}else{
-				if ( this.activeQuestion.type == 1 ) {
-					answerVal = this.questionEl.find("textarea").val();
-				} else {
-					answerVal = this.questionEl.find("input:checked").val();
-				}
-			}
+                var elements = this.questionEl.find("input");
+                    for (var i = 0; i < elements.length; i++) {
+                        //console.log(elements[i].value);
+                        if (elements[i].name == "text"){
+                            answerVal.push({chek: elements[i].checked, val: elements[i].value});
+                        }
+                        //joku muu mikä boksin sisältö, lisätään vain jos kentässä on tekstiä
+                        if (elements[i].name == "other"){
+                            answerVal.push({chek: 'text', val: elements[i].value});
+                        }
+                    };
+                
+            }else{
+                if ( this.activeQuestion.type == 1 ) {
+                    answerVal = this.questionEl.find("textarea").val();
+                } else if(this.activeQuestion.type == 0){
+                    var answerVal = "";
+
+                }else {
+                    answerVal = this.questionEl.find("input:checked").val();
+                }
+            }
             //console.log(answerVal);
         
 
