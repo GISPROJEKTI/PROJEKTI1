@@ -10,6 +10,11 @@ class OverlaysController extends AppController
 
     public function index()
     {
+        //virheilmoitus, jos tiedostoon ei ole käyttöoikeuksia
+        if (!file_exists(APP.'webroot'.DS.'overlayimages'.DS) || !is_writable(APP.'webroot'.DS.'overlayimages'.DS)) {
+            $this->Session->setFlash(APP.'webroot'.DS.'overlayimages'.DS .' hakemistoa ei ole tai sinne ei ole kirjoitusoikeuksia. Lähetä tämä virheilmoitus palvelimen ylläpitäjälle, hän voi korjata asian.');
+        }
+        
         $this->Overlay->recursive = -1;
         $overlay = $this->Overlay->find('all');
         $this->set('overlay', $overlay);
@@ -43,28 +48,56 @@ class OverlaysController extends AppController
 
     public function upload()
     {
-        //TODO: virheilmoitus, jos tiedostoon ei ole käyttöoikeuksia!!!!!!!
+        //virheilmoitus, jos tiedostoon ei ole käyttöoikeuksia
+        if (!file_exists(APP.'webroot'.DS.'overlayimages'.DS) || !is_writable(APP.'webroot'.DS.'overlayimages'.DS)) {
+            $this->Session->setFlash(APP.'webroot'.DS.'overlayimages'.DS .' hakemistoa ei ole tai sinne ei ole kirjoitusoikeuksia. Lähetä tämä virheilmoitus palvelimen ylläpitäjälle, hän voi korjata asian.');
+        }
+
         if (!empty($this->data)) {
             //debug($this->data);die;
             $file = $this->data['Overlay']['file'];
-            //debug($file);
+            //debug($file); //die;
+            if ($file['size'] < 1500000){
 
-            $overlay['name'] = $file['name'];
-            $overlay['image'] = String::uuid().str_replace("image/", ".", $file['type']);
-            //debug($overlay);die;
+                $overlay['name'] = $file['name'];
+                $overlay['image'] = String::uuid().str_replace("image/", ".", $file['type']);
+                //debug($overlay);//die;
 
-            if ($this->Overlay->save($overlay) && move_uploaded_file($file['tmp_name'],  APP.'webroot'.DS.'img'.DS.'overlays'.DS. $overlay['image'])) {
-                $this->Session->setFlash('Karttakuva tallennettu.');
-                $this->redirect(array('action' => 'view', $this->Overlay->id));
-            } else {
-                $this->Session->setFlash('Tallentaminen epäonnistui');
-                $errors = $this->Overlay->validationErrors;
-                foreach ($errors as $err) {
-                    $this->Session->setFlash($err);
+                if ($this->Overlay->save($overlay) && move_uploaded_file($file['tmp_name'],  APP.'webroot'.DS.'overlayimages'.DS. $overlay['image'])) {
+                    $this->Session->setFlash('Karttakuva tallennettu.');
+                    $this->redirect(array('action' => 'view', $this->Overlay->id));
+                } else {
+                    $this->Session->setFlash('Tallentaminen epäonnistui');
+                    $errors = $this->Overlay->validationErrors;
+                    //debug($errors);die;
+                    foreach ($errors as $err) {
+                        $this->Session->setFlash($err);
+                    }
                 }
+                //debug($this->data);
+            } else {
+                //debug($file);
+                $this->Session->setFlash('Tiedosto on liian suuri');
+                $this->redirect(array('action' => 'upload'));
+
             }
-            //debug($this->data);
         }
+    }
+
+    public function delete($id = null)
+    {
+        //Tätä ominaisuutta ei voi käyttää niin kauan kunnes kuvilla ei ole userID:tä. Koska muuten joku poistaa jonkun toisen kyselyssä käyttämät kuvat!
+        if (!empty($id)  && false) {
+            if($this->Overlay->delete($id)){
+                $this->Session->setFlash('Karttakuva poistettu');
+            } else {
+                $this->Session->setFlash('Poistaminen ei onnistunut');
+            }
+        } else {
+            $this->Session->setFlash('Karttakuvaa ei löytynyt tai ominaisuus pois käytöstä');
+        }
+        $this->redirect(array('action' => 'index'));
+
     }
 
     public function search()
@@ -126,17 +159,6 @@ class OverlaysController extends AppController
                 'ne_lng' => 25.69183056,
                 'sw_lat' => 64.95191426,
                 'sw_lng' => 25.63935328
-            )
-        );
-        $this->redirect(array('action' => 'view', $this->Overlay->id));
-    }
-
-    public function madekoski_jpg()
-    {
-        $this->Overlay->save(
-            array(
-                'name' => 'madekoski_jpg2',
-                'image' => 'esimerkki1jpg.jpg',
             )
         );
         $this->redirect(array('action' => 'view', $this->Overlay->id));

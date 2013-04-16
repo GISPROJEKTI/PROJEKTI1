@@ -92,7 +92,7 @@ $( document ).ready(function() {
             <?php echo $this->Html->link(
                 'Kirjaudu ulos',
                 array('controller' => 'authors', 'action' => 'logout'),
-                array('class' => 'button')
+                array('class' => 'button cancel')
             );?>
         </div>
         <div id="content">

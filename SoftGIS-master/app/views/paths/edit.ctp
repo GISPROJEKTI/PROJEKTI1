@@ -12,12 +12,12 @@ var decodedCoordinates = new google.maps.MVCArray();
 
 function encodeCoordinates(){
     var encodedCoordinates = $('#PathCoordinates').val();
-    console.info(encodedCoordinates);
+    //console.info(encodedCoordinates);
     encodedCoordinates = encodedCoordinates.split( " " );
     _.each(encodedCoordinates, function(i) {
         decodedCoordinates.push(google.maps.geometry.encoding.decodePath(i));
     });
-    console.info(decodedCoordinates);
+    //console.info(decodedCoordinates);
 }
 
 function setMarkerType(){
@@ -104,7 +104,7 @@ $( document ).ready(function() {
         elements.push(el);
 
     });
-    console.info(elements);
+    //console.info(elements);
 
     $( "#PathEditForm input" ).change(function() {
         var val = $(this).val();

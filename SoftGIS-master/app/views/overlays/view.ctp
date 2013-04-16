@@ -37,7 +37,7 @@ $(document).ready(function() { // init when page has loaded
     document.getElementById("OverlaySwLng").addEventListener ('focusout', input, false);
 
     var asd = document.URL.split('overlays');
-    image_url = asd[0] + 'img/overlays/' + document.getElementById("OverlayImage").value;
+    image_url = asd[0] + 'overlayimages/' + document.getElementById("OverlayImage").value;
 
     input();
     //console.log(NaN == NaN, isNaN(NaN));

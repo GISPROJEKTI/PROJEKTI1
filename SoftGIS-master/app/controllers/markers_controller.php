@@ -49,6 +49,10 @@ class MarkersController extends AppController
         while (($file = readdir($dh)) !== false) {
             if (is_file($iconDir . $file)) {
                 $icons[$file] = $file;
+                if ($cut = strrpos($file, '.', -0)) { // poista tiedostop‰‰te nimest‰
+                    $icons[$file] = substr($file, 0, $cut);
+                }
+
             }
         }
         asort($icons);
