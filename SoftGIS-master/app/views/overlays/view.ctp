@@ -338,7 +338,7 @@ function center(){ //we try to center and zoom the map on init
     <div class="value">
         <?php echo $this->Form->create('Overlay'); ?>
         <?php echo $this->Form->input('id', array('type' => 'hidden')); ?>
-        <?php echo $this->Form->input('name', array('label' => 'Nimi')); ?>
+        <?php echo $this->Form->input('name', array('label' => 'Nimi' , 'required'=> true)); ?>
     </div>
     <div class="input map-container">
         <label>Esikatselu</label>
