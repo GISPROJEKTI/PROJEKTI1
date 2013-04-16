@@ -71,7 +71,6 @@ $( document ).ready(function() {
                     <?php echo $this->Html->link(
                         'Poista',
                         array(
-                            'controller' => 'answers', 
                             'action' => 'delete',
                             $poll['Poll']['id'],
                         ),
@@ -86,7 +85,6 @@ $( document ).ready(function() {
                     <?php echo $this->Html->link(
                         'Kopioi',
                         array(
-                            'controller' => 'polls', 
                             'action' => 'copy',
                             $poll['Poll']['id']
                         ),

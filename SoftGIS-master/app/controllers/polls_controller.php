@@ -323,6 +323,76 @@ class PollsController extends AppController
         }
     }
 
+    public function delete($id = null) {
+        $authorId = $this->Auth->user('id');
+
+        if (!empty($id)) {
+            $poll = $this->Poll->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Poll.id' => $id
+                    ),
+                    'contain' => array(
+                        'Question' => array('id'),
+                        'Response'=> array('id'),
+                        'Hash' => array('id'),
+                        'Path' => array('id'),
+                        'Marker' => array('id' ),
+                        'Overlay' => array('id')
+                    )
+                )
+            );
+            // Poll not found or someone elses
+            if (empty($poll) || $poll['Poll']['author_id'] != $authorId) {
+                $this->cakeError('pollNotFound');
+                $this->redirect(array('action' => 'index'));
+            } else {
+                //Haetaan myös vastaukset
+                $poll['Answer'] = array();
+                foreach ($poll['Response'] as $i => $v) {
+                    $poll['Answer'][$i] = $this->Answer->find('all', array('conditions' => array('Answer.response_id' => $v['id']), 'recursive' => -1, 'fields' => array('id')));
+                }
+
+                //sitten poistamaan:
+                foreach ($poll['Answer'] as $i => $v) {
+                    foreach ($v as $vi => $vv) {
+                        $this->Answer->delete($vv['Answer']['id'], false);
+                    }
+                }
+
+                foreach ($poll['Overlay'] as $i => $v) {
+                    $this->Poll->Overlay->PollsOverlay->delete($v['PollsOverlay']['id'], false);
+                }
+                foreach ($poll['Marker'] as $i => $v) {
+                    $this->Poll->Marker->PollsMarker->delete($v['PollsMarker']['id'], false);
+                }
+                foreach ($poll['Path'] as $i => $v) {
+                    $this->Poll->Path->PollsPath->delete($v['PollsPath']['id'], false);
+                }
+                foreach ($poll['Hash'] as $i => $v) {
+                    $this->Poll->Hash->delete($v['id'], false);
+                }
+                foreach ($poll['Response'] as $i => $v) {
+                    $this->Poll->Response->delete($v['id'], false);
+                }
+                foreach ($poll['Question'] as $i => $v) {
+                    $this->Poll->Question->delete($v['id'], false);
+                }
+                $this->Poll->delete($poll['Poll']['id'], false);
+
+
+                $this->Session->setFlash('Kysely poistettu');
+                $this->redirect(array('action' => 'index'));
+
+            }
+        } else {
+            // jos kyselyä ei löytynyt
+            $this->cakeError('pollNotFound');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+
 
     public function answers($pollId = null)
     {

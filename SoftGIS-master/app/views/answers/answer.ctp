@@ -161,7 +161,7 @@ $( document ).ready(function() {
 <div class="answer">
     <div id="noAnswerCont">
         <input type="checkbox" id="noAnswer" />
-        <label>En halua vastata kartlle</label>
+        <label>En halua vastata kartalle</label>
     </div>
         <p id="map_note">Ohjeteksti</p>
         <div id="map" class="map">
