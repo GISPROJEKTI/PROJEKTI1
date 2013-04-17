@@ -42,6 +42,16 @@ answerApp.js
 Tietokanta:
 -Uudet fieldit kaikille vaihtoehdoille "Monivalinta" vaatimukseen
 
+markersin ja pathin edittiin ja overlayn viewiin
+'label' => 'Nimi','placeholder'=>'Anna nimi','required'=> true
+
+polls/modify:
+näytä ja poista napit toisinpäin
+
+view/answer:
+
+<strong>:lla karttojen ohjeteksti
+
 Muuta:
 -
 
