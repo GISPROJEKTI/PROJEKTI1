@@ -105,6 +105,10 @@ p.error em {
   color: #000;
   font-weight: normal;
   line-height: 140%; }
+  
+p.map_note {
+  margin:auto;
+  font-weight: bold; }
 
 .notice {
   background: #ffcc00;
