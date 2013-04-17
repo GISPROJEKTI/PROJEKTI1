@@ -214,9 +214,22 @@ $( document ).ready(function() {
                 errors.push("Nimeä kaikki kysymykset");
                 kaikkiok = false;
             }
-            if(i.type() == 5 && i.choice1() == null || i.choice1() == ""){
-                errors.push("Anna ainakin yksi monivalinnan vaihtoehto kysymykselle " + i.num());
-                kaikkiok = false;
+            if(i.type() == 5){
+			
+				if((i.choice1() == null || i.choice1() == "")
+					&& (i.choice2() == null || i.choice2() == "")
+					&& (i.choice3() == null || i.choice3() == "")
+					&& (i.choice4() == null || i.choice4() == "")
+					&& (i.choice5() == null || i.choice5() == "")
+					&& (i.choice6() == null || i.choice6() == "")
+					&& (i.choice7() == null || i.choice7() == "")
+					&& (i.choice8() == null || i.choice8() == "")
+					&& (i.otherchoice() == null || i.otherchoice() == false || i.otherchoice() == 0)){
+				
+					errors.push("Anna ainakin yksi monivalinnan vaihtoehto kysymykselle " + i.num());
+					kaikkiok = false;
+				}
+				
 
             }
         });
