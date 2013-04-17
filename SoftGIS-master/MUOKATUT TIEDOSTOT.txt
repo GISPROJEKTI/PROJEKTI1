@@ -9,9 +9,6 @@ views/polls/index:
 -kyselyn poisto nappi ja varmistus 
 -kyselyn kopiointi nappi ja varmistus
 
-
-
-
 polls_controller:
 -kysymykset poistetaan pollin id:n perusteella 
 -samannimisen kyselyn tallentaminen=sulut ja numero perään
@@ -50,7 +47,17 @@ näytä ja poista napit toisinpäin
 
 view/answer:
 
-<strong>:lla karttojen ohjeteksti
+pari <br/> tagia ja classiksi map_note karttojen ohjeteksti
+
+poll.css:
+
+p.map_note
+margin auto
+font weight bold
+
+views/overlays/upload:
+
+ohjeita näkyville käyttäjälle heti
 
 Muuta:
 -
@@ -59,11 +66,11 @@ Poista vaan tiedostopäätteet markericons kansion kuvista
 
 
 
-
+// EI AJANKOHTAINEN ENÄÄ
 **HUOM: SQL-Queryihin oikeat tablejen nimet
 
 
 
 
 
-Ville 3.4
+Ville 17.4
