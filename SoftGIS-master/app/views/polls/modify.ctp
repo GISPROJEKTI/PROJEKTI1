@@ -327,12 +327,12 @@ $( document ).ready(function() {
         <tr>
             <td class="num" data-bind="text: num"></td>
             <td>&nbsp;<span class="text" data-bind="text: text"></span></td>
+			<td class="button" data-bind="click: poista">
+			<div class="expand">Poista</div>
+			</td>
             <td class="button" data-bind="click: toggle">
                 <div class="expand">Näytä</div>
             </td>
-			 <td class="button" data-bind="click: poista">
-			<div class="expand">Poista</div>
-			</td>
         </tr>
     </table>
     <div class="details" data-bind="visible: visible">

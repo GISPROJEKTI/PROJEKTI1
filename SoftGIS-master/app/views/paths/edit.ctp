@@ -136,7 +136,7 @@ $( document ).ready(function() {
 <?php echo $this->Form->create('Path'); ?>
 <?php echo $this->Form->input(
     'name', 
-    array('label' => 'Nimi' , 'required'=> true)
+    array('label' => 'Nimi','placeholder'=>'Anna nimi','required'=> true)
 ); ?>
 <?php echo $this->Form->input(
     'content', 
