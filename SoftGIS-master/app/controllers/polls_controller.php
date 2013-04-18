@@ -195,6 +195,46 @@ class PollsController extends AppController
             //debug($this->data);//die;
             $data = $this->_jsonToPollModel($this->data);
             //debug($data); debug($poll); die;
+			
+			//Samannimisen kyselyn tarkistus ALKAA
+			
+			$pollName = $data['Poll']['name'];
+			$pollName2 = $pollName . "(";
+			$pollAuthor = $data['Poll']['author_id'];;
+			
+			$conditions = array(
+			'OR' => array (
+					array(
+						'Poll.name' => $pollName,
+						'Poll.author_id' => $pollAuthor
+					),
+					array (
+						'Poll.name LIKE' => "$pollName2%",
+						'Poll.author_id' => $pollAuthor
+					)
+				)	
+			);			
+
+			$sameNameCount = $this->Poll->find('count', array('conditions' => $conditions));
+			
+			//jos löytyy samannimisiä kyselyitä
+			if ($sameNameCount > 0){
+			
+				$questionCount =  false;
+				
+				foreach ($poll['Question'] as $ii => $qq) {
+					$questionCount = true;
+				}	
+
+				//jos kyselyllä ei ole kysymyksiä kannassa --> uusi kysely --> jolloin laitetaan sulut ja numero
+				//jos kyselyllä on kysymyksiä kannassa --> olemassa olevan kyselyn muokkaus --> ei laiteta sulkuja ja numeroa
+				if($questionCount == false){
+				
+					$data['Poll']['name'] = $pollName . "(" . $sameNameCount . ")";
+				}
+			}
+			
+			//Samannimisen kyselyn tarkistus LOPPUU
 
 
             //kysymysten poisto osa1: merkataan kaikki kysymykset poistettaviksi
