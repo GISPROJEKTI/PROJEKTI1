@@ -26,6 +26,7 @@ var Map = Spine.Controller.create({
             zoom: 6,
             center: new google.maps.LatLng(64.94216, 26.235352),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
+            streetViewControl: false,
             disableDoubleClickZoom: true
         });
 
