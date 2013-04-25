@@ -73,9 +73,9 @@ $( document ).ready(function() {
 <script id="questionTmpl" type="text/x-jquery-tmpl">
     <div class="answerNav">
         <table class="answer"><tr>
-            <td><button type="button" class="prevQues" id = "prev">Edellinen kysymys</button></td>
+            <td><button type="button" class="prevQues" id = "prev">Edellinen</button></td>
             <td><div class="info" id="info">Kysymys numero #</div></td>
-            <td><button type="button" class="nextQues">Seuraava kysymys</button></td>
+            <td><button type="button" class="nextQues">Seuraava</button></td>
         </tr></table>
     </div>
     <h3>${text}</h3>
