@@ -57,7 +57,20 @@ class OverlaysController extends AppController
             //debug($this->data);die;
             $file = $this->data['Overlay']['file'];
             //debug($file); //die;
-            if ($file['size'] < 1500000){
+            if ($file['error'] == 4){
+                $this->Session->setFlash('Valitse ladattava tiedosto');
+                $this->redirect(array('action' => 'upload'));
+            }
+            else if ($file['size'] > 1500000 || $file['error'] == 1 || $file['error'] == 2){
+                //debug($file);
+                $this->Session->setFlash('Tiedosto on liian suuri');
+                $this->redirect(array('action' => 'upload'));
+            }
+            else if ($file['error'] != 0){
+                $this->Session->setFlash('Tapahtui joku virhe, yritä uudelleen (virhekoodi ' . $file['error'] . ')');
+                $this->redirect(array('action' => 'upload'));
+            }
+            else { //Kaikki ok
 
                 $overlay['name'] = $file['name'];
                 $overlay['image'] = String::uuid().str_replace("image/", ".", $file['type']);
@@ -75,11 +88,6 @@ class OverlaysController extends AppController
                     }
                 }
                 //debug($this->data);
-            } else {
-                //debug($file);
-                $this->Session->setFlash('Tiedosto on liian suuri');
-                $this->redirect(array('action' => 'upload'));
-
             }
         }
     }
