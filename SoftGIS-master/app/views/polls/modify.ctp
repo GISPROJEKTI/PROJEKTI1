@@ -234,7 +234,7 @@ $( document ).ready(function() {
             }
         });
 
-         if(viewModel.poll.name() === null){
+         if(viewModel.poll.name() === null ||viewModel.poll.name() === ""){
             errors = errors + "Anna kyselylle nimi\n";
             kaikkiok =  false;
 

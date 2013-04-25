@@ -215,11 +215,11 @@ $(document).ready(function() {
         <div class="details">
             <table class="details">
                 <tr>
-                    <th class="longfixed">Tekstivastaus</th>
+                    <th class="longfixed">Tekstivastauksen tyyppi</th>
                     <td colspan="3"><?php echo $answers[$q['type']]; ?></td>
                 </tr>
                 <tr>
-                    <th class="longfixed">Karttavastaus</th>
+                    <th class="longfixed">Karttavastauksen tyyppi</th>
                     <td colspan="3"><?php echo $map_answers[$q['map_type']]; ?></td>
                 </tr>
                 <tr>

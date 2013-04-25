@@ -32,9 +32,15 @@ class Poll extends AppModel
 
     public $validate = array(
         'name' => array(
-            'rule' => 'notEmpty',
-            'message' => 'Anna kyselylle nimi'
-        ),
+            'not_empty' => array(
+                'rule' => 'notEmpty',
+                'message' => 'Anna kyselylle nimi'
+            ),
+            'unique' => array(
+                'rule' => 'isUnique',
+                'message' => 'Tämänniminen kuva on jo olemassa.'
+            )
+        )
     );
 
     public function validHash($hashStr)

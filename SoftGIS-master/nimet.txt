@@ -1,3 +1,20 @@
+Nimitykset, joita järjestelmässä käytetään:
+
+Reitit ja alueet -> Viivat ja alueet || Vektoriaineistot || aineistot
+
+Karttamerkit
+Polku -> Viiva
+Alue
+Karttakuvat
+
+Kysely
+Kysymys
+
+Tekstikysymys
+Karttakysymys
+
+----------------------------------------
+
 views/layouts/author.ctp
 
 Reitit -> Vektoriaineistot
