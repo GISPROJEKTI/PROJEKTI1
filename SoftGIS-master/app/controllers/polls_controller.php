@@ -110,7 +110,10 @@ class PollsController extends AppController
         $markers = $this->Poll->Marker->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
         $merkkiarray = array();
         foreach ($markers as $marker) {
-            array_push($merkkiarray, $marker['Marker']);
+            // Se lsita, jossa nämä näytettään räjätää, jos seassa on alkioita joilla tyhjä nimi.
+            if ($marker['Marker']['name'] != null && $marker['Marker']['name'] != "") {
+                array_push($merkkiarray, $marker['Marker']);
+            }
         }
         $this->set('merkkiarray',$merkkiarray);
 
@@ -118,7 +121,9 @@ class PollsController extends AppController
         $paths = $this->Poll->Path->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
         $reittiarray = array();
         foreach ($paths as $path) {
-            array_push($reittiarray, $path['Path']);
+            if ($path['Path']['name'] != null && $path['Path']['name'] != "") {
+                array_push($reittiarray, $path['Path']);
+            }
         }
         $this->set('reittiarray',$reittiarray);
 
@@ -126,7 +131,9 @@ class PollsController extends AppController
         $overlays = $this->Poll->Overlay->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
         $overlayarray = array();
         foreach ($overlays as $overlay) {
-            array_push($overlayarray, $overlay['Overlay']);
+            if ($overlay['Overlay']['name'] != null && $overlay['Overlay']['name'] != "") {
+                array_push($overlayarray, $overlay['Overlay']);
+            }
         }
         $this->set('overlayarray',$overlayarray);
 
