@@ -96,6 +96,7 @@ $( document ).ready(function() {
                 <input type="radio" name="text" id="4" value="4"/>
                 <input type="radio" name="text" id="5" value="5"/>
                 ${high_text}
+				<br/>
                 <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoa
             {{else type == 4}}
                 ${low_text}
@@ -107,6 +108,7 @@ $( document ).ready(function() {
                 <input type="radio" name="text" id="6" value="6"/>
                 <input type="radio" name="text" id="7" value="7"/>
                 ${high_text}
+				<br/>
                 <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoa
 				<!-- Tämä valitaan jos kysely on monivalinta-->
 			{{else type == 5}}

@@ -43,6 +43,7 @@ class PollsController extends AppController
         $this->set('responseCount', $responseCount);
 
         $answers = array(
+			0 => 'Ei tekstivastausta',
             1 => 'Teksti',
             2 => 'Kyllä, ei, en osaa sanoa',
             3 => '1 - 5, en osaa sanoa',
