@@ -76,6 +76,9 @@ div.subnav {
   font-size: 0.95em;
   margin-bottom: 1em; }
 
+div.info {
+  width: 250px; }
+
 /** Notices and Errors **/
 div.message {
   clear: both;
