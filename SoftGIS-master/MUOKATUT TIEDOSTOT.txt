@@ -44,16 +44,21 @@ markersin ja pathin edittiin ja overlayn viewiin
 
 polls/modify:
 n‰yt‰ ja poista napit toisinp‰in
+tarkistus ett‰ jossain monivalinnan kohassa on tavaraa
 
 view/answer:
 
 pari <br/> tagia ja classiksi map_note karttojen ohjeteksti
+Edellinen kysymys -> Edellinen jne.
 
 poll.css:
 
 p.map_note
 margin auto
 font weight bold
+
+div.info
+width 250px
 
 views/overlays/upload:
 
@@ -73,4 +78,4 @@ Poista vaan tiedostop‰‰tteet markericons kansion kuvista
 
 
 
-Ville 17.4
+Ville 25.4

@@ -175,7 +175,7 @@ $(document).ready(function() {
     <?php endif; ?>
 </table>
 
-<h3>Reitit ja alueet</h3>
+<h3>Viivat ja alueet</h3>
 <table class="details">
     <?php if (!empty($paths)): ?>
         <?php foreach ($paths as $path): ?>
@@ -185,7 +185,7 @@ $(document).ready(function() {
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
-        <tr><td>Kyselyn yhteydessä ei ole näytettäviä reittejä/alueita</td></tr>
+        <tr><td>Kyselyn yhteydessä ei ole näytettäviä viivoja tai alueita</td></tr>
     <?php endif; ?>
 </table>
 

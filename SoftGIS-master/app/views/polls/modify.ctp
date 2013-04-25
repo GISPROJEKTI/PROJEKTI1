@@ -63,7 +63,7 @@ var viewModel = {
         { id: 1, label: "Kartta, ei vastausta" },
         { id: 2, label: "Kartta, 1 markkeri" },
         { id: 3, label: "Kartta, monta markkeria" },
-        { id: 4, label: "Kartta, polku" },
+        { id: 4, label: "Kartta, viiva" },
         { id: 5, label: "Kartta, alue" }
     ],
     newQuestion: function() {
@@ -160,7 +160,7 @@ $( document ).ready(function() {
          // Path selector init
     $( "#paths" ).tokenInput(pathSearchUrl, {
         prePopulate: viewModel.paths(),
-        noResultsText : 'Reittiä ei löytynyt, Lisää reitti  "Luo reitti" välilehden kautta',
+        noResultsText : 'Viivaa tai aluetta ei löytynyt, Lisää viiva tai alue  "Vektoriaineistot" välilehden kautta',
         preventDuplicates: true,
         minChars: 0,
         onAdd: function(item) {
@@ -279,7 +279,7 @@ $( document ).ready(function() {
 </div>
 
 <div class="input text">
-    <label>Reitit</label>
+    <label>Viivat ja alueet</label>
     <input type="text" id="paths" />
 </div>
 

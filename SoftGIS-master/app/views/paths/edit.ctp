@@ -131,7 +131,7 @@ $( document ).ready(function() {
 </script>
 
 
-<h1>Reitin tiedot</h1>
+<h1>Aineiston tiedot</h1>
 
 <?php echo $this->Form->create('Path'); ?>
 <?php echo $this->Form->input(
@@ -144,7 +144,7 @@ $( document ).ready(function() {
 ); ?>
 <?php echo $this->Form->input(
     'type', 
-    array('label' => 'Objektin tyyppi', 'options' => array('none','Polku', 'Alue'))
+    array('label' => 'Objektin tyyppi', 'options' => array('none','Viiva', 'Alue'))
 ); ?>
 <?php echo $this->Form->input(
     'stroke_color', 

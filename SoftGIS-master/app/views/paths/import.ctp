@@ -85,11 +85,11 @@ $( document ).ready(function() {
             } else if ( type == 2 ) {
                 coordinates = gisRegionToArray( gis );
             } else {
-                alert("Reittidatan muunto epäonnistui.");
+                alert("Aineiston muunto epäonnistui.");
                 return false;
             }
         } catch (err) {
-            alert("Reittidatan muunto epäonnistui");
+            alert("Aineiston muunto epäonnistui");
             return false;
         }
         var encodedPaths = [];
@@ -104,7 +104,7 @@ $( document ).ready(function() {
 </script>
 
 
-<h2>Tuo reittidata</h2>
+<h2>Tuo aineisto</h2>
 
 <form method="post" id="import">
     <div class="input textarea">

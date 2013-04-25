@@ -140,7 +140,7 @@ var AnswerApp = Spine.Controller.create({
             document.getElementById("map_note").innerHTML = "Voit asettaa kartalle monta merkkiä";
         } else if (this.activeQuestion.map_type == 4){
             document.getElementById("map_note").style.display="block";
-            document.getElementById("map_note").innerHTML = "Voit luoda kartalle polun";
+            document.getElementById("map_note").innerHTML = "Voit luoda kartalle viivan";
         } else if (this.activeQuestion.map_type == 5){
             document.getElementById("map_note").style.display="block";
             document.getElementById("map_note").innerHTML = "Voit luoda kartalle alueen";

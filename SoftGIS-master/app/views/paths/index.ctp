@@ -1,4 +1,4 @@
-<h2>Reitit ja alueet</h2>
+<h2>Viivat ja alueet</h2>
 <div class="subnav">
 <!-- Tätä ominaisuutta ei ole vielä toteutettu
     <?php echo $this->Html->link(
@@ -9,7 +9,7 @@
 -->
 
     <?php echo $this->Html->link(
-        'Tuo reitti tiedostosta',
+        'Tuo aineisto tiedostosta',
         array('action' => 'import'),
         array('class' => 'button')
     ); ?>
