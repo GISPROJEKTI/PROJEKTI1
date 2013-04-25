@@ -43,13 +43,23 @@ class PollsController extends AppController
         $this->set('responseCount', $responseCount);
 
         $answers = array(
+            0 => 'Ei tekstivastausta',
             1 => 'Teksti',
             2 => 'Kyllä, ei, en osaa sanoa',
             3 => '1 - 5, en osaa sanoa',
             4 => '1 - 7, en osaa sanoa',
 			5 => 'Monivalinta (max 9)'
         );
+        $map_answers = array(
+        0 => "Ei karttaa",
+        1 => "Kartta, ei vastausta",
+        2 => "Kartta, 1 markkeri",
+        3 => "Kartta, monta markkeria",
+        4 => "Kartta, polku",
+        5 => "Kartta, alue"
+        );
         $this->set('answers', $answers);
+        $this->set('map_answers', $map_answers);
         //debug($poll);
     }
 
@@ -110,7 +120,7 @@ class PollsController extends AppController
         $markers = $this->Poll->Marker->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
         $merkkiarray = array();
         foreach ($markers as $marker) {
-            // Se lsita, jossa nämä näytettään räjätää, jos seassa on alkioita joilla tyhjä nimi.
+            // Se lista, jossa nämä näytettään räjätää, jos seassa on alkioita joilla tyhjä nimi.
             if ($marker['Marker']['name'] != null && $marker['Marker']['name'] != "") {
                 array_push($merkkiarray, $marker['Marker']);
             }
@@ -136,6 +146,8 @@ class PollsController extends AppController
             }
         }
         $this->set('overlayarray',$overlayarray);
+
+        //debug($this);
 
         if (!empty($id)) {
             $poll = $this->Poll->find(
@@ -277,6 +289,12 @@ class PollsController extends AppController
             } else {
                 $this->Session->setFlash('Tallentaminen epäonnistui');
                 $poll = $data;
+                $temp = json_decode($this->data, true);
+                //debug($temp);
+                $poll['Overlay'] = $temp['overlays'];
+                $poll['Path'] = $temp['paths'];
+                $poll['Marker'] = $temp['markers'];
+                //debug($poll);
                 $errors = $this->Poll->validationErrors;
                 foreach ($errors as $err) {
                     $this->Session->setFlash($err);

@@ -203,15 +203,15 @@ $( document ).ready(function() {
     $( "#saveButton" ).click(function() {
         //Tarkistetaan että tarvittavat tiedot löytyvät lähetettävästä lomakkeesta
         var kaikkiok = true;
-        var errors=[];
+        var errors = "";
        
         if(questions.length === 0){
-            errors.push("Lisää kysymyksiä");
+            errors = errors + "Kyselyssä pitää olla vähintään yksi kysymys\n";
             kaikkiok = false;
         }
         questions.forEach(function(i){
             if( i.text() == null || i.text() == ""){
-                errors.push("Nimeä kaikki kysymykset");
+                errors = errors + "Lisää kysymysteksti kysymykselle "+ i.num() + "\n";
                 kaikkiok = false;
             }
             if(i.type() == 5){
@@ -226,7 +226,7 @@ $( document ).ready(function() {
 					&& (i.choice8() == null || i.choice8() == "")
 					&& (i.otherchoice() == null || i.otherchoice() == false || i.otherchoice() == 0)){
 				
-					errors.push("Anna ainakin yksi monivalinnan vaihtoehto kysymykselle " + i.num());
+					errors = errors + "Anna ainakin yksi monivalinnan vaihtoehto kysymykselle " + i.num() + "\n";
 					kaikkiok = false;
 				}
 				
@@ -235,7 +235,7 @@ $( document ).ready(function() {
         });
 
          if(viewModel.poll.name() === null){
-            errors.push("Anna kyselylle nimi");
+            errors = errors + "Anna kyselylle nimi\n";
             kaikkiok =  false;
 
         }
@@ -351,12 +351,12 @@ $( document ).ready(function() {
     <div class="details" data-bind="visible: visible">
 
         <div class="input textarea">
-            <label>Kysymys</label>
+            <label>Kysymysteksti</label>
             <textarea class="text" data-bind="value: text" required = "1"></textarea> 
         </div>
 
         <div class="input select">
-            <label>Vastaus</label>
+            <label>Tekstivastauksen tyyppi</label>
             <select data-bind="options: viewModel.types,
                 optionsText: 'label', optionsValue: 'id',
                 value: type" />
@@ -450,7 +450,7 @@ $( document ).ready(function() {
 		<!-- Tässä loppuu-->
 
         <div class="input select">
-            <label>Kartan tyyppi</label>
+            <label>Karttavastauksen tyyppi</label>
             <select data-bind="options: viewModel.mapTypes,
                 optionsText: 'label', optionsValue: 'id',
                 value: map_type" />

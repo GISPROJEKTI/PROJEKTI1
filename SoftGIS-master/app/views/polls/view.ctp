@@ -215,8 +215,12 @@ $(document).ready(function() {
         <div class="details">
             <table class="details">
                 <tr>
-                    <th class="longfixed">Vastaus</th>
+                    <th class="longfixed">Tekstivastaus</th>
                     <td colspan="3"><?php echo $answers[$q['type']]; ?></td>
+                </tr>
+                <tr>
+                    <th class="longfixed">Karttavastaus</th>
+                    <td colspan="3"><?php echo $map_answers[$q['map_type']]; ?></td>
                 </tr>
                 <tr>
                     <th>Sijainti</th>
@@ -230,24 +234,24 @@ $(document).ready(function() {
                         <?php echo empty($q['zoom']) ? 'Ei' : $q['zoom']; ?>
                     </td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <th>Kohteen merkitseminen kartalle</th>
                     <td> 
                         <?php echo $q['answer_location'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
-                </tr>
+                </tr>-->
                 <tr>
                     <th>Vastaukset näkyvissä muille vastaajille</th>
                     <td> 
                         <?php echo $q['answer_visible'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <th>Vastausten kommentointi</th>
                     <td colspan="3"> 
                         <?php echo $q['comments'] ? 'Kyllä' : 'Ei'; ?>
                     </td>
-                </tr>
+                </tr>-->
             </table>
         </div>
     </div>
