@@ -50,10 +50,11 @@ $( document ).ready(function() {
     <h2>Vastausohjeet</h2>
     <p>Kyselyyn vastataan joko tekstikenttään tai monivalintaan, sekä mahdolliseen karttavastaukseen.</p>
     <p>Monivalinnassa valitse vaihtehdoista mielestäsi asiaa parhaiten kuvaava vaihtoehto.</p>
-    <p>Joidenkin kysymysten yhteydessä kartalla voi näkyä kysymykseen liittyvältä karttamerkkejä, reittejä, alueita sekä kuvia.</p>
+	<p>Voit myös kirjoittaa oman vaihtoehtosi "Joku, muu mikä?" -tekstikentän sisälle, mikäli kyselyn laatija on sellaisen laittanut</p>
+    <p>Joidenkin kysymysten yhteydessä kartalla voi näkyä kysymykseen liittyvältä karttamerkkejä, viivoja, alueita sekä kuvia.</p>
     <h2>Karttaan vastaaminen</h2>
     <p> Karttaa voi liikuttaa hiirellä vetämällä ja zoomata hiiren rullalla, mutta oletusarvoisesti se on kyselyn laatijan määräämässä sijannissa.</p>
-    <p>Kysymyksestä riippuen, karttaan joko ei voi vastata, siihen voi laittaa merkin, useita merkkejä, polun tai alueen. Nämät kaikki asetetaan klikkaamalla karttaan hiiren ensimmäisellä painikkeella. Kartalla olevaa pistettä voi vetää hiirellä paikasta toiseen ja toisella hiiren painikkeella poistaa. Poluissa ja alueissa kulmapisteiden välissä olevista pallukoista vetämällä voi luoda uuden kulmapisteen.</p>
+    <p>Kysymyksestä riippuen, karttaan joko ei voi vastata, siihen voi laittaa merkin, useita merkkejä, viivan tai alueen. Nämät kaikki asetetaan klikkaamalla karttaan hiiren ensimmäisellä painikkeella. Kartalla olevaa pistettä voi vetää hiirellä paikasta toiseen ja toisella hiiren painikkeella poistaa. Viivoissa ja alueissa kulmapisteiden välissä olevista pallukoista vetämällä voi luoda uuden kulmapisteen.</p>
 </div>
 
 <script id="welcomeTmpl" type="text/x-jquery-tmpl">
@@ -95,6 +96,7 @@ $( document ).ready(function() {
                 <input type="radio" name="text" id="4" value="4"/>
                 <input type="radio" name="text" id="5" value="5"/>
                 ${high_text}
+				<br/>
                 <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoa
             {{else type == 4}}
                 ${low_text}
@@ -106,6 +108,7 @@ $( document ).ready(function() {
                 <input type="radio" name="text" id="6" value="6"/>
                 <input type="radio" name="text" id="7" value="7"/>
                 ${high_text}
+				<br/>
                 <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoa
 				<!-- Tämä valitaan jos kysely on monivalinta-->
 			{{else type == 5}}

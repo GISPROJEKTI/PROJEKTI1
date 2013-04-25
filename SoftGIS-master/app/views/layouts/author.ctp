@@ -80,7 +80,7 @@ $( document ).ready(function() {
                 array('class' => 'button')
             );?>
             <?php echo $this->Html->link(
-                'Reitit',
+                'Vektoriaineistot',
                 array('controller' => 'paths', 'action' => 'index'),
                 array('class' => 'button')
             );?>

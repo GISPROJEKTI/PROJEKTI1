@@ -43,6 +43,7 @@ class PollsController extends AppController
         $this->set('responseCount', $responseCount);
 
         $answers = array(
+
             0 => 'Ei tekstivastausta',
             1 => 'Teksti',
             2 => 'Kyllä, ei, en osaa sanoa',
@@ -121,6 +122,7 @@ class PollsController extends AppController
         $merkkiarray = array();
         foreach ($markers as $marker) {
             // Se lista, jossa nämä näytettään räjätää, jos seassa on alkioita joilla tyhjä nimi.
+
             if ($marker['Marker']['name'] != null && $marker['Marker']['name'] != "") {
                 array_push($merkkiarray, $marker['Marker']);
             }

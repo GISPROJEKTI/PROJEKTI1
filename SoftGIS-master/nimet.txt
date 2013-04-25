@@ -1,0 +1,42 @@
+views/layouts/author.ctp
+
+Reitit -> Vektoriaineistot
+
+views/paths/index.ctp
+
+Reitit ja alueet -> Viivat ja alueet
+Tuo reitti tiedostosta -> Tuo aineisto tiedostosta
+
+views/paths/import.ctp
+
+Tuo reittidata -> Tuo aineisto
+error alertit
+
+views/paths/edit.ctp
+
+Reitin tiedot -> Aineiston tiedot
+Polku -> Viiva
+
+paths_controller.ctp
+
+Reitti tallennettu -> Aineisto tallennettu
+
+polls/view.ctp
+
+Reitit ja alueet -> Viivat ja alueet
+error reitit/alueet
+
+polls/modify.ctp
+
+Reitit -> Viivat ja alueet
+Searchiin Reitit -> viivat ja alueet && Luo reitti -> Vektoriaineistot
+Kartan tyyppi== kartta polku --> kartta viiva
+
+answerApp.js
+
+Voit luoda kartalle polun -> Voit luoda kartalle viivan
+
+views/answers/answer.ctp
+
+Voit luoda kartalle polun -> Viivan
+Apua boksin sisältö

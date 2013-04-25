@@ -46,7 +46,7 @@ class PathsController extends AppController
                 );
             }
             if ($this->Path->save($this->data)) {
-                $this->Session->setFlash('Reitti tallennettu');
+                $this->Session->setFlash('Aineisto tallennettu');
                 $this->redirect(
                     array('controller' => 'paths', 'action' => 'index')
                 );
