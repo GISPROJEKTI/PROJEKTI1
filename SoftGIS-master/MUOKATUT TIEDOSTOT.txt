@@ -66,6 +66,10 @@ views/overlays/upload:
 
 ohjeita näkyville käyttäjälle heti
 
+answers/finish.ctp:
+
+ohjeteksti selainikkunan sulkemiseksi vain jos oikea vastaus
+
 Muuta:
 -
 
