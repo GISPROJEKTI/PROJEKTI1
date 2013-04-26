@@ -59,7 +59,7 @@ $( document ).ready(function() {
     <div id="map" class="map">
     </div>
 </div>
-<button type="submit">Tallenna karttamerkki</button>
+<button type="submit">Tallenna</button>
 <?php echo $this->Html->link(
     'Peruuta',
     array('action' => 'index'),

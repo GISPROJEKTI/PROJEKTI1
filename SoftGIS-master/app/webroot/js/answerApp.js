@@ -51,7 +51,7 @@ var AnswerApp = Spine.Controller.create({
 
         $(window).bind("beforeunload", function() {
             if (me.promptBeforeUnload) {
-                return "Vastauksiasi ei tallenneta, kun poistut sivulta. Haluatko varmasti poistua sivulta?";
+                return "Vastauksiasi ei tallenneta, kun poistut sivulta. \nHaluatko varmasti poistua sivulta?";
             }
         });
     },
@@ -229,7 +229,7 @@ var AnswerApp = Spine.Controller.create({
         if ( !this.noAnswerCheckbox.is(':checked') && this.activeQuestion.map_type > 1 && this.map.getMapAnswer() == "" ) {
             // If map can have enswers, check that user has selected location, or notify
             this.mapEl.qtip({
-                content: "Et ole valinnut sijaintia kartalta",
+                content: "Et ole vastannut kartalle",
                 position: {
                     my: "bottom center",
                     at: "top center",
@@ -343,12 +343,12 @@ var AnswerApp = Spine.Controller.create({
 						}
 					};
 				
-			}else{
-				if ( this.activeQuestion.type == 1 ) {
-					answerVal = this.questionEl.find("textarea").val();
-				} else {
-					answerVal = this.questionEl.find("input:checked").val();
-				}
+			} else if ( this.activeQuestion.type == 1 ){
+				answerVal = this.questionEl.find("textarea").val();
+			} else if ( this.activeQuestion.type == 0 ){ //ei tekstivastausta
+                answerVal = "";
+			} else {
+                answerVal = this.questionEl.find("input:checked").val();
 			}
             //console.log(answerVal);
         

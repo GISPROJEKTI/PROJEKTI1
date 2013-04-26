@@ -144,7 +144,7 @@ $( document ).ready(function() {
 ); ?>
 <?php echo $this->Form->input(
     'type', 
-    array('label' => 'Objektin tyyppi', 'options' => array('none','Viiva', 'Alue'))
+    array('label' => 'Aineiston tyyppi', 'options' => array('none','Viiva', 'Alue'))
 ); ?>
 <?php echo $this->Form->input(
     'stroke_color', 

@@ -2,7 +2,7 @@ Nimitykset, joita järjestelmässä käytetään:
 
 Reitit ja alueet -> Viivat ja alueet || Vektoriaineistot || aineistot
 
-Karttamerkit
+Karttamerkit || merkki
 Polku -> Viiva
 Alue
 Karttakuvat

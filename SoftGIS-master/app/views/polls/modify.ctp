@@ -61,8 +61,8 @@ var viewModel = {
     mapTypes: [
         { id: 0, label: "Ei karttaa" },
         { id: 1, label: "Kartta, ei vastausta" },
-        { id: 2, label: "Kartta, 1 markkeri" },
-        { id: 3, label: "Kartta, monta markkeria" },
+        { id: 2, label: "Kartta, 1 merkki" },
+        { id: 3, label: "Kartta, monta merkkiä" },
         { id: 4, label: "Kartta, viiva" },
         { id: 5, label: "Kartta, alue" }
     ],
@@ -289,7 +289,7 @@ $( document ).ready(function() {
 </div>
 
 <div class="input text">
-    <label>Kuvat</label>
+    <label>Karttakuvat</label>
     <input type="text" id="overlays" />
 </div>
 

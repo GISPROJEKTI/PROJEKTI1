@@ -51,7 +51,7 @@ $( document ).ready(function() {
     <p>Kyselyyn vastataan joko tekstikenttään tai monivalintaan, sekä mahdolliseen karttavastaukseen.</p>
     <p>Monivalinnassa valitse vaihtehdoista mielestäsi asiaa parhaiten kuvaava vaihtoehto.</p>
 	<p>Voit myös kirjoittaa oman vaihtoehtosi "Joku, muu mikä?" -tekstikentän sisälle, mikäli kyselyn laatija on sellaisen laittanut</p>
-    <p>Joidenkin kysymysten yhteydessä kartalla voi näkyä kysymykseen liittyvältä karttamerkkejä, viivoja, alueita sekä kuvia.</p>
+    <p>Joidenkin kysymysten yhteydessä kartalla voi näkyä kysymykseen liittyvältä karttamerkkejä, viivoja, alueita sekä karttakuvia.</p>
     <h2>Karttaan vastaaminen</h2>
     <p> Karttaa voi liikuttaa hiirellä vetämällä ja zoomata hiiren rullalla, mutta oletusarvoisesti se on kyselyn laatijan määräämässä sijannissa.</p>
     <p>Kysymyksestä riippuen, karttaan joko ei voi vastata, siihen voi laittaa merkin, useita merkkejä, viivan tai alueen. Nämät kaikki asetetaan klikkaamalla karttaan hiiren ensimmäisellä painikkeella. Kartalla olevaa pistettä voi vetää hiirellä paikasta toiseen ja toisella hiiren painikkeella poistaa. Viivoissa ja alueissa kulmapisteiden välissä olevista pallukoista vetämällä voi luoda uuden kulmapisteen.</p>

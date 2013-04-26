@@ -2,6 +2,11 @@
 
 class PollsController extends AppController
 {
+    //Asetetaan muita tauluja controllerin käyttöön.
+    //Netissä sanottiin, että tällainen on 'huonoa ohjelmointitapaa', mutta se toimii.
+    var $uses = array('Poll', 'Answer');
+
+
     public function beforeFilter()
     {
         parent::beforeFilter();
@@ -13,7 +18,7 @@ class PollsController extends AppController
     {
         $authorId = $this->Auth->user('id');
         $this->Poll->contain('Response');
-        $polls = $this->Poll->findAllByAuthorId($authorId);
+        $polls = $this->Poll->findAllByAuthorId($authorId, array(), array('id'));
         $this->set('polls', $polls);
     }
 
@@ -43,7 +48,6 @@ class PollsController extends AppController
         $this->set('responseCount', $responseCount);
 
         $answers = array(
-
             0 => 'Ei tekstivastausta',
             1 => 'Teksti',
             2 => 'Kyllä, ei, en osaa sanoa',
@@ -52,13 +56,14 @@ class PollsController extends AppController
 			5 => 'Monivalinta (max 9)'
         );
         $map_answers = array(
-        0 => "Ei karttaa",
-        1 => "Kartta, ei vastausta",
-        2 => "Kartta, 1 markkeri",
-        3 => "Kartta, monta markkeria",
-        4 => "Kartta, polku",
-        5 => "Kartta, alue"
+            0 => "Ei karttaa",
+            1 => "Kartta, ei vastausta",
+            2 => "Kartta, 1 merkki",
+            3 => "Kartta, monta merkkiä",
+            4 => "Kartta, polku",
+            5 => "Kartta, alue"
         );
+
         $this->set('answers', $answers);
         $this->set('map_answers', $map_answers);
         //debug($poll);
@@ -151,7 +156,12 @@ class PollsController extends AppController
 
         //debug($this);
 
-        if (!empty($id)) {
+        if ($this->Session->check('poll_temp')) { //if there is saved poll in the session read it
+            $poll = $this->Session->read('poll_temp');
+            $this->Session->delete('poll_temp');
+        }
+
+        else if (!empty($id)) {  //if we are modifying an existing poll
             $poll = $this->Poll->find(
                 'first',
                 array(
@@ -216,47 +226,6 @@ class PollsController extends AppController
             //debug($this->data);//die;
             $data = $this->_jsonToPollModel($this->data);
             //debug($data); debug($poll); die;
-			
-			//Samannimisen kyselyn tarkistus ALKAA
-			
-			$pollName = $data['Poll']['name'];
-			$pollName2 = $pollName . "(";
-			$pollAuthor = $data['Poll']['author_id'];;
-			
-			$conditions = array(
-			'OR' => array (
-					array(
-						'Poll.name' => $pollName,
-						'Poll.author_id' => $pollAuthor
-					),
-					array (
-						'Poll.name LIKE' => "$pollName2%",
-						'Poll.author_id' => $pollAuthor
-					)
-				)	
-			);			
-
-			$sameNameCount = $this->Poll->find('count', array('conditions' => $conditions));
-			
-			//jos löytyy samannimisiä kyselyitä
-			if ($sameNameCount > 0){
-			
-				$questionCount =  false;
-				
-				foreach ($poll['Question'] as $ii => $qq) {
-					$questionCount = true;
-				}	
-
-				//jos kyselyllä ei ole kysymyksiä kannassa --> uusi kysely --> jolloin laitetaan sulut ja numero
-				//jos kyselyllä on kysymyksiä kannassa --> olemassa olevan kyselyn muokkaus --> ei laiteta sulkuja ja numeroa
-				if($questionCount == false){
-				
-					$data['Poll']['name'] = $pollName . "(" . $sameNameCount . ")";
-				}
-			}
-			
-			//Samannimisen kyselyn tarkistus LOPPUU
-
 
             //kysymysten poisto osa1: merkataan kaikki kysymykset poistettaviksi
             foreach ($poll['Question'] as $i => $q) {
@@ -349,7 +318,7 @@ class PollsController extends AppController
 
                 //muutetaan kopioitavan kyselyn yksilöivät tiedot, että tämä voidaan tallentaa uutena
                 $poll['Poll']['id'] = null;
-                $poll['Poll']['name'] = $poll['Poll']['name'] . '_copy';
+                //$poll['Poll']['name'] = $poll['Poll']['name'] . '_copy';
                 $poll['Poll']['author_id'] = $this->Auth->user('id');
                 $poll['Poll']['launch'] = null;
                 $poll['Poll']['end'] = null;
@@ -378,19 +347,11 @@ class PollsController extends AppController
                 }
                 $poll['Overlay'] = $overlay;
 
-                //tallennetaan kysely
-                if ($this->Poll->saveAll($poll, array('validate'=>'first'))){
-                    $this->Session->setFlash('Kysely tallennettu');
-                    $this->redirect(array('action' => 'modify', $this->Poll->id));
-                } else {
-                    $this->Session->setFlash('Tallentaminen epäonnistui');
-                    $errors = $this->Poll->validationErrors;
-                    foreach ($errors as $err) {
-                        $this->Session->setFlash($err);
-                    }
-                    //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
-                    $this->redirect(array('action' => 'index'));
-                }
+
+                //save the data to session and reload it at modify
+                $this->Session->write('poll_temp', $poll);
+                //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
+                $this->redirect(array('action' => 'modify'));
             }
         } else {
             // jos kyselyä ei löytynyt
@@ -483,6 +444,29 @@ class PollsController extends AppController
         $this->Response->contain('Answer');
         $responses = $this->Response->findAllByPollId($pollId);
 
+
+        //header
+        $line = array();
+        $questions = $this->Poll->Question->findAllByPollId($pollId, 
+            array('type', 'map_type'), array(), 0,-1,-1
+        );
+        //debug($questions); //die;
+        foreach ($questions as $q) {
+            $line[] = array(
+                "text" => $q['Question']['type'],
+                "map" => $q['Question']['map_type']
+                );
+        }
+
+        $header = array(
+            "date" => "Aika",
+            "answer" => $line
+        );
+        $this->set('header', $header);
+        //debug($lines); die;
+
+
+        //answers
         $lines = array();
         foreach($responses as $response) {
             $line = array();
