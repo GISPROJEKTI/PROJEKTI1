@@ -7,7 +7,7 @@
 
 <script>
 var markerIconPath = "<?php echo $this->Html->url('/markericons/'); ?>";
-var overlayPath = "<?php echo $this->Html->url('/img/overlays/'); ?>";
+var overlayPath = "<?php echo $this->Html->url('/overlayimages/'); ?>";
 var publicAnswersPath = "<?php echo $this->Html->url('/answers/publicanswers.json'); ?>";
 var publicAnswerIcon = "<?php echo $this->Html->url('/img/public_answer.png'); ?>";
 var answerIcon = "<?php echo $this->Html->url('/img/answer.png'); ?>";
