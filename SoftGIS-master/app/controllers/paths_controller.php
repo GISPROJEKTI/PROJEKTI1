@@ -10,18 +10,39 @@ class PathsController extends AppController
 
     public function index()
     {
-        $this->Path->recursive = -1;
-        $paths = $this->Path->find('all');
+        $this->Path->recursive = 1;
+        $paths = $this->Path->findAllByAuthorId($this->Auth->user('id'), array('id','name','modified'), array('id'));
         $this->set('paths', $paths);
+        $othersPaths = $this->Path->find('all', array(
+            'conditions' => array('NOT' => array('Path.author_id' => $this->Auth->user('id'))), 
+            'recursive' => -1,
+            'fields' => array('id','name'),
+            'order' => array('id')
+            ));
+        $this->set('others_paths', $othersPaths);
     }
 
+    public function view($id = null)
+    {
+        if ($id != null) { // read data from db
+            $this->Path->recursive = -1;
+            $this->Path->id = $id;
+            $this->data = $this->Path->read();
+
+            $this->data['Path']['coordinates'] = stripslashes(
+                $this->data['Path']['coordinates']
+            );
+        } else {
+            $this->Session->setFlash('Aineistoa ei löytynyt');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
 
     public function import()
     {
         if (!empty($this->data)) {
             //save the data to session and reload it at modify
             $this->Session->write('path_temp', $this->data);
-            //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
             $this->redirect(array('action' => 'edit'));
         }
     }
@@ -53,13 +74,15 @@ class PathsController extends AppController
             } else {
                 $this->data['Path']['id'] = $id;
                 $author = $this->Path->find('first', array( 'conditions' => array('Path.id' => $id), 'recursive' => -1, 'fields' => array('author_id')));
-                 $this->data['Path']['author_id'] = $author['Path']['author_id'];
+                $this->data['Path']['author_id'] = $author['Path']['author_id'];
             }
 
             $this->data['Path']['coordinates'] = addslashes(
                 $this->data['Path']['coordinates']
             );
-            //debug($this->data);
+            $this->data['Path']['modified'] = date('Y-m-d');
+            
+            //debug($this->data); die;
             if ($this->data['Path']['author_id'] == $this->Auth->user('id') && $this->Path->save($this->data)) {
                 $this->Session->setFlash('Aineisto tallennettu');
                 $this->redirect(array('action' => 'index'));
@@ -70,8 +93,56 @@ class PathsController extends AppController
                 $this->data['Path']['coordinates'] = stripslashes(
                     $this->data['Path']['coordinates']
                 );
+                $errors = $this->Path->validationErrors;
+                foreach ($errors as $err) {
+                    $this->Session->setFlash($err);
+                }
             }
         }
+    }
+
+    public function copy($id = null)
+    {
+        if (!empty($id)) {
+            $this->Path->recursive = -1;
+            $this->Path->id = $id;
+            $this->data = $this->Path->read();
+            $this->data['Path']['id'] = null;
+            $this->data['Path']['author_id'] = $this->Auth->user('id');
+            //debug($this->data); die;
+
+            //save the data to session and reload it at modify
+            $this->Session->write('path_temp', $this->data);
+            $this->redirect(array('action' => 'edit'));
+        } else {
+            $this->Session->setFlash('Aineistoa ei löytynyt');
+            $this->redirect(array('action' => 'index'));
+        }
+
+    }
+
+    public function delete($id = null)
+    {
+        if (!empty($id)) {
+            $this->Path->id = $id;
+            $this->data = $this->Path->find('first', array( 'conditions' => array('Path.id' => $id), 'recursive' => -1, 'fields' => array('author_id')));
+
+
+            if (empty($this->data) || $this->data['Path']['author_id'] != $this->Auth->user('id')) {
+                $this->Session->setFlash('Poistaminen ei onnistunut');
+            } else { //poistetaan
+                //debug($this->data); die;
+
+                $this->Path->delete($id, false);
+
+                $this->Session->setFlash('Karttakuva poistettu');
+            }
+        } else {
+            $this->Session->setFlash('Aineistoa ei löytynyt');
+        }
+
+        $this->redirect(array('action' => 'index'));
+
     }
 
     public function search()

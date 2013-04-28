@@ -49,6 +49,7 @@ CREATE TABLE `paths` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `author_id` int(11) NOT NULL,
+  `modified` date DEFAULT NULL,
   `type` int(11) NOT NULL DEFAULT '1',
   `content` text,
   `stroke_color` varchar(6) DEFAULT '333333',

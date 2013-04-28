@@ -15,18 +15,6 @@ function encodeCoordinates(){
     //console.info(decodedCoordinates);
 }
 
-function setMarkerType(){
-    if ($('#PathType').val() == 1){
-        document.getElementById("PathFillOpacity").disabled = true;
-        document.getElementById("PathFillColor").disabled = true;
-        document.getElementById("areaOnly").hidden = true;
-    }else{
-        document.getElementById("PathFillOpacity").disabled = false;
-        document.getElementById("PathFillColor").disabled = false;
-        document.getElementById("areaOnly").hidden = false;
-    }
-}
-
 
 $( document ).ready(function() {
 
@@ -101,59 +89,43 @@ $( document ).ready(function() {
     });
     //console.info(elements);
 
-    $( "#PathEditForm input" ).change(function() {
-        var val = $(this).val();
-        _.each(elements, function(el) {
-            el.setOptions({ 
-                strokeColor: "#" + $("#PathStrokeColor").val(),
-                strokeOpacity: $("#PathStrokeOpacity").val(),
-                strokeWeight: $("#PathStrokeWeight").val(),
-                fillColor: "#" + $("#PathFillColor").val(),
-                fillOpacity: $("#PathFillOpacity").val(),
-            });
-        });
-    });
-
-    //Piilotetaan vain alueelle tarkoitetut attribuutit, kun niiden disabloiminen ei toimi.
-    document.getElementById('PathType').onchange = function() {
-        setMarkerType();
-    };
-
-    //alussa laitetaan oikeat laatikot näkyviin
-    setMarkerType();
+    $("#otsikko").html("<h3>" + $("#PathName").val() + "</h3>");
+    $("#sisältö").html($("#PathContent").val());
     
 });
 </script>
 
 
 <h1>Aineiston tiedot</h1>
+<div id="otsikko"></div>
+<div id="sisältö"></div>
 
 <?php echo $this->Form->create('Path'); ?>
-<?php echo $this->Form->input(
-    'name', 
-    array('label' => 'Nimi','placeholder'=>'Anna nimi','required'=> true)
-); ?>
-<?php echo $this->Form->input(
-    'content', 
-    array('label' => 'Sisältö')
-); ?>
-<?php echo $this->Form->input(
-    'type', 
-    array('label' => 'Aineiston tyyppi', 'options' => array('none','Viiva', 'Alue'))
-); ?>
-<?php echo $this->Form->input(
-    'stroke_color', 
-    array('label' => 'Viivan väri', 'class' => 'color small')
-); ?>
-<?php echo $this->Form->input(
-    'stroke_opacity', 
-    array('label' => 'Viivan opasitetti', 'class' => 'small')
-); ?>
-<?php echo $this->Form->input(
-    'stroke_weight', 
-    array('label' => 'Viivan paksuus', 'class' => 'small')
-); ?>
-<div id='areaOnly'>
+<div hidden>
+    <?php echo $this->Form->input(
+        'name', 
+        array('label' => 'Nimi')
+    ); ?>
+    <?php echo $this->Form->input(
+        'content', 
+        array('label' => 'Sisältö')
+    ); ?>
+    <?php echo $this->Form->input(
+        'type', 
+        array('label' => 'Aineiston tyyppi', 'options' => array('none','Viiva', 'Alue'))
+    ); ?>
+    <?php echo $this->Form->input(
+        'stroke_color', 
+        array('label' => 'Viivan väri', 'class' => 'color small')
+    ); ?>
+    <?php echo $this->Form->input(
+        'stroke_opacity', 
+        array('label' => 'Viivan opasitetti', 'class' => 'small')
+    ); ?>
+    <?php echo $this->Form->input(
+        'stroke_weight', 
+        array('label' => 'Viivan paksuus', 'class' => 'small')
+    ); ?>
     <?php echo $this->Form->input(
         'fill_color', 
         array('label' => 'Täytön väri', 'class' => 'color small')
@@ -162,21 +134,20 @@ $( document ).ready(function() {
         'fill_opacity', 
         array('label' => 'Täytön opasitetti', 'class' => 'small')
     ); ?>
-</div>
-<div hidden>
+
     <?php echo $this->Form->input(
         'coordinates', 
         array('label' => 'Koordinaatit')
     ); ?>
 </div>
 <div class="input map-container">
-    <label>Esikatselu</label>
+    <!--<label>Esikatselu</label>-->
     <div id="map" class="map">
     </div>
 </div>
-<button type="submit" class="button">Tallenna</button>
+
 <?php echo $this->Html->link(
-    'Peruuta',
+    'Takaisin',
     array('action' => 'index'),
     array('class' => 'button cancel')
 ); ?>

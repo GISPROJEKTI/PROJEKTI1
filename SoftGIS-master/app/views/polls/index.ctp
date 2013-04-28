@@ -17,11 +17,7 @@ $( document ).ready(function() {
             <th>Nimi</th>
             <th>Testaa</th>
             <th>Julkinen</th>
-
-			<!-- Tähän on lisätty Poista kenttä-->
             <th>Poista</th>
-			<!-- Tässä loppuu-->
-
             <th>Kopioi</th>
             <th>Vastauksia</th>
         </tr>
@@ -66,7 +62,6 @@ $( document ).ready(function() {
                         ); 
                     } ?>
 				</td>
-				<!-- Tässä Poista napin toiminnallisuus-->
 				<td>
                     <?php echo $this->Html->link(
                         'Poista',
@@ -80,7 +75,6 @@ $( document ).ready(function() {
 						'Oletko varma että haluat poistaa kyselyn?'
                     ); ?>
                 </td>
-				<!--Tässä loppuu-->
                 <td>
                     <?php echo $this->Html->link(
                         'Kopioi',

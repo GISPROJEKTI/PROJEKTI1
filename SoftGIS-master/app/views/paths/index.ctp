@@ -14,11 +14,97 @@
         array('class' => 'button')
     ); ?>
 </div>
-<ul>
-    <?php foreach ($paths as $m) {
-        echo '<li>' . $this->Html->link(
-            $m['Path']['name'], 
-            array('action' => 'edit', $m['Path']['id'])
-        ) . '</li>';
-    } ?>
-</ul>
+
+<h3>Käyttäjän aineistot</h3>
+<table class="list"><!--Käyttäjän omat aineistot-->
+    <thead>
+        <tr>
+            <th>Nimi</th>
+            <th>Muokkaa</th>
+            <th>MuokkausPVM</th>
+            <th>Kopioi</th>
+            <th>Poista</th>
+            <th>Käytössä</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($paths as $path): ?>
+            <tr>
+                <td>
+                    <?php echo $this->Html->link(
+                        $path['Path']['name'], 
+                        array('action' => 'view', $path['Path']['id']),
+                        array('title' => 'Katsele aineistoa')
+                        );
+                    ?>
+                </td>
+                <td>
+                    <?php echo $this->Html->link(
+                        'muokkaa', 
+                        array('action' => 'edit', $path['Path']['id']),
+                        array('title' => 'Muokkaa aineistoa')
+                        );
+                    ?>
+                </td>
+                <td>
+                    <?php echo $path['Path']['modified']; ?>
+                </td>
+                <td>
+                    <?php echo $this->Html->link(
+                        'kopioi', 
+                        array('action' => 'copy', $path['Path']['id']),
+                        array('title' => 'Kopioi aineisto'),
+                        'Oletko varma että haluat kopioida aineiston?'
+                        );
+                    ?>
+                </td>
+                <td>
+                    <?php echo $this->Html->link(
+                        'poista', 
+                        array('action' => 'delete', $path['Path']['id']),
+                        array('title' => 'Poista aineisto'),
+                        'Oletko varma että haluat poistaa aineiston?'
+                        );
+                    ?>
+                </td>
+                <td>
+                    <?php echo count($path['Poll']); ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<h3>Muiden aineistot</h3>
+<table class="list"> <!--Muiden aineistot-->
+    <thead>
+        <tr>
+            <th>Nimi</th>
+            <th>Kopioi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($others_paths as $path): ?>
+            <tr>
+                <td>
+                    <?php echo $this->Html->link(
+                        $path['Path']['name'], 
+                        array('action' => 'view', $path['Path']['id']),
+                        array('title' => 'Katsele aineistoa')
+                        );
+                    ?>
+                </td>
+                <td>
+                    <?php echo $this->Html->link(
+                        'kopioi', 
+                        array('action' => 'copy', $path['Path']['id']),
+                        array('title' => 'Kopioi aineisto'),
+                        'Oletko varma että haluat kopioida aineiston?'
+                        );
+                    ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+

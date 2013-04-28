@@ -32,7 +32,7 @@
         // echo $this->Html->script('jquery.meow');
         // echo $this->Html->script('smoke');
         echo $this->Html->script('jquery.tokeninput');
-        echo $this->Html->script('jscolor');
+        echo $this->Html->script('jscolor/jscolor');
 
         echo $scripts_for_layout;
     ?>

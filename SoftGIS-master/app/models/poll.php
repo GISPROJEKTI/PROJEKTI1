@@ -49,13 +49,21 @@ class Poll extends AppModel
         //debug($field);
         //debug($this->data['Poll']);
 
-        $conditions = array(
-            $field => $this->data['Poll'][$field],  //Parametrinä annetu kenttä sisältää saman datan (eli esim. on käyttäjän oma data, eikä jonkun muun)
-            'OR' => $check, //sisältää tarkastetavan tiedon
-            'NOT' => array(
-                'Poll.id' => $this->data['Poll']['id'] //Mutta ei laske itseään mukaan
-            )
-        );
+        if (empty($this->data['Poll']['id'])){ // jos on tallennettu
+            $conditions = array(
+                $field => $this->data['Poll'][$field],  //Parametrinä annetu kenttä sisältää saman datan (eli esim. on käyttäjän oma data, eikä jonkun muun)
+                'OR' => $check //sisältää tarkastetavan tiedon
+
+            );
+        } else { // jos ei ole tallennettu
+            $conditions = array(
+                $field => $this->data['Poll'][$field],  //Parametrinä annetu kenttä sisältää saman datan (eli esim. on käyttäjän oma data, eikä jonkun muun)
+                'OR' => $check, //sisältää tarkastetavan tiedon
+                'NOT' => array(
+                    'Poll.id' => $this->data['Poll']['id'] //Mutta ei laske itseään mukaan
+                )
+            );
+        }
 
         $sameNameCount = $this->find('count', array('conditions' => $conditions));
         //debug($sameNameCount == 0); //die;
@@ -115,3 +123,5 @@ class Poll extends AppModel
         return true;
     }
 }
+
+

@@ -321,6 +321,11 @@ class AppSchema extends CakeSchema
             'type' => 'integer',
             'null' => false
         ),
+        'modified' => array(
+            'type' => 'date',
+            'null' => true,
+            'default' => null
+        ),
         /**
          * 1 = Polyline
          * 2 = Polygon

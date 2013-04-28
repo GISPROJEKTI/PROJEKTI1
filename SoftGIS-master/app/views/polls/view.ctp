@@ -106,7 +106,7 @@ $(document).ready(function() {
                     if ($end) {
                         echo date('j.n.Y', strtotime($end));
                     } else {
-                        echo 'ei päättymispäivää';
+                        echo 'Ei päättymispäivää';
                     }
                 } else {
                     echo 'Ei aukioloaikaa';
