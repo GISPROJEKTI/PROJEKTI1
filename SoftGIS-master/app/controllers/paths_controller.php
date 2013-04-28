@@ -19,42 +19,58 @@ class PathsController extends AppController
     public function import()
     {
         if (!empty($this->data)) {
-            $this->data['Path']['author_id'] = $this->Auth->user('id');
-            $this->data['Path']['coordinates'] = addslashes(
-                $this->data['Path']['coordinates']
-            );
-
-            if ($this->Path->save($this->data)) {
-                $this->redirect(array('action' => 'edit', $this->Path->id));
-            } else {
-                $this->Session->setFlash('Reitin luonti epäonnistui');
-            }
+            //save the data to session and reload it at modify
+            $this->Session->write('path_temp', $this->data);
+            //koska tällä luokalla ei ole omaa viewiä, meidän pitää ohjata jollekkin toiselle viewille
+            $this->redirect(array('action' => 'edit'));
         }
     }
 
     public function edit($id = null)
     {
-        if (!empty($this->data)) {
-            // debug($this->data);die;
-            if ($id != null) {
+        if (empty($this->data)) { //load data
+
+            if ($this->Session->check('path_temp')) { //if there is saved data in the session read it
+                $this->data = $this->Session->read('path_temp');
+                $this->Session->delete('path_temp');
+            } else if ($id != null) { // read data from db
+                $this->Path->recursive = -1;
                 $this->Path->id = $id;
-            } else {
+                $this->data = $this->Path->read();
+
+                $this->data['Path']['coordinates'] = stripslashes(
+                    $this->data['Path']['coordinates']
+                );
+            } else { //create a new data
+                //$this->Session->setFlash('Aineistoa ei löytynyt');
+                //$this->redirect(array('action' => 'index'));
+            }
+
+        } else { //Save data
+            if ($id == null) { //create new
                 $this->Path->create();
                 $this->data['Path']['author_id'] = $this->Auth->user('id');
-                $this->data['Path']['coordinates'] = addslashes(
+            } else {
+                $this->data['Path']['id'] = $id;
+                $author = $this->Path->find('first', array( 'conditions' => array('Path.id' => $id), 'recursive' => -1, 'fields' => array('author_id')));
+                 $this->data['Path']['author_id'] = $author['Path']['author_id'];
+            }
+
+            $this->data['Path']['coordinates'] = addslashes(
+                $this->data['Path']['coordinates']
+            );
+            //debug($this->data);
+            if ($this->data['Path']['author_id'] == $this->Auth->user('id') && $this->Path->save($this->data)) {
+                $this->Session->setFlash('Aineisto tallennettu');
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash('Tallentaminen epäonnistui');
+                //$this->redirect(array('action' => 'index'));
+
+                $this->data['Path']['coordinates'] = stripslashes(
                     $this->data['Path']['coordinates']
                 );
             }
-            if ($this->Path->save($this->data)) {
-                $this->Session->setFlash('Aineisto tallennettu');
-                $this->redirect(
-                    array('controller' => 'paths', 'action' => 'index')
-                );
-            }
-        } else {
-            $this->Path->recursive = -1;
-            $this->Path->id = $id;
-            $this->data = $this->Path->read();
         }
     }
 
