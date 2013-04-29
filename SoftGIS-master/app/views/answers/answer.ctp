@@ -85,7 +85,7 @@ $( document ).ready(function() {
             {{if type == 1}}
                 <textarea name="text" id="texta"></textarea>
             {{else type == 2}}
-                <input type="radio" name="texts" class="joo"  id="1" value="Kyllä"/>Kyllä
+                <input type="radio" name="text" class="joo"  id="1" value="Kyllä"/>Kyllä
                 <input type="radio" name="text" id="2" value="Ei"/>Ei
                 <input type="radio" name="text" id="Eos" value="En osaa sanoa"/>En osaa sanoaa
             {{else type == 3}}
