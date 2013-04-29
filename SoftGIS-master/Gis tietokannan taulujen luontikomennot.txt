@@ -37,6 +37,9 @@ CREATE TABLE `markers` (
  CREATE TABLE `overlays` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `modified` date DEFAULT NULL,
+  `content` text,
   `image` varchar(50) NOT NULL,
   `ne_lat` float NOT NULL,
   `ne_lng` float NOT NULL,

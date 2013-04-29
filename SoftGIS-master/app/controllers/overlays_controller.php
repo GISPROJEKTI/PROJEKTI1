@@ -14,26 +14,58 @@ class OverlaysController extends AppController
         if (!file_exists(APP.'webroot'.DS.'overlayimages'.DS) || !is_writable(APP.'webroot'.DS.'overlayimages'.DS)) {
             $this->Session->setFlash(APP.'webroot'.DS.'overlayimages'.DS .' hakemistoa ei ole tai sinne ei ole kirjoitusoikeuksia. Lähetä tämä virheilmoitus palvelimen ylläpitäjälle, hän voi korjata asian.');
         }
-        
-        $this->Overlay->recursive = -1;
-        $overlay = $this->Overlay->find('all');
-        $this->set('overlay', $overlay);
+
+        $this->Overlay->recursive = 1;
+        $overlays = $this->Overlay->findAllByAuthorId($this->Auth->user('id'), array('id','name','modified','image'), array('id'));
+        $this->set('overlays', $overlays);
+        $othersOverlays = $this->Overlay->find('all', array(
+            'conditions' => array('NOT' => array('Overlay.author_id' => $this->Auth->user('id'))), 
+            'recursive' => -1,
+            'fields' => array('id','name'),
+            'order' => array('id')
+            ));
+        $this->set('others_overlays', $othersOverlays);
+        //debug($othersOverlays);
     }
 
 
     public function view($id = null)
     {
-        $this->Overlay->id = $id;
+        if (!empty($id)){ //read data from db
+            $this->Overlay->id = $id;
+            $this->data = $this->Overlay->read();
+        } else {
+            $this->Session->setFlash('Karttakuvaa ei löytynyt');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+
+
+    public function edit($id = null)
+    {
         if (empty($this->data)) {
-            if (!empty($id)){
+            if ($this->Session->check('overlay_temp')) { //if there is saved data in the session read it
+                $this->data = $this->Session->read('overlay_temp');
+                $this->Session->delete('overlay_temp');
+            } else if (!empty($id)){ //read data from db
+                $this->Overlay->id = $id;
                 $this->data = $this->Overlay->read();
             } else {
                 $this->Session->setFlash('Karttakuvaa ei löytynyt');
                 $this->redirect(array('action' => 'index'));
             }
         } else {
-            //debug($this->data);//die;
-            if ($this->Overlay->save($this->data)) {
+            if ($id == null) { //create new
+                $this->Overlay->create();
+                $this->data['Overlay']['author_id'] = $this->Auth->user('id');
+            } else {
+                $this->data['Overlay']['id'] = $id;
+                $author = $this->Overlay->find('first', array( 'conditions' => array('Overlay.id' => $id), 'recursive' => -1, 'fields' => array('author_id')));
+                $this->data['Overlay']['author_id'] = $author['Overlay']['author_id'];
+            }
+
+            $this->data['Overlay']['modified'] = date('Y-m-d');
+            if ($this->data['Overlay']['author_id'] == $this->Auth->user('id') && $this->Overlay->save($this->data)) {
                 $this->Session->setFlash('Karttakuva tallennettu.');
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -46,8 +78,87 @@ class OverlaysController extends AppController
         }
     }
 
+    public function copy($id = null)
+    {
+        if (!empty($id)) {
+            $this->Overlay->recursive = -1;
+            $this->Overlay->id = $id;
+            $this->data = $this->Overlay->read();
+            $this->data['Overlay']['id'] = null;
+            $this->data['Overlay']['author_id'] = $this->Auth->user('id');
+
+            $filePath = APP.'webroot'.DS.'overlayimages'.DS;
+
+            if (file_exists($filePath. $this->data['Overlay']['image'])) {
+
+                if ($cut = strrpos($this->data['Overlay']['image'], '.', -0)) {
+                    $fileExtension = substr($this->data['Overlay']['image'], $cut);
+                }
+                $newName = String::uuid().$fileExtension;
+
+                //debug($filePath.$newName); die;
+                    
+                if (copy($filePath. $this->data['Overlay']['image'], $filePath.$newName)) {
+                    $this->data['Overlay']['image'] = $newName;
+                    //$this->Session->setFlash('Karttakuva kopioitu');
+                } else {
+                    $this->data['Overlay']['image'] = null;
+                    $this->Session->setFlash('kuvatiedotoa ei löytynyt');
+                }
+            } else {
+                    $this->data['Overlay']['image'] = null;
+                    $this->Session->setFlash('kuvatiedotoa ei löytynyt');
+                }
+            //debug($this->data); die;
+
+            //save the data to session and reload it at modify
+            $this->Session->write('overlay_temp', $this->data);
+            $this->redirect(array('action' => 'edit'));
+        } else {
+            $this->Session->setFlash('Karttakuvaa ei löytynyt');
+            $this->redirect(array('action' => 'index'));
+        }
+
+    }
+
+    public function delete($id = null)
+    {
+        if (!empty($id)) {
+            $this->Overlay->id = $id;
+            $this->data = $this->Overlay->find('first', array( 'conditions' => array('Overlay.id' => $id), 'recursive' => -1, 'fields' => array('author_id', 'image')));
+
+
+            if (empty($this->data) || $this->data['Overlay']['author_id'] != $this->Auth->user('id')) {
+                $this->Session->setFlash('Poistaminen ei onnistunut');
+            } else { //poistetaan
+                //debug($this->data); die;
+
+                if (file_exists(APP.'webroot'.DS.'overlayimages'.DS. $this->data['Overlay']['image'])) {
+                    if (unlink(APP.'webroot'.DS.'overlayimages'.DS. $this->data['Overlay']['image'])) {
+                        $this->Session->setFlash('Karttakuva poistettu');
+                    } else {
+                        $this->Session->setFlash('Merkintä poistettu, kuvatiedotoa ei ollut');
+                    }
+                }
+
+                $this->Overlay->delete($id, false);
+
+                //$this->Session->setFlash('Karttakuva poistettu');
+            }
+        } else {
+            $this->Session->setFlash('Karttakuvaa ei löytynyt');
+        }
+
+        $this->redirect(array('action' => 'index'));
+
+    }
+
     public function upload()
     {
+        /*
+        *Tämä toteutus tallentaa kuvat palvelimelle, tarkastamatta sitä, tulevatko ne käyttöön vai ei.
+        */
+
         //virheilmoitus, jos tiedostoon ei ole käyttöoikeuksia
         if (!file_exists(APP.'webroot'.DS.'overlayimages'.DS) || !is_writable(APP.'webroot'.DS.'overlayimages'.DS)) {
             $this->Session->setFlash(APP.'webroot'.DS.'overlayimages'.DS .' hakemistoa ei ole tai sinne ei ole kirjoitusoikeuksia. Lähetä tämä virheilmoitus palvelimen ylläpitäjälle, hän voi korjata asian.');
@@ -72,13 +183,15 @@ class OverlaysController extends AppController
             }
             else { //Kaikki ok
 
-                $overlay['name'] = $file['name'];
-                $overlay['image'] = String::uuid().str_replace("image/", ".", $file['type']);
+                $this->data['Overlay']['name'] = $file['name'];
+                $this->data['Overlay']['image'] = String::uuid().str_replace("image/", ".", $file['type']);
                 //debug($overlay);//die;
 
-                if ($this->Overlay->save($overlay) && move_uploaded_file($file['tmp_name'],  APP.'webroot'.DS.'overlayimages'.DS. $overlay['image'])) {
-                    $this->Session->setFlash('Karttakuva tallennettu.');
-                    $this->redirect(array('action' => 'view', $this->Overlay->id));
+                if ($this->Overlay->validates(array('fieldList' => array('image'))) && move_uploaded_file($file['tmp_name'],  APP.'webroot'.DS.'overlayimages'.DS. $this->data['Overlay']['image'])) {
+
+                    //save the data to session and reload it at modify
+                    $this->Session->write('overlay_temp', $this->data);
+                    $this->redirect(array('action' => 'edit'));
                 } else {
                     $this->Session->setFlash('Tallentaminen epäonnistui');
                     $errors = $this->Overlay->validationErrors;
@@ -90,22 +203,6 @@ class OverlaysController extends AppController
                 //debug($this->data);
             }
         }
-    }
-
-    public function delete($id = null)
-    {
-        //Tätä ominaisuutta ei voi käyttää niin kauan kunnes kuvilla ei ole userID:tä. Koska muuten joku poistaa jonkun toisen kyselyssä käyttämät kuvat!
-        if (!empty($id)  && false) {
-            if($this->Overlay->delete($id)){
-                $this->Session->setFlash('Karttakuva poistettu');
-            } else {
-                $this->Session->setFlash('Poistaminen ei onnistunut');
-            }
-        } else {
-            $this->Session->setFlash('Karttakuvaa ei löytynyt tai ominaisuus pois käytöstä');
-        }
-        $this->redirect(array('action' => 'index'));
-
     }
 
     public function search()

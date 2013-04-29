@@ -135,7 +135,7 @@ class PathsController extends AppController
 
                 $this->Path->delete($id, false);
 
-                $this->Session->setFlash('Karttakuva poistettu');
+                $this->Session->setFlash('Aineisto poistettu');
             }
         } else {
             $this->Session->setFlash('Aineistoa ei löytynyt');

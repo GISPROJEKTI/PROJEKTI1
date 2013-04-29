@@ -195,7 +195,7 @@ $(document).ready(function() {
         <?php foreach ($overlays as $overlay): ?>
             <tr>
                 <th class="mediumfixed"><?php echo $overlay['name']; ?></th>
-                <td> </td>
+                <td><?php echo $overlay['content']; ?></td>
             </tr>
         <?php endforeach; ?>
     <?php else: ?>

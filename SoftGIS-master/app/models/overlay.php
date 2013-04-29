@@ -16,7 +16,6 @@ class Overlay extends AppModel
             ),
             'unique' => array(
                 'rule' => 'isUnique',
-                'on' => 'update',
                 'message' => 'Tämänniminen kuva on jo olemassa.'
             )
         ),
@@ -32,22 +31,18 @@ class Overlay extends AppModel
         ),
         'ne_lat' => array(
             'rule' => array('decimal'),
-            'on' => 'update',
             'message' => 'Koordinaatin on oltava desimaaliluku. (Tässä desimaaliosa erotetaan pisteellä.)'
         ),
         'ne_lng' => array(
             'rule' => array('decimal'),
-            'on' => 'update',
             'message' => 'Koordinaatin on oltava desimaaliluku. (Tässä desimaaliosa erotetaan pisteellä.)'
         ),
         'sw_lat' => array(
             'rule' => array('decimal'),
-            'on' => 'update',
             'message' => 'Koordinaatin on oltava desimaaliluku. (Tässä desimaaliosa erotetaan pisteellä.)'
         ),
         'sw_lng' => array(
             'rule' => array('decimal'),
-            'on' => 'update',
             'message' => 'Koordinaatin on oltava desimaaliluku. (Tässä desimaaliosa erotetaan pisteellä.)'
         ),
     );

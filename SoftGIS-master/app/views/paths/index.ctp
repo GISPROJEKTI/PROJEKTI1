@@ -21,7 +21,7 @@
         <tr>
             <th>Nimi</th>
             <th>Muokkaa</th>
-            <th>MuokkausPVM</th>
+            <th>Muokattu</th>
             <th>Kopioi</th>
             <th>Poista</th>
             <th>Käytössä</th>
