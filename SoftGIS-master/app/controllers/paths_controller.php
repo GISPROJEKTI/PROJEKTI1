@@ -32,6 +32,8 @@ class PathsController extends AppController
             $this->data['Path']['coordinates'] = stripslashes(
                 $this->data['Path']['coordinates']
             );
+
+            $this->set('author', $this->Auth->user('id'));
         } else {
             $this->Session->setFlash('Aineistoa ei löytynyt');
             $this->redirect(array('action' => 'index'));
@@ -58,6 +60,10 @@ class PathsController extends AppController
                 $this->Path->recursive = -1;
                 $this->Path->id = $id;
                 $this->data = $this->Path->read();
+                if ($this->data['Path']['author_id'] != $this->Auth->user('id')) { //vain omia aineistoja voi muokata
+                    $this->Session->setFlash('Voit muokata vain omia aineistoja');
+                    $this->redirect(array('action' => 'index'));
+                }
 
                 $this->data['Path']['coordinates'] = stripslashes(
                     $this->data['Path']['coordinates']

@@ -97,6 +97,32 @@ $( document ).ready(function() {
 
 
 <h1>Aineiston tiedot</h1>
+    <div class="subnav">
+        <?php if ($this->data['Path']['author_id'] == $author) {
+            echo $this->Html->link(
+                'muokkaa', 
+                array('action' => 'edit', $this->data['Path']['id']),
+                array('class' => 'button','title' => 'Muokkaa aineistoa')
+            );
+        } ?>
+
+        <?php echo $this->Html->link(
+            'kopioi', 
+            array('action' => 'copy', $this->data['Path']['id']),
+            array('class' => 'button','title' => 'Kopioi aineisto'),
+            'Oletko varma että haluat kopioida aineiston?'
+            );
+        ?>
+
+        <?php if ($this->data['Path']['author_id'] == $author) {
+            echo $this->Html->link(
+                'poista', 
+                array('action' => 'delete', $this->data['Path']['id']),
+                array('class' => 'button','title' => 'Poista aineisto'),
+                'Oletko varma että haluat poistaa aineiston?'
+            );
+        } ?>
+    </div>
 <div id="otsikko"></div>
 <div id="sisältö"></div>
 

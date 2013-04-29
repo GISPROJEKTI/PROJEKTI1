@@ -342,6 +342,9 @@ function center(){ //we try to center and zoom the map on init
     </div>
     <div class="input map-container">
         <label>Esikatselu</label>
+        <?php if (!file_exists(APP.'webroot'.DS.'overlayimages'.DS.$this->data['Overlay']['image'])) {
+            echo '<div style="color:#FF0000">Kuvatiedostoa ei löytynyt</div>';
+        } ?>
         <div id="map" class="map">
         </div>
     </div>

@@ -175,6 +175,32 @@ function center(){ //we try to center and zoom the map on init
 
 <div class="form">
     <h1>Karttakuvan tiedot</h1>
+    <div class="subnav">
+        <?php if ($this->data['Overlay']['author_id'] == $author) {
+            echo $this->Html->link(
+                'Muokkaa', 
+                array('action' => 'edit', $this->data['Overlay']['id']),
+                array('class' => 'button','title' => 'Muokkaa karttakuvaa')
+            );
+        } ?>
+
+        <?php echo $this->Html->link(
+            'Kopioi', 
+            array('action' => 'copy', $this->data['Overlay']['id']),
+            array('class' => 'button','title' => 'Kopioi aineisto'),
+            'Oletko varma että haluat kopioida karttakuvan?'
+            );
+        ?>
+
+        <?php if ($this->data['Overlay']['author_id'] == $author) {
+            echo $this->Html->link(
+                'Poista', 
+                array('action' => 'delete', $this->data['Overlay']['id']),
+                array('class' => 'button','title' => 'Poista aineisto'),
+                'Oletko varma että haluat poistaa karttakuvan?'
+            );
+        } ?>
+    </div>
     <div id="otsikko"></div>
     <div id="sisältö"></div>
 
@@ -184,6 +210,9 @@ function center(){ //we try to center and zoom the map on init
         <?php echo $this->Form->input('content', array('label' => 'Sisältö')); ?>
     </div>
     <div class="input map-container">
+        <?php if (!file_exists(APP.'webroot'.DS.'overlayimages'.DS.$this->data['Overlay']['image'])) {
+            echo '<div style="color:#FF0000">Kuvatiedostoa ei löytynyt</div>';
+        } ?>
         <div id="map" class="map"></div>
     </div>
 

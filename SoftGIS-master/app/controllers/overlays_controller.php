@@ -34,6 +34,8 @@ class OverlaysController extends AppController
         if (!empty($id)){ //read data from db
             $this->Overlay->id = $id;
             $this->data = $this->Overlay->read();
+
+            $this->set('author', $this->Auth->user('id'));
         } else {
             $this->Session->setFlash('Karttakuvaa ei löytynyt');
             $this->redirect(array('action' => 'index'));
@@ -50,6 +52,10 @@ class OverlaysController extends AppController
             } else if (!empty($id)){ //read data from db
                 $this->Overlay->id = $id;
                 $this->data = $this->Overlay->read();
+                if ($this->data['Overlay']['author_id'] != $this->Auth->user('id')) { //vain omia kuvia voi muokata
+                    $this->Session->setFlash('Voit muokata vain omia kuvia');
+                    $this->redirect(array('action' => 'index'));
+                }
             } else {
                 $this->Session->setFlash('Karttakuvaa ei löytynyt');
                 $this->redirect(array('action' => 'index'));
@@ -66,7 +72,7 @@ class OverlaysController extends AppController
 
             $this->data['Overlay']['modified'] = date('Y-m-d');
             if ($this->data['Overlay']['author_id'] == $this->Auth->user('id') && $this->Overlay->save($this->data)) {
-                $this->Session->setFlash('Karttakuva tallennettu.');
+                $this->Session->setFlash('Karttakuva tallennettu');
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash('Tallentaminen epäonnistui');
