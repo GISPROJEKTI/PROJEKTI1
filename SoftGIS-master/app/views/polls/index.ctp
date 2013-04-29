@@ -17,6 +17,7 @@ $( document ).ready(function() {
             <th>Nimi</th>
             <th>Testaa</th>
             <th>Julkinen</th>
+            <th>Muokkaa</th>
             <th>Poista</th>
             <th>Kopioi</th>
             <th>Vastauksia</th>
@@ -62,6 +63,18 @@ $( document ).ready(function() {
                         ); 
                     } ?>
 				</td>
+                <td>
+                    <?php echo $this->Html->link(
+                        'Muokkaa',
+                        array(
+                            'action' => 'modify',
+                            $poll['Poll']['id']
+                        ),
+                        array(
+                            'title' => 'Muokkaa kyselyä'
+                        )
+                    ); ?>
+                </td>
 				<td>
                     <?php echo $this->Html->link(
                         'Poista',

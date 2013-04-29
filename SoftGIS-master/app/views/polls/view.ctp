@@ -86,6 +86,41 @@ $(document).ready(function() {
             'title' => 'Tarkastele kyselyn vastauksia'
         )
     );
+    echo $this->Html->link(
+        'Muokkaa',
+        array(
+            'action' => 'modify',
+            $poll['id']
+        ),
+        array(
+            'class' => 'button',
+            'title' => 'Muokkaa kyselyä'
+        )
+    );
+    echo $this->Html->link(
+        'Poista',
+        array(
+            'action' => 'delete',
+            $poll['id'],
+        ),
+        array(
+            'class' => 'button',
+            'title' => 'Poista kysely'
+        ),
+        'Oletko varma että haluat poistaa kyselyn?'
+    );
+    echo $this->Html->link(
+        'Kopioi',
+        array(
+            'action' => 'copy',
+            $poll['id']
+        ),
+        array(
+            'class' => 'button',
+            'title' => 'Kopioi uudeksi kyselyksi'
+        ),
+        'Oletko varma että haluat kopioida kyselyn?'
+    );
     ?>
 </div>
 

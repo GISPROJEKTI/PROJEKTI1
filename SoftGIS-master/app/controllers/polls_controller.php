@@ -329,23 +329,17 @@ class PollsController extends AppController
                     }
                 }
 
-                $path = array();
                 foreach ($poll['Path'] as $i => $v) {
-                    $path[$i] = $v['id'];
+                    unset($poll['Path'][$i]['PollsPath']);
                 }
-                $poll['Path'] = $path;
 
-                $marker = array();
                 foreach ($poll['Marker'] as $i => $v) {
-                    $marker[$i] = $v['id'];
+                    unset($poll['Marker'][$i]['PollsMarker']);
                 }
-                $poll['Marker'] = $marker;
 
-                $overlay = array();
                 foreach ($poll['Overlay'] as $i => $v) {
-                    $overlay[$i] = $v['id'];
+                    unset($poll['Overlay'][$i]['PollsOverlay']);
                 }
-                $poll['Overlay'] = $overlay;
 
 
                 //save the data to session and reload it at modify
