@@ -77,7 +77,7 @@ class PathsController extends AppController
             if ($id == null) { //create new
                 $this->Path->create();
                 $this->data['Path']['author_id'] = $this->Auth->user('id');
-            } else {
+            } else { //update existing
                 $this->data['Path']['id'] = $id;
                 $author = $this->Path->find('first', array( 'conditions' => array('Path.id' => $id), 'recursive' => -1, 'fields' => array('author_id')));
                 $this->data['Path']['author_id'] = $author['Path']['author_id'];

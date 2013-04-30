@@ -377,6 +377,15 @@ class AppSchema extends CakeSchema
             'length' => '50',
             'null' => false
         ),
+        'author_id' => array(
+            'type' => 'integer',
+            'null' => false
+        ),
+        'modified' => array(
+            'type' => 'date',
+            'null' => true,
+            'default' => null
+        ),
         'content' => array(
             'type' => 'text'
         ),

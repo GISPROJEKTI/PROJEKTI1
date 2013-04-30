@@ -70,6 +70,8 @@ $( document ).ready(function() {
         {
             zoom: zoom,
             center: pos,
+            streetViewControl: false,
+            disableDoubleClickZoom: true,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
