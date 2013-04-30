@@ -1,17 +1,21 @@
 Nimitykset, joita järjestelmässä käytetään:
 
-Reitit ja alueet -> Viivat ja alueet || Vektoriaineistot || aineistot
+Viivat ja alueet || Vektoriaineistot || Aineistot
 
-Karttamerkit || merkki
-Polku -> Viiva
+Karttamerkit || Merkki
+Viiva
 Alue
 Karttakuvat
 
-Kysely
-Kysymys
+Kysely - Vastaaja
+Kysymys - Vastaus
 
 Tekstikysymys
 Karttakysymys
+
+Resurssien hallintatapa:
+-Kyselyt ovat kaikkien käyttäjien omia
+-Karttamerkit, Vektoriaineistot ja Karttakuvat näkyvät kaikille käyttäjille
 
 ----------------------------------------
 

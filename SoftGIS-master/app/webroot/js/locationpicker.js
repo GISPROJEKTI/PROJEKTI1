@@ -6,32 +6,32 @@
             var $this = $( this );
             $this.data( "locationpicker", settings );
 
-            settings.firstOpen = true;
-
             $this.hide()
                 .css( "position", "fixed" )
                 .css( "left", "0" )
                 .css( "top", "0" )
                 .css( "width", "100%" )
-                .css( "height", "100%" );
+                .css( "height", "100%" )
+                .css( "background-color", "rgba(0, 0, 0, 0.6)" );
 
             var mapEl = $( "<div>" )
-                .css( "width", "100%" ).css( "height", "100%" )
+                .css( "width", "860px" )
+                .css( "height", window.innerHeight-50 )
+                .css( "max-height", "600px" ) 
+                .css( "margin", "50px auto" )
+
                 .appendTo( $this );
             
             settings.map = new google.maps.Map(
                 mapEl.get()[0],
                 {
                     zoom: settings.initialZoom,
-                    // center: center,
+                    // initialPos: settings.initialPos,
+                    streetViewControl: false,
+                    disableDoubleClickZoom: true,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 }
             );
-
-            settings.marker = new google.maps.Marker({
-                map: settings.map,
-                draggable: true
-            });
 
             var menuEl = $( "<div>" );
             var selectBtn = $( "<button>Valitse</button>" )
@@ -61,11 +61,6 @@
             settings.selectCallback = selectCallback;
             $this.show();
 
-            // if ( settings.firstOpen ) {
-            //     // Initial map size is calculated wrong because div is hidden
-            //     google.maps.event.trigger( settings.map, "resize" );
-            //     settings.firstOpen = false;
-            // }
             google.maps.event.trigger( settings.map, "resize" );
 
             // Only accept valid strings
@@ -82,8 +77,8 @@
             } else {
                 // Use initial position
                 latLng = new google.maps.LatLng(
-                    settings.center.lat,
-                    settings.center.lng
+                    settings.initialPos.lat,
+                    settings.initialPos.lng
                 );
             }
             var zoom;
@@ -94,13 +89,13 @@
             } else {
                 zoom = settings.initialZoom;
             }
-            settings.map.setZoom( zoom );
-            
-            settings.map.setCenter( latLng );
-            settings.marker.setPosition( latLng );
 
             settings.lastZoom = zoom;
             settings.lastLoc = latLng;
+
+            settings.map.setZoom( zoom );
+            settings.map.setCenter( latLng );
+            //console.log(settings);
         },
 
         cancel :function() {
@@ -109,12 +104,16 @@
 
         select: function() {
             var settings = this.data( "locationpicker" );
-            var latLng = settings.marker.getPosition();
+            var latLng = settings.map.getCenter();
             var pos = latLng.lat() + "," + latLng.lng();
             var zoom = settings.map.getZoom();
             if ( $.isFunction(settings.selectCallback) ) {
                 settings.selectCallback.call( this, pos, zoom );
             }
+
+            settings.lastZoom = zoom;
+            settings.lastLoc = latLng;
+
             this.hide();
         }
     };
@@ -122,7 +121,7 @@
     $.fn.locationpicker = function( method ) {
 
         var settings = {
-            center: {
+            initialPos: {
                 lat: "64.94216",
                 lng: "26.235352"
             },
