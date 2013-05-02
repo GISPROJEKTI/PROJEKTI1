@@ -1,7 +1,7 @@
 <h2>Viivat ja alueet</h2>
 <div class="subnav">
     <?php echo $this->Html->link(
-        'Luo uusi reitti',
+        'Luo uusi aineisto',
         array('action' => 'edit'),
         array('class' => 'button')
     );
