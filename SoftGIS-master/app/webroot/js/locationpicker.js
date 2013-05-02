@@ -15,10 +15,11 @@
                 .css( "background-color", "rgba(0, 0, 0, 0.6)" );
 
             var mapEl = $( "<div>" )
-                .css( "width", "860px" )
-                .css( "height", window.innerHeight-50 )
+                .css( "width", "100%" )
+                .css( "height", "95%" )
+                .css( "max-width", "860px" )
                 .css( "max-height", "600px" ) 
-                .css( "margin", "50px auto" )
+                .css( "margin", "5% auto" )
 
                 .appendTo( $this );
             

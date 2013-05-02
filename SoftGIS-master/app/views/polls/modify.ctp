@@ -307,6 +307,7 @@ $( document ).ready(function() {
     </button>
 </div>
 
+<hr>
 <form method="post">
     <input type="hidden" name="data" id="data"/>
     <button type="submit" id="saveButton"  onsubmit="">
