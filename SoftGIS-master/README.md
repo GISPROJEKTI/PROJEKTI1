@@ -12,7 +12,7 @@
 ## Asennusohjeet
 
 1. Asenna HTTP-palvelin, tietokantaohjelmisto ja PHP
-2. [Lataa](https://github.com/cakephp/cakephp/archive/1.3.10.zip) ja asenna CakePHP **versio 1.3.10 ja 1.3.15 todettu toimiviksi**. CakePHP:n yleiset asennuseohjeet [löytyvät täältä](http://book.cakephp.org/1.3/en/view/912/Installation).
+2. [Lataa](https://github.com/cakephp/cakephp/archive/1.3.16.zip) ja asenna CakePHP 1.3.16. CakePHP:n yleiset asennuseohjeet [löytyvät täältä](http://book.cakephp.org/1.3/en/view/912/Installation).
 3. Lataa SoftGIS paketti [uudempi](https://github.com/GISPROJEKTI/PROJEKTI1) tai [aiempi versio](https://github.com/lanttu/SoftGIS).
 4. Pura SoftGIS paketti CakePHP:n asennuksen päälle niin että tiedosto `index.php` ja kansio `app/` korvaantuvat.
 5. Asetukset

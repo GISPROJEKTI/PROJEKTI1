@@ -87,17 +87,6 @@ $(document).ready(function() {
         )
     );
     echo $this->Html->link(
-        'Muokkaa',
-        array(
-            'action' => 'modify',
-            $poll['id']
-        ),
-        array(
-            'class' => 'button',
-            'title' => 'Muokkaa kyselyä'
-        )
-    );
-    echo $this->Html->link(
         'Poista',
         array(
             'action' => 'delete',
