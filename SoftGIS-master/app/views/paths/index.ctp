@@ -1,14 +1,11 @@
 <h2>Viivat ja alueet</h2>
 <div class="subnav">
-<!-- Tätä ominaisuutta ei ole vielä toteutettu
     <?php echo $this->Html->link(
         'Luo uusi reitti',
         array('action' => 'edit'),
         array('class' => 'button')
-    ); ?>
--->
-
-    <?php echo $this->Html->link(
+    );
+    echo $this->Html->link(
         'Tuo aineisto tiedostosta',
         array('action' => 'import'),
         array('class' => 'button')
