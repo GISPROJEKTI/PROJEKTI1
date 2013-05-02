@@ -123,11 +123,15 @@ class PollsController extends AppController
         $authorId = $this->Auth->user('id');
 
         //Haetaan merkit
-        $markers = $this->Poll->Marker->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $markers = $this->Poll->Marker->find('all', array(
+            'conditions' => array('author_id' => $this->Auth->user('id')), 
+            'recursive' => -1,
+            'fields' => array('id', 'name'),
+            'order' => array('name' =>'asc')
+            ));
         $merkkiarray = array();
         foreach ($markers as $marker) {
             // Se lista, jossa nämä näytettään räjätää, jos seassa on alkioita joilla tyhjä nimi.
-
             if ($marker['Marker']['name'] != null && $marker['Marker']['name'] != "") {
                 array_push($merkkiarray, $marker['Marker']);
             }
@@ -135,7 +139,12 @@ class PollsController extends AppController
         $this->set('merkkiarray',$merkkiarray);
 
         //Haetaan polut
-        $paths = $this->Poll->Path->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $paths = $this->Poll->Path->find('all', array(
+            'conditions' => array('author_id' => $this->Auth->user('id')), 
+            'recursive' => -1,
+            'fields' => array('id', 'name'),
+            'order' => array('name' =>'asc')
+            ));
         $reittiarray = array();
         foreach ($paths as $path) {
             if ($path['Path']['name'] != null && $path['Path']['name'] != "") {
@@ -145,7 +154,12 @@ class PollsController extends AppController
         $this->set('reittiarray',$reittiarray);
 
         //Haetaan overlayt
-        $overlays = $this->Poll->Overlay->find('all', array('recursive' => -1,'fields' => array('id', 'name')));
+        $overlays = $this->Poll->Overlay->find('all', array(
+            'conditions' => array('author_id' => $this->Auth->user('id')), 
+            'recursive' => -1,
+            'fields' => array('id', 'name'),
+            'order' => array('name' =>'asc')
+            ));
         $overlayarray = array();
         foreach ($overlays as $overlay) {
             if ($overlay['Overlay']['name'] != null && $overlay['Overlay']['name'] != "") {

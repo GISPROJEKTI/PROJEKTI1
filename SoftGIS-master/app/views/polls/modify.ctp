@@ -275,7 +275,7 @@ $( document ).ready(function() {
         <p><b>Nimi (pakollinen), kuvaus, kiitosteksti ja Kaikille avoin -valinta</b></p>
             <p>Oletusarvona kaikille avoin -valinta on ruksattu, jolloin kyselyyn voidaan julkaisemisen jälkeen vastata kyselyn identifioivalla linkillä. Jos kyselyyn halutaan vastata ns. henkilökohtaisilla linkeillä (=varmenteilla), ”täppä” tulee poistaa.</p>
         <p><b>Kyselyyn liittyvät merkit, aineistot ja kuvat</b></p>
-            <p>Näihin kenttiin voi valita kyselyssä näkyviä karttamerkkejä, vektoriaineistoja ja karttakuvia. Kenttään painettaessa avautuu lista lisättävistä aineistoista, jota painamalla aineisto tulee valittua kyseyyn mukaan. Voit valita useita aineistoja jokaiseen kenttään. Valittujen aineistojen perässä on ruksi, josta painamalla valinnan voi poistaa. Voit luoda näitä aineistoja, yllä olevilla välilehdillä.</p>
+            <p>Näihin kenttiin voi valita kyselyssä näkyviä karttamerkkejä, vektoriaineistoja ja karttakuvia. Kenttään painettaessa avautuu lista lisättävistä aineistoista, jota painamalla aineisto tulee valittua kyseyyn mukaan (listalla näkyvät vain käyttäjän aineistot, ei muiden). Voit valita useita aineistoja jokaiseen kenttään. Valittujen aineistojen perässä on ruksi, josta painamalla valinnan voi poistaa. Voit luoda näitä aineistoja, yllä olevilla välilehdillä.</p>
     <p><h3>Kysymykset</h3></p>
         <p><b>Luo uusi kysymys</b></p>
             <p>Luo uusi kysymys -painikkeesta voit luoda kysymyksiä kyselyyn. Kyselyssä tulee olla vähintään yksi kysymys, että se voidaan tallentaa.</p>
