@@ -99,22 +99,61 @@ $( document ).ready(function() {
         $( "#coordinates" ).val( encodedPaths.join(" ") );
         return true;
     });
+
+    // Help toggle
+    //$( ".help" ).hide();
+    $( "#toggleHelp" ).click(function() {
+        $( ".help" ).fadeToggle(400, "swing");
+        return false;
+    });
 });
 
+function handleFiles(files) {
+    if (files.length > 0) {
+        var file = files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+            reader.onload = function (evt) {
+                document.getElementById("coordinates").innerHTML = evt.target.result;
+            }
+            reader.onerror = function (evt) {
+            //    document.getElementById("coordinates").innerHTML = "error reading file";
+                alert('Tiedoston lukeminen epäonnistui');
+            }
+        }
+    }
+}
+
 </script>
+
+<div class="answerMenu">
+    <a href="#help" class="button" id="toggleHelp">Ohje</a>
+</div>
 
 
 <h2>Tuo aineisto</h2>
 
+<div class="help">
+    <h2>Aineiston tuominen</h2>
+    <p>Voit tuoda aineiston <b>mif-päätteisestä</b> <i>(MapInfo Interchange Format)</i> tiedostosta joko valitsemalla tiedoston painikkeesta tai kopioimalla tiedoston koko sisällön laatikkoon alle. Ohjelma muuntaa sen automaattisesti Google Mapsin ymmärtämään muotoon.</p>
+    <p></p>
+</div>
+
 <form method="post" id="import">
+    <input type="file" id="fileInput" onchange="handleFiles(this.files)">
+    <br><br>
     <div class="input textarea">
         <textarea name="data[Path][coordinates]" 
-            id="coordinates" rows="20"></textarea>
+            id="coordinates" rows="15"></textarea>
     </div>
-    <input type="hidden" name="data[Path][type]" id="type" />
-    <button type="submit" class="button">Jatka</button>
-</form>
 
-<div class="help">
-    <p>Kopioi mif-päätteisen <strong>MapInfo Interchange Format</strong> tiedoston sisältö sellaisenaan tekstikenttään. Ohjelma muuntaa sen automaattisesti Google Mapsin ymmärtämään muotoon.</p>
-</div>
+    <input type="hidden" name="data[Path][type]" id="type" />
+
+    <button type="submit" class="button">Jatka</button>
+    <?php echo $this->Html->link(
+        'Takaisin',
+        array('action' => 'index'),
+        array('class' => 'button cancel')
+    ); ?>
+</form>
