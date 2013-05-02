@@ -30,6 +30,13 @@ function setMarkerType(){
 
 $( document ).ready(function() {
 
+    // Help toggle
+    $( ".help" ).hide();
+    $( "#toggleHelp" ).click(function() {
+        $( ".help" ).fadeToggle(400, "swing");
+        return false;
+    });
+
     $("#PathStrokeOpacity").spinner({
         min: 0.0,
         max: 1.0,
@@ -127,8 +134,16 @@ $( document ).ready(function() {
 });
 </script>
 
+<div class="answerMenu">
+    <a href="#help" class="button" id="toggleHelp">Ohje</a>
+</div>
 
 <h1>Aineiston tiedot</h1>
+
+<div class="help">
+    <h2>Aineiston muokkaaminen</h2>
+    <p></p>
+</div>
 
 <?php echo $this->Form->create('Path'); ?>
 <?php echo $this->Form->input(

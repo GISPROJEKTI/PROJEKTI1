@@ -151,6 +151,14 @@ Question.prototype.pickLocation = function() {
 }
 
 $( document ).ready(function() {
+
+    // Help toggle
+    $( ".help" ).hide();
+    $( "#toggleHelp" ).click(function() {
+        $( ".help" ).fadeToggle(400, "swing");
+        return false;
+    });
+
     ko.applyBindings( viewModel );
 
     // Init lockation picker
@@ -255,22 +263,48 @@ $( document ).ready(function() {
 
 </script>
 
+<div class="answerMenu">
+    <a href="#help" class="button" id="toggleHelp">Ohje</a>
+</div>
 
-<h2>Kysely</h2>
+<h2>Kyselyn tiedot</h2>
+
+<div class="help">
+    <h2>Kyselyn muokkaaminen</h2>
+    <p><h3>Kyselyn tiedot</h3></p>
+        <p><b>Nimi (pakollinen), kuvaus, kiitosteksti ja Kaikille avoin -valinta</b></p>
+            <p>Oletusarvona kaikille avoin -valinta on ruksattu, jolloin kyselyyn voidaan julkaisemisen jälkeen vastata kyselyn identifioivalla linkillä. Jos kyselyyn halutaan vastata ns. henkilökohtaisilla linkeillä (=varmenteilla), ”täppä” tulee poistaa.</p>
+        <p><b>Kyselyyn liittyvät merkit, aineistot ja kuvat</b></p>
+            <p>Näihin kenttiin voi valita kyselyssä näkyviä karttamerkkejä, vektoriaineistoja ja karttakuvia. Kenttään painettaessa avautuu lista lisättävistä aineistoista, jota painamalla aineisto tulee valittua kyseyyn mukaan. Voit valita useita aineistoja jokaiseen kenttään. Valittujen aineistojen perässä on ruksi, josta painamalla valinnan voi poistaa. Voit luoda näitä aineistoja, yllä olevilla välilehdillä.</p>
+    <p><h3>Kysymykset</h3></p>
+        <p><b>Luo uusi kysymys</b></p>
+            <p>Luo uusi kysymys -painikkeesta voit luoda kysymyksiä kyselyyn. Kyselyssä tulee olla vähintään yksi kysymys, että se voidaan tallentaa.</p>
+        <p><b>Kysymyksen otsikko</b></p>
+            <p>Kysymyksen otsikossa näkyy kysymyksen järjestysnumero, kysymysteksti, sekä näytä ja poista painikkeet. Näytä painikke pienentää tai avaa kysymyksen tiedot ja poista painike poistaa kyseisen kysymyksen kyselystä. Voit uudellenjärjestää kysymyksiä vetämällä niitä otsikosta uuteen järjestykseen.</p>
+        <p><b>Kysymysteksti (pakollinen)</b></p>
+            <p>Kysymysteksti, joka näkyy vastaajalle vastatessa kyysmykseen.</p>
+        <p><b>Tekstivastauksen tyyppi</b></p>
+            <p>Listasta voi valita millaisen tekstivastauksen kysymykseen haluaa. 'Ei tekstivastausta', 'Teksti' ja 'Kyllä, Ei, En osaa sanoa' eivät anna lisävalintoja. '1-5, En osaa sanoa' ja '1-7, En osaa sanoa' vastauksiin tulee lisätä ennen ensimmäistä vaihtoehtoa (pienin) ja viimeisen vaihtoehdon jälkeen (suurin) näkyvät tekstit. 'Monivalinta' vastaukseen voit itse määrittää haluamasi määrän vaihtoehtoja sekä 'Joku muu, mikä?' -valinta lisää vaihtoehdon, johon vastaaja voi itse kirjoittaa vastuksen. Vain täytetyt kentät tulevat mukaan vastausvaihtoehdoiksi ja vähintään yksi kenttä tulee täyttää, että kusely voidaan tallentaa.</p>
+        <p><b>Karttavastauksen tyyppi</b></p>
+            <p>Listalta voi valita millaisen karttavastauksen kysymykseen haluaa. 'Ei karttaa' valinnalla kysymykseen vastattaessa ei ole karttaa. 'Kartta, ei vastausta' valinnalla kysymyksessä on kartta, mutta siihen ei voi lisätä merkkejä. Muilla valinnoilla vastaaja voi lisätä vastauskartalle valitun tyyppisen/tyyppisiä merkin/merkkejä vastaukseksi. Muilla paitsi 'Ei karttaa' valinnalla alle avautuu 'Siajinti' lisävaihtoehdot. 'Koordinaatti' ja 'Zoom-taso' -tekstikenttiin voit kirjoittaa haluamasi vastauskartan sijainnin, tai 'Valitse sijainti kartalta' painikkeen kautta voit kohdistaa kartan haluamaasi vastaussijaintiin.</p>
+        <p><b>Vastaukset näkyvissä muille vastaajille</b></p>
+            <p>Oletusarvoisesti edelliset vastaukset eivät näy seuraaville vastaajille, mutta valittuasi 'Vastaukset näkyvissä muille vastaajille' -valinan kysymykseen aiemmin vastatut vastaukset näkyvät seuraaville vastaajille.</p>
+</div>
+
 <!-- Form -->
 <div class="input text">
     <label>Nimi</label>
-    <input type="text" data-bind="value: poll.name" placeholder="Anna nimi", required =  "true" />
+    <input type="text" data-bind="value: poll.name" placeholder="Kyselyn nimi", required =  "true" />
 </div>
 
 <div class="input textarea">
     <label>Kyselyn kuvaus</label>
-    <textarea data-bind="value: poll.welcome_text" rows="6"></textarea>
+    <textarea data-bind="value: poll.welcome_text" rows="6" placeholder="Kyselyn kuvaus näkyy vastaajalle ennen kysymyksiä"></textarea>
 </div>
 
 <div class="input textarea">
     <label>Kiitosteksti</label>
-    <textarea data-bind="value: poll.thanks_text" rows="6"></textarea>
+    <textarea data-bind="value: poll.thanks_text" rows="6" placeholder="Kiitosteksti näkyy vastaajalle kysymysten jälkeen"></textarea>
 </div>
 
 <div class="input checkbox">

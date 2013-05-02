@@ -6,6 +6,14 @@ var map, marker = null;
 
 $( document ).ready(function() {
 
+    // Help toggle
+    $( ".help" ).hide();
+    $( "#toggleHelp" ).click(function() {
+        $( ".help" ).fadeToggle(400, "swing");
+        return false;
+    });
+
+
     var initialPos, coords = null;
     if ($("#MarkerLatlng").val()) {
         coords = $("#MarkerLatlng").val().split(",", 2);
@@ -97,7 +105,16 @@ function addMarker(location) {
 
 </script>
 
+<div class="answerMenu">
+    <a href="#help" class="button" id="toggleHelp">Ohje</a>
+</div>
+
 <h2>Karttamerkki</h2>
+
+<div class="help">
+    <h2>Karttamerkin asettaminen kartalle</h2>
+    <p>Klikkaamalla karttaa voit asettaa merkin kartalle. Klikkaamalla merkkiä hiiren oikealla painikkeella voit poistaa sen kartalta.</p>
+</div>
 
 <?php echo $this->Form->create('Marker'); ?>
 <?php echo $this->Form->input('name', array('label' => 'Nimi','placeholder'=>'Anna nimi','required'=> true)); ?>

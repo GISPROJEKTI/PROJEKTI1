@@ -13,24 +13,25 @@ $(document).ready(function() { // init when page has loaded
 <div class="answerMenu">
     <a href="#help" class="button" id="toggleHelp">Ohje</a>
 </div>
+
 <h1>Karttakuvan lataaminen</h1>
 
 <div class="help">
     <h2>Karttakuvan lataaminen</h2>
-	<p>Voit tuoda kuvatiedoston omalta tietokoneeltasi painamalla "Selaa.." -nappia. </p>
+    <p>Voit tuoda kuvatiedoston omalta tietokoneeltasi painamalla "Selaa.." -nappia. </p>
     <p>Karttakuva voi olla gif, jpeg, png tai jpg tyyppinen ja enintään 1,5Mt kokoinen.</p>
 </div>
 <div class="form">
-	<?php echo $this->Form->create('Overlay', array('type' => 'file')); ?>
-	<?php echo $this->Form->file('file', array('type' => 'file')); ?>
+    <?php echo $this->Form->create('Overlay', array('type' => 'file')); ?>
+    <?php echo $this->Form->file('file', array('type' => 'file')); ?>
 
-	<br>
-	<?php echo $this->Form->button('Jatka', 
-	    array('type'=>'submit')); ?>
-	<?php echo $this->Html->link('Peruuta', 
-	    array('action' => 'index'), array('class' => 'button cancel')); ?>
+    <br>
+    <?php echo $this->Form->button('Jatka', 
+        array('type'=>'submit')); ?>
+    <?php echo $this->Html->link('Takaisin', 
+        array('action' => 'index'), array('class' => 'button cancel')); ?>
 
-	<?php echo $this->Form->end(); ?>
+    <?php echo $this->Form->end(); ?>
 </div>
 
 
