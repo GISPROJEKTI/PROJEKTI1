@@ -33,11 +33,11 @@
  3. Jos sivusto toimii, hyvä. Jos ei, niin voi olla että palvelimesi mod_rewrite (.htaccess) toiminto ei ole käytössä. [Lisätietoja.](http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Installation.html)
  8. Voit luoda käyttäjän järjestelmään menemällä osoitteeseen [palvelimesi gis ohjelman asennuspolku]/authors/register joka ohjaa sisäänkirjautumissivulle
 
-## CakePHP:n versio
-
-CakePHP versio 1.3.10
-
 
 ## Tietoturva
 - SQL injektioiden esto:
  - CakePHP:n vakoturva: http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Data-Sanitization.html#data-sanitization
+
+## Versioiden yhteensopivuus
+-Tämä uudempi versio ei ole yhteensopiva [vanhemman](https://github.com/lanttu/SoftGIS) version tietokannan kanssa. Suosittelen asentamaan uuden version omaan tiedostoon ja tekemään sille uudet tietokantataulut, odottamattomien virhetilanteiden välttämiseksi.
+

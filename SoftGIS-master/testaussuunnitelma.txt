@@ -1,12 +1,12 @@
-Kyselyn tallennus,
+Kyselyn luominen/muokkaus
 	Virheilmoitukset:
-		Ei nimeä
+		Kyselyllä ei nimeä
 		Kysymysten virheilmoitukset
-			Kysymyksiä löytyy
-			Kyselyt on nimetty
+			Kyselyssä ei ole yhtään kysymystä
+			Kysymyksellä ei ole nimeä
 			Ainakin yksi monivalinta on laitettu
-	Kysymysten siirtäminen
-	Merkit/reitit/kuvat lisääminen toimii
+	Kysymysten järjestäminen vetämällä otsikosta
+	Merkit/reitit/kuvat lisääminen ja poistaminen toimii
 	Kysymykset:
 		Eri yhistelmät pitää käydä läpi
 			Kysymystyypit:
@@ -23,34 +23,60 @@ Kyselyn tallennus,
 				-polku
 				-alue
 		Vastausten näkyminen muille
-	Tekstit näkyvät kunnolla
+	Tekstit näkyvät kunnolla (rivittyy nätisti, ei mene ruudun tai toisen elementin päälle huonosti yms)
 	toimivuus
-
-Karttamerkien/reittien lisääminen
-	-Nimen tarkistus
+	virhetilanteet? ilmeneekö jotain outoa?
+	Jos kyselyn vastausaika on menossa sitä ei voi muokata.
+	Jos kyselyssä on vastauksia, sitä ei voi muokata
+	Kyselyn voi muuttaa avoimeksi ja suljetuksi joka tilanteessa
+		avoimeen kyselyyn voi vastata myös varmennelinkillä
+	Kyselyn vastaukset näkyvät oikein vastausikkunasta.
 
 Omat kyselyt:
+	Katseluikkuna:
+		Näkyy tarvittavat tiedot oikein
 	Kopiointi
-		Varmistus
-		Toimivuus
+		Varmistus ilmoitus näkyy
+		Toimivuus: kaikki osat tulevat mukaan uuteen kysellyyn ja kopioitavasta ei katoa mitään
 	Poistaminen
-		varmistus
-		toimivuus
+		varmistus ilmoitus näkyy
+		toimivuus: kaikki tiedot poistuvat tietokannasta, mutta mitään ylimääräistä ei katoa
+
+Karttamerkit, vektoriaineistot ja karttakuvat:
+	lisääminen/muokkaaminen:
+		-Jos on import/upload, se toimii oikein
+		-Nimen tarkistus, virheilmoitus jos ei nimeä
+		-Sijainnin tarkistus, virheilmoitus jos ei sijaintia
+		-vain omia voi muokata
+	kopioiminen:
+		Kaikki kopioituu ja kopioitavasta ei katoa mitään
+	poistaminen
+		tieto poistuu, mutta ylimääräistä ei
 
 Vastaaminen
 	Aputekstit!
 		Karttojen vieressä teksti joka kertaa mitä siihen halutaan
 	Virheilmoitukset jos vastaukset puuttuvat
-		-Teksti, Valinta, Kartta
+		-Teksti/Valinta, Kartta
 	Aiemmat vastaukset
-		näkyy jos niin halutaan
-	Tallennuksen tarkistaminen
+		Näkyvät, jos on asetettu näkyväksi. Ei näy jos ei ole asetettu näkyväksi
+	Tallennuksen tarkistaminen, vastaukset tallentuvat.
 	Kyselyissä siirtyminen
 		-eteen/taaksepäin
-			-omat vastaukset näkyvät
-			
+			-omat vastaukset säilyvät.
 
+Käyttäjähallinta:
+	Voi rekisteröidä käyttäjän
+	käyttäjä voi kirjautua järjestelmään
+	Käyttäjä voi kirjautua ulos järjestelmästä
 
+Kaikissa:
+	Ohjetekstit ovat kieliopillisesti oikein
+	Ohjetekstit ovat ymmärrettäviä
+	Ohjetekstejä on riittävästi (tarvittavilla sivuilla/ tarvittavat asiat on selitetty)
+	Ohjeteksteihin muuta kommenttia?
+	Nimet ja käytettävät nimitykset ovat oikein
+	
 	
 	
 

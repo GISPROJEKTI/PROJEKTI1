@@ -15,7 +15,7 @@ class AppController extends Controller
                 'action' => 'index'
             ),
             'authError' => 'Kirjaudu sisään',
-            'loginError' => 'Sisään kirjautuminen epäonnistui. 
+            'loginError' => 'Sisäänkirjautuminen epäonnistui. 
                 Tarkista käyttäjänimi ja salasana'
         ),
         'Session',
