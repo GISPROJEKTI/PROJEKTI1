@@ -18,13 +18,13 @@ class OverlaysController extends AppController
         $this->Overlay->recursive = 1;
         $overlays = $this->Overlay->findAllByAuthorId($this->Auth->user('id'), array('id','name','modified','image'), array('id'));
         $this->set('overlays', $overlays);
-        $othersOverlays = $this->Overlay->find('all', array(
+        /*$othersOverlays = $this->Overlay->find('all', array(
             'conditions' => array('NOT' => array('Overlay.author_id' => $this->Auth->user('id'))), 
             'recursive' => -1,
             'fields' => array('id','name'),
             'order' => array('id')
             ));
-        $this->set('others_overlays', $othersOverlays);
+        $this->set('others_overlays', $othersOverlays);*/ //Muiden käyttäjien tiedot poistettu käytöstä mahdollisten aineistojen lisenssiongelmien vuoksi
         //debug($othersOverlays);
     }
 

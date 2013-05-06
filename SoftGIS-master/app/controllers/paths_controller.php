@@ -13,13 +13,13 @@ class PathsController extends AppController
         $this->Path->recursive = 1;
         $paths = $this->Path->findAllByAuthorId($this->Auth->user('id'), array('id','name','modified'), array('id'));
         $this->set('paths', $paths);
-        $othersPaths = $this->Path->find('all', array(
+        /*$othersPaths = $this->Path->find('all', array(
             'conditions' => array('NOT' => array('Path.author_id' => $this->Auth->user('id'))), 
             'recursive' => -1,
             'fields' => array('id','name'),
             'order' => array('id')
             ));
-        $this->set('others_paths', $othersPaths);
+        $this->set('others_paths', $othersPaths);*/ //Muiden käyttäjien tiedot poistettu käytöstä mahdollisten aineistojen lisenssiongelmien vuoksi
     }
 
     public function view($id = null)

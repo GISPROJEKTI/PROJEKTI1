@@ -13,13 +13,13 @@ class MarkersController extends AppController
         $this->Marker->recursive = 1;
         $markers = $this->Marker->findAllByAuthorId($this->Auth->user('id'), array('id','name','modified'), array('id'));
         $this->set('markers', $markers);
-        $othersMarkers = $this->Marker->find('all', array(
+        /*$othersMarkers = $this->Marker->find('all', array(
             'conditions' => array('NOT' => array('Marker.author_id' => $this->Auth->user('id'))), 
             'recursive' => -1,
             'fields' => array('id','name'),
             'order' => array('id')
             ));
-        $this->set('others_markers', $othersMarkers);
+        $this->set('others_markers', $othersMarkers);*/ //Muiden käyttäjien tiedot poistettu käytöstä 
     }
 
     public function view($id = null)

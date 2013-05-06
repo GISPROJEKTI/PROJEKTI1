@@ -67,7 +67,7 @@
     </tbody>
 </table>
 
-<h3>Muiden karttamerkit</h3>
+<!-- <h3>Muiden karttamerkit</h3> //Muiden käyttäjien tiedot poistettu käytöstä mahdollisten aineistojen lisenssiongelmien vuoksi
 <table class="list">
     <thead>
         <tr>
@@ -76,7 +76,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($others_markers as $marker): ?>
+        <?php #foreach ($others_markers as $marker): ?>
             <tr>
                 <td>
                     <?php echo $this->Html->link(
@@ -96,7 +96,7 @@
                     ?>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php #endforeach; ?>
     </tbody>
-</table>
+</table> -->
 

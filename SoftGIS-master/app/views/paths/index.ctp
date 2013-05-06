@@ -72,8 +72,8 @@
     </tbody>
 </table>
 
-<h3>Muiden aineistot</h3>
-<table class="list"> <!--Muiden aineistot-->
+<!-- <h3>Muiden aineistot</h3> //Muiden käyttäjien tiedot poistettu käytöstä mahdollisten aineistojen lisenssiongelmien vuoksi
+<table class="list">
     <thead>
         <tr>
             <th>Nimi</th>
@@ -81,7 +81,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($others_paths as $path): ?>
+        <?php #foreach ($others_paths as $path): ?>
             <tr>
                 <td>
                     <?php echo $this->Html->link(
@@ -101,7 +101,7 @@
                     ?>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php #endforeach; ?>
     </tbody>
-</table>
+</table> -->
 

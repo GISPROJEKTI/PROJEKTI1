@@ -75,7 +75,7 @@
     </tbody>
 </table>
 
-<h3>Muiden karttakuvat</h3>
+<!-- <h3>Muiden karttakuvat</h3> //Muiden käyttäjien tiedot poistettu käytöstä mahdollisten aineistojen lisenssiongelmien vuoksi
 <table class="list">
     <thead>
         <tr>
@@ -84,7 +84,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($others_overlays as $overlay): ?>
+        <?php #foreach ($others_overlays as $overlay): ?>
             <tr>
                 <td>
                     <?php echo $this->Html->link(
@@ -104,7 +104,7 @@
                     ?>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php #endforeach; ?>
     </tbody>
-</table>
+</table> -->
 
