@@ -1,0 +1,20 @@
+Nimitykset, joita j‰rjestelm‰ss‰ k‰ytet‰‰n:
+(suomenkielinen termi || vaihtoehtoinen termi... (tietokannassa))
+
+Karttamerkit || Merkki (marker)
+Viivat ja alueet || Vektoriaineistot || Aineistot || Viiva || Alue (path)
+Karttakuvat (overlay)
+
+Kysely (poll)
+Vastaaja (response)
+Kysymys (question)
+Vastaus (answer)
+
+Tekstikysymys (question.type || answer.answer)
+Karttakysymys (question.map_type || answer.map)
+
+Resurssien hallintatapa j‰rjestelm‰ss‰:
+-Kyselyt ovat kaikkien k‰ytt‰jien omia ja k‰ytt‰j‰t eiv‰t p‰‰se n‰kem‰‰n muiden kyselyit‰.
+-Karttamerkit, Vektoriaineistot ja Karttakuvat ovat kaikkien k‰ytt‰jien omia ja k‰ytt‰j‰t eiv‰t p‰‰se n‰kem‰‰n muiden kyselyit‰.
+
+

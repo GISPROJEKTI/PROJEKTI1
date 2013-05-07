@@ -1,0 +1,31 @@
+Seuraavaan projektiin terveisi‰:
+-Tietoturva. Onko tietoturva kunnossa? T‰ll‰hetkell‰ menn‰‰n l‰hinn‰ CahePHPn vakioasetuksilla, seuraavilla huomioin:
+--Karttakuvan kuvatiedoston lataus
+--answers_controllers -> public function publicanswers() T‰h‰n p‰‰see kaikki k‰siksi ja sill‰ saa kaikkien kysymysten julksiet vastaukset ladattua serverilt‰. T‰lle pit‰s teh‰ jotain??
+--Tietoturva-aukko voimassa? http://cakebaker.42dh.com/2006/07/25/be-careful-with-file-uploads/
+-K‰ytt‰j‰hallinta pit‰isi luoda
+-Graafisen ulkoasun paikkaukset
+-Virheilmoitusten kustomointi (eli mit‰ tulee $this->Session->setFlash('Teksti'); -komennolla tai vastaavat) (voisi olla eri v‰risi‰, esim vihre‰ 'tallennus onnistui' ilmoitukselle)
+-Kyselyn monivalintakysymys:
+--Kysely‰ luotaessa m‰‰ritet‰‰n montako vaihtoehtoa luodaan j‰rjestelm‰‰n + muu, mik‰ + en osaa sanoa
+--Kysely‰ luotaessa m‰‰ritet‰‰n montako vaihtoehtoa vastaaja voi valita (1 - vaihtoehtojen m‰‰r‰)
+--Joko radiobutton/dropdown tai checkbox valinnat vastaajalle vastatessa.
+-Kysymysten kysymystekstin muokkaus: http://woork.blogspot.fi/2009/02/best-rich-text-editors-ready-to-use-in.html tai vastaava?
+-Kyselyjen ja vastausten import/export? onko tarvetta?
+-Locationpickeriss‰ n‰kyisi kysely‰ luodessa valitut karttamerkit, vektoriaineistot ja karttakuvat.
+-N‰yt‰ vastaukset -sivule lis‰t‰ toiminto, jolla kyselyn luoja voi katsella vastauksia 'julkiset vastaukset k‰ytˆss‰' moodilla, eli vaikka kyselyss‰ ei olisi julkiset vastaukset k‰ytˆss‰, vastauksia voisi katsella testitoiminnolla niin ett‰ n‰kee edelliset teksti ja karttavastaukset.
+-Karttamerkit, vektoriaineistot ja karttakuvat copyright? Eli n‰ihin kentt‰, jolla ne voi asettaa joko saataviksi tai ei saataville muille k‰ytt‰jille.
+-Ohjelmiston localisointi, eli k‰‰nt‰minen englanniksi/ruotsiksi?
+
+-Pienempi‰:
+--polls indexiin muuttaa muokkaa sarake niin ett‰ se n‰ytt‰‰ joko lonkin muokkaa, 'aukioloaika voimassa' tai 'Kyselyll‰ vastauksia'
+--Kysely‰ luodessa jos valittu kartta, mutta ei valittu sijaintia: huomautus?
+--K‰ytt‰j‰lle 'showHelp' muuttuja, joka n‰ytt‰isi uudelle k‰ytt‰j‰lle kaikilla sivuilla ohjeen. Ja kun k‰ytt‰j‰ sulkee ohjeen, se pysyisi sen j‰lkeen vakiona suljettuna.
+--Jos kysely on k‰ynniss‰ tai sill‰ on vastauksia (eli sit‰ ei voi muokata) muokkausnapin voisi disabloida (asettaa esim harmaaksi, merksitsem‰‰n, ett‰ sit‰ ei voi painaa)
+--T‰ll‰hetkell‰ muiden k‰ytt‰jien karttamerkit, vektoriaineistot ja karttakuvat ovat vain pois n‰kyvist‰, mutta osoiteriville kirjoittamalla niit‰ voi katsella ja kopioida, mutta ei kuitenkaan muokata tai poistaa.
+--Vastauksien lataaminen tiedostona -painike ei toimi kaikilla selaimilla/versioilla. Ep‰ilemme JS asetusten olevan syyn‰.
+
+Pit‰isi selvitt‰‰ mitk‰ aineistot ovat k‰ytett‰vi‰ ja jos lˆytyy, niin projekti2:n asia:
+-Ohjelmassa voisi valita mit‰ karttatoimittajia k‰ytt‰‰, esim: http://www.paikkatietoikkuna.fi/ Projekti2:n asia
+
+
