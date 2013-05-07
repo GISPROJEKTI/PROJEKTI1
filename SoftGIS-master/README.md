@@ -31,7 +31,8 @@
  1. Aseta riittävät käyttöoikeudet väliaikaiskansioihin: `app/tmp`, `app/tmp/cache`, `app/tmp/cache/models`, `app/tmp/cache/presistent` ja `app/tmp/cache/views`.
  2. Karttakuvien vientiin tarvitaan oikeudet myös `\app\webroot\img\overlays` -kansioon
  3. Jos sivusto toimii, hyvä. Jos ei, niin voi olla että palvelimesi mod_rewrite (.htaccess) toiminto ei ole käytössä. [Lisätietoja.](http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Installation.html)
- 8. Voit luoda käyttäjän järjestelmään menemällä osoitteeseen [palvelimesi gis ohjelman asennuspolku]/authors/register joka ohjaa sisäänkirjautumissivulle
+  1. Jos sinulla on ongelmia ohjelman asentamisen kanssa, jätä tämän ohjeen kohta 4. 'Pura SoftGIS paketti...' tekemättä ja tee muut kohdat. Tällöin cakePHP:n vakioetusivu opastaa myös hiukan asentamisessa.
+8. Voit luoda käyttäjän järjestelmään menemällä osoitteeseen [palvelimesi gis ohjelman asennuspolku]/authors/register. Rekisteröitymiseen tarvittava 'Tunniste' löytyy ohjelman asennushakemiston tiedostosta app/controllers/authors_controller.php, riviltä 26, muuttujan $secret arvo. Tämä samainen tunniste kannattaa muuttaa joksikin muuksi, että kuka tahansa ohjelman tunteva ei voi rekisteröidä uutta käyttäjää ohjelmaasi.
 
 
 ## Tietoturva
@@ -39,5 +40,5 @@
  - CakePHP:n vakoturva: http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Data-Sanitization.html#data-sanitization
 
 ## Versioiden yhteensopivuus
--Tämä uudempi versio ei ole yhteensopiva [vanhemman](https://github.com/lanttu/SoftGIS) version tietokannan kanssa. Suosittelen asentamaan uuden version omaan tiedostoon ja tekemään sille uudet tietokantataulut, odottamattomien virhetilanteiden välttämiseksi.
+Tämä uudempi versio ei ole yhteensopiva [vanhemman](https://github.com/lanttu/SoftGIS) version tietokannan kanssa. Suosittelen asentamaan uuden version omaan hakemistoon ja tekemään sille uudet tietokantataulut, odottamattomien virhetilanteiden välttämiseksi.
 
