@@ -1,0 +1,5 @@
+Rasterikuva_WGS84.png rasterikuvan koordinaatit:
+N 64.9742
+E 25.6937
+S 64.9598
+W 25.6613

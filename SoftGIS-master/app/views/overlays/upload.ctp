@@ -20,6 +20,8 @@ $(document).ready(function() { // init when page has loaded
     <h2>Karttakuvan lataaminen</h2>
     <p>Voit tuoda kuvatiedoston omalta tietokoneeltasi painamalla "Selaa.." -nappia. </p>
     <p>Karttakuva voi olla gif, jpeg, png tai jpg tyyppinen ja enintään 1,5Mt kokoinen.</p>
+    <h2>Karttakuvan luominen</h2>
+    <p>SoftGIS järjestelmän kartan käyttämä koordinaattijärjestelmä on WGS84. <a href='http://en.wikipedia.org/wiki/Google_Maps#Map_projection'>Lisätietoa asiasta täältä (englanniksi).</a></p>
 </div>
 <div class="form">
     <?php echo $this->Form->create('Overlay', array('type' => 'file')); ?>
