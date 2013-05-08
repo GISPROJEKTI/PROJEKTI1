@@ -7,7 +7,7 @@
     //header
     text = text + head.date;
     for (var x = 0; x < head.answer.length; x++) {
-        text = text + ',"' + head.answer[x].text.replace(/"/g,'""') + '","' + head.answer[x].map + '"';
+        text = text + ',"Kys:' + head.answer[x].num + ' teksti:' + head.answer[x].text.replace(/"/g,'""') + '","Kys:' + head.answer[x].num + ' kartta:' + head.answer[x].map + '"';
     }
     text = text + "\n";
 
@@ -59,10 +59,11 @@
 </div>
 
 <div class="help">
-    <p>Vastaukset on esitetty CSV muodossa siten että jokaisen vastaajan vastaukset ovat yhdellä rivillä pilkulla erotettuina.</p>
-    <p>Ensimmäinen rivi on otsikko, jossa ensin on teksti 'aika', sen jälkeen jokaista kysymystä kohden: tekstivastauksen tyyppi, karttavastauksen tyyppi. vastausten tyyppien selitteet ohjeen lopussa.</p>
-    <p>Lopuilla riveilla rivin ensimmäinen arvo on vastausaika. Sen jälkeen arvot noudattavat seuraavaa sarjaa jokaista hysymystä kohden: vastaus, (leveyspiiri, pituuspiiri), jossa leveys- ja pituuspiirisarjoja voi olla monta tai ei yhtään kapplaetta</p>
+    <p>Vastaukset on esitetty CSV muodossa siten että jokaisen vastaajan vastaukset ovat yhdellä rivillä, pilkulla erotettuina.</p>
+    <p>Ensimmäinen rivi on otsikko, jossa ensin on teksti 'aika', sen jälkeen jokaista kysymystä kohden: kysymyksen numero tekstivastauksen tyyppi, kysymyksen numero karttavastauksen tyyppi. Vastausten tyyppien selitteet ohjeen lopussa.</p>
+    <p>Lopuilla riveilla rivin ensimmäinen arvo on vastausaika. Sen jälkeen arvot noudattavat seuraavaa sarjaa jokaista kysymystä kohden: tekstivastaus, (leveyspiiri, pituuspiiri), jossa leveys- ja pituuspiirisarjoja voi olla monta tai ei yhtään kapplaetta</p>
     <p>Voit ladata vastaukset valmiiksi .csv -tiedostona 'Lataa tiedostona' -painikkeesta ohjeen yläpuolella, tai kopioida haluamasi rivit yllä ikkunasta.</p>
+    <p>Huomautus: Vastauksissa kyselyn kysymykset eivät välttämättä ole numerojärjestyksessä, koska tämä ongelma huomattiin vasta projektin myöhäisessä vaiheessa. Siirrettyäsi vastaukset taukukkolaskentaohjelmaan, jokaisessa sarakkeessa pitäisi kuitenkin olla sarakkeen otsikossa mainittuun kysymykseen annetut vastaukset.</p>
 
     <p><b>Tekstivastauksen tyyppi:</b></p>
         <p>0 = Ei tekstivastausta</p>

@@ -16,6 +16,7 @@ Seuraavaan projektiin terveisiä:
 -Näytä vastaukset -sivule lisätä toiminto, jolla kyselyn luoja voi katsella vastauksia 'julkiset vastaukset käytössä' moodilla, eli vaikka kyselyssä ei olisi julkiset vastaukset käytössä, vastauksia voisi katsella testitoiminnolla niin että näkee edelliset teksti ja karttavastaukset.
 -Karttamerkit, vektoriaineistot ja karttakuvat copyright? Eli näihin kenttä, jolla ne voi asettaa joko saataviksi tai ei saataville muille käyttäjille.
 -Ohjelmiston localisointi, eli kääntäminen englanniksi/ruotsiksi?
+-Kyselyn vastaussivulla vastaukset järjestetään question_id:n mukaan, koska en kerinnyt miettiä miten vastaukset (answers, jossa on viittaus vain questoin_id:hen) olisi fiksua järjestää kysymyksen numeron mukaan.
 
 -Pienempiä:
 --polls indexiin muuttaa muokkaa sarake niin että se näyttää joko lonkin muokkaa, 'aukioloaika voimassa' tai 'Kyselyllä vastauksia'

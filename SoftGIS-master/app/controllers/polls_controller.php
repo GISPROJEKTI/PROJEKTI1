@@ -451,18 +451,21 @@ class PollsController extends AppController
         $this->loadModel('Response');
         $this->Response->contain('Answer');
         $responses = $this->Response->findAllByPollId($pollId);
-
+        //vastaajan vastaukset haetaan, kuten modelissa määritellään, question_id:n mukaan järjestettynä
+        //debug($responses);
 
         //header
         $line = array();
         $questions = $this->Poll->Question->findAllByPollId($pollId, 
-            array('type', 'map_type'), array(), 0,-1,-1
+            array('num', 'type', 'map_type'), array('id'), 0,-1,-1
         );
+        //Tässä haetaan, modelista poiketen, kysymykset id:n mukaan järjestettynä, normaalin num järjestyksestä poiketen. Koska answers taulussa on ainoastaan viittaus question_id:hen ja minä en nyt kerkeä alkaa miettimään, että miten myös vastaukset järjestettäisiin kysymysten num:n mukaan.
         //debug($questions); //die;
         foreach ($questions as $q) {
             $line[] = array(
                 "text" => $q['Question']['type'],
-                "map" => $q['Question']['map_type']
+                "map" => $q['Question']['map_type'],
+                "num" => $q['Question']['num']
                 );
         }
 

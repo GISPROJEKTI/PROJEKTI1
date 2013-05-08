@@ -7,6 +7,8 @@ class Response extends AppModel
     );
 
     public $hasMany = array(
-        'Answer'
+        'Answer' => array(
+            'order' => 'Answer.question_id ASC'
+        )
     );
 }
