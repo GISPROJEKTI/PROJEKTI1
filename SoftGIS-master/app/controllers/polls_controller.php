@@ -561,21 +561,21 @@ class PollsController extends AppController
             $data['Path'][] = $p['id'];
         }
         if (empty($data['Path'])) {
-            $data['Path'] = array();
+            $data['Path'] = array(null);
         }
 
         foreach ($json['markers'] as $m) {
             $data['Marker'][] = $m['id'];
         }
         if (empty($data['Marker'])) {
-            $data['Marker'] = array();
+            $data['Marker'] = array(null);
         }
 
         foreach ($json['overlays'] as $m) {
             $data['Overlay'][] = $m['id'];
         }
         if (empty($data['Overlay'])) {
-            $data['Overlay'] = array();
+            $data['Overlay'] = array(null);
         }
         return $data;
     }
