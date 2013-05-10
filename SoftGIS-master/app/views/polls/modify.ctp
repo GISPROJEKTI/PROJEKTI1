@@ -371,7 +371,7 @@ $( document ).ready(function() {
 <script type="text/x-jquery-tmpl" id="questionTmpl">
 
 <li class="question">
-    <table class="header">
+    <table class="header" data-bind="click: toggle">
         <tr>
             <td class="num" data-bind="text: num"></td>
             <td>&nbsp;<span class="text" data-bind="text: text"></span></td>
