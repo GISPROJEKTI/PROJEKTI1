@@ -1,4 +1,4 @@
-INSERT INTO `polls` (`id`, `name`, `author_id`, `public`, `launch`, `end`, `welcome_text`, `thanks_text`) VALUES
+INSERT INTO `polls` ( `name`, `author_id`, `public`, `launch`, `end`, `welcome_text`, `thanks_text`) VALUES
 ( 'TestikyselyTeksti', 1, 1, NULL, NULL, NULL, NULL),
 ( 'TestikyselyEiTekstiÃ¤', 1, 1, NULL, NULL, NULL, NULL),
 ( 'TestikyselyKyllÃ¤EiEos', 1, 1, NULL, NULL, NULL, NULL),
@@ -6,7 +6,7 @@ INSERT INTO `polls` (`id`, `name`, `author_id`, `public`, `launch`, `end`, `welc
 ( 'Testikysely1-7', 1, 1, NULL, NULL, NULL, NULL),
 ( 'Testikysely,Monivalinta', 1, 1, NULL, NULL, NULL, NULL);
 
-INSERT INTO `questions` (`id`, `poll_id`, `num`, `type`, `text`, `low_text`, `high_text`, `lat`, `lng`, `zoom`, `choice1`, `choice2`, `choice3`, `choice4`, `choice5`, `choice6`, `choice7`, `choice8`, `otherchoice`, `answer_location`, `answer_visible`, `comments`, `map_type`) VALUES
+INSERT INTO `questions` ( `poll_id`, `num`, `type`, `text`, `low_text`, `high_text`, `lat`, `lng`, `zoom`, `choice1`, `choice2`, `choice3`, `choice4`, `choice5`, `choice6`, `choice7`, `choice8`, `otherchoice`, `answer_location`, `answer_visible`, `comments`, `map_type`) VALUES
 ( 1, 1, 1, 'PelkkÃƒÂ¤ teksti', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 0, 0),
 ( 1, 2, 1, 'Teksti, Ei tekstiÃƒÂ¤,  Kartta, Ei karttavastausta', NULL, NULL, 65.0258, 24.6313, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 1),
 ( 1, 3, 1, 'Teksti 1 merkki', NULL, NULL, 65.0258, 24.6313, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 2),
